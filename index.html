@@ -39,8 +39,8 @@
       color: #8b5eab;
       font-size: clamp(12px, 1.4vw, 14px);
       line-height: 1.9;
-      width: min(560px, calc(100vw - 64px));
-      max-width: 560px;
+      width: min(680px, calc(100vw - 48px));
+      max-width: 680px;
       padding: 2rem;
       white-space: pre-wrap;
       text-shadow: 0 0 12px rgba(139, 94, 171, 0.3);
@@ -79,27 +79,30 @@
       bottom: 2rem;
       right: 2rem;
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      color: rgba(139, 94, 171, 0.35);
-      background: none;
-      border: 1px solid rgba(139, 94, 171, 0.2);
-      padding: 6px 16px;
-      border-radius: 4px;
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      color: rgba(226, 196, 247, 0.92);
+      background: rgba(139, 94, 171, 0.16);
+      border: 1px solid rgba(166, 106, 209, 0.55);
+      padding: 8px 18px;
+      border-radius: 999px;
       cursor: pointer;
+      box-shadow: 0 0 0 1px rgba(139, 94, 171, 0.12), 0 0 18px rgba(139, 94, 171, 0.18);
       transition: all 0.25s;
       z-index: 2;
     }
     .terminal-skip:hover {
-      color: #8b5eab;
-      border-color: #8b5eab;
-      box-shadow: 0 0 12px rgba(139, 94, 171, 0.2);
+      color: #f1defd;
+      border-color: rgba(201, 147, 240, 0.8);
+      background: rgba(139, 94, 171, 0.24);
+      box-shadow: 0 0 0 1px rgba(166, 106, 209, 0.18), 0 0 22px rgba(139, 94, 171, 0.28);
     }
 
     .terminal-launch {
       position: relative;
       z-index: 2;
       margin-top: 0;
-      width: min(560px, calc(100vw - 64px));
+      width: min(680px, calc(100vw - 48px));
       box-sizing: border-box;
       padding: 0 2rem 2rem 2rem;
       border: none;
@@ -204,6 +207,100 @@
       background: radial-gradient(ellipse, rgba(139, 94, 171, 0.06) 0%, transparent 70%);
       pointer-events: none;
     }
+
+    /* ═══ HERO ROW LAYOUT ═══ */
+    .hero-row {
+      display: block;
+      width: 100%;
+      max-width: none;
+      padding: 0;
+      position: static;
+      z-index: auto;
+    }
+
+    /* ═══ HERO TERMINAL CARD ═══ */
+    .hero-terminal {
+      position: absolute;
+      top: calc(26% + 96px);
+      right: calc(6% - 96px);
+      width: 300px;
+      background: #120e1c;
+      border-radius: 14px;
+      border: 1px solid rgba(139, 94, 171, 0.28);
+      box-shadow:
+        0 0 0 1px rgba(139, 94, 171, 0.08),
+        0 18px 44px rgba(20, 10, 35, 0.32),
+        0 0 28px rgba(139, 94, 171, 0.12);
+      overflow: hidden;
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+      font-size: 11px;
+      line-height: 1.72;
+      opacity: 0;
+      transform: rotate(3deg) translateY(16px);
+      transition: opacity 0.7s ease 1.1s, transform 0.7s cubic-bezier(0.34,1.56,0.64,1) 1.1s;
+      pointer-events: none;
+      user-select: none;
+    }
+    .hero-terminal.visible {
+      opacity: 1;
+      transform: rotate(3deg) translateY(0);
+    }
+    .hero-terminal-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 12px 8px;
+      background: rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(139, 94, 171, 0.14);
+    }
+    .hero-terminal-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+    }
+    .hero-terminal-dot:nth-child(1) { background: #ff5f57; }
+    .hero-terminal-dot:nth-child(2) { background: #febc2e; }
+    .hero-terminal-dot:nth-child(3) { background: #28c840; }
+    .hero-terminal-body {
+      padding: 14px 16px 16px;
+      color: #c9a8f0;
+    }
+    .hero-terminal-body .t-dim { color: rgba(201, 168, 240, 0.45); }
+    .hero-terminal-body .t-cmd { color: #e2c4f7; }
+    .hero-terminal-body .t-out { color: rgba(201, 168, 240, 0.72); }
+    .hero-terminal-body .t-dir { color: #a78bfa; }
+    .hero-terminal-body .t-prompt { color: #8b5eab; }
+    .hero-terminal-body .t-label {
+      color: rgba(201, 168, 240, 0.52);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 10px;
+    }
+    .hero-terminal-blink {
+      display: inline-block;
+      width: 6px;
+      height: 12px;
+      background: #8b5eab;
+      margin-left: 2px;
+      vertical-align: text-bottom;
+      animation: t-blink 0.8s step-end infinite;
+    }
+
+    /* hero-center: let it flex naturally inside hero-row */
+    .hero-row .hero-center {
+      position: relative;
+      z-index: 5;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 960px) {
+      .hero-row {
+        display: block;
+        padding: 0;
+      }
+      .hero-terminal { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -236,13 +333,6 @@
   <button class="terminal-skip" id="terminal-skip">skip &rarr;</button>
 </div>
 
-<!-- ═══ INTRO OVERLAY ═══ -->
-<div id="intro-overlay">
-  <div id="intro-content">
-    <img src="assets/swatiiyer logo.png" alt="Swati Iyer" class="intro-logo">
-  </div>
-</div>
-
 <nav class="site-nav">
   <div class="nav-inner">
     <a href="/" class="nav-brand nav-brand-logo-link" aria-label="swati iyer home">
@@ -252,10 +342,10 @@
       <span></span><span></span><span></span>
     </button>
     <div class="nav-links">
-      <a href="#experience">Experience</a>
+      <a href="#explore">Explore My Work</a>
       <a href="#work">Work</a>
-      <a href="#explore">Explore</a>
-      <a href="mailto:iyerswatip@gmail.com" class="nav-cta">Say Hello</a>
+      <a href="#experience">Experience</a>
+      <a href="mailto:iyerswatip@gmail.com">Say Hello</a>
     </div>
   </div>
 </nav>
@@ -270,36 +360,67 @@
     <div class="hero-clip hc-1 anim anim-d1"><img src="assets/clipart/p1.png" alt="Desk clipart"><span class="clip-tooltip">my setup</span></div>
     <div class="hero-clip hc-2 anim anim-d2"><img src="assets/clipart/p2.png" alt="Headphones clipart"><span class="clip-tooltip">lo-fi beats</span></div>
     <div class="hero-clip hc-3 anim anim-d3"><img src="assets/clipart/p3.png" alt="Strategy board clipart"><span class="clip-tooltip">always planning</span></div>
-    <div class="hero-clip hc-4 anim anim-d4"><img src="assets/clipart/p4.png" alt="Grid note clipart"><span class="clip-tooltip">notes + ideas</span></div>
-    <div class="hero-clip hc-5 anim anim-d5"><img src="assets/clipart/p5.png" alt="Matcha clipart"><span class="clip-tooltip">matcha powered</span></div>
 
-    <div class="hero-center">
-      <div class="hero-pre anim anim-d1">Hi, I'm</div>
+    <!-- ═══ HERO ROW: content + terminal side by side ═══ -->
+    <div class="hero-row">
 
-      <div class="hero-name anim anim-d2" id="hero-name">
-        <div class="name-row">
-          <span class="shuffle-letter" data-target="S">S</span><span class="shuffle-letter" data-target="W">W</span><span class="shuffle-letter" data-target="A">A</span><span class="shuffle-letter" data-target="T">T</span><span class="shuffle-letter" data-target="I">I</span>
+      <div class="hero-center">
+        <div class="hero-pre anim anim-d1">Hi, I’m</div>
+
+        <div class="hero-name anim anim-d2" id="hero-name">
+          <div class="name-row">
+            <span class="shuffle-letter" data-target="S">S</span><span class="shuffle-letter" data-target="W">W</span><span class="shuffle-letter" data-target="A">A</span><span class="shuffle-letter" data-target="T">T</span><span class="shuffle-letter" data-target="I">I</span>
+          </div>
+        </div>
+
+        <div class="hero-role anim anim-d3">Product Manager · Product Analytics · User Research</div>
+
+        <p class="hero-bio anim anim-d4">
+          I’m a PM who thinks in metrics first, using user research, analytics, and experimentation to turn ambiguity into product decisions.
+        </p>
+
+        <div class="hero-actions anim anim-d5">
+          <a href="#work" class="hero-btn primary">View Case Studies</a>
+          <a href="assets/SwatiIyer_Resume.pdf" class="hero-btn secondary" target="_blank">Resume</a>
+        </div>
+
+        <div class="hero-links anim anim-d5">
+          <a href="mailto:iyerswatip@gmail.com" title="Email"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></a>
+          <a href="https://www.linkedin.com/in/swatipiyer/" title="LinkedIn" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a href="https://github.com/swatipiyer" title="GitHub" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg></a>
+          <a href="assets/SwatiIyer_Resume.pdf" title="Resume" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></a>
         </div>
       </div>
 
-      <div class="hero-role anim anim-d3">Product Manager · Analytics</div>
-
-      <p class="hero-bio anim anim-d4">
-        I'm a PM who thinks in metrics first. I write PRDs, build dashboards, run experiments, and make sure the team is shipping things that actually move the numbers.
-      </p>
-
-      <div class="hero-actions anim anim-d5">
-        <a href="#experience" class="hero-btn primary">See my experience</a>
-        <a href="mailto:iyerswatip@gmail.com" class="hero-btn secondary">Say hello</a>
+      <!-- ═══ TERMINAL CARD ═══ -->
+      <div class="hero-terminal anim" id="hero-terminal" aria-hidden="true">
+        <div class="hero-terminal-bar">
+          <span class="hero-terminal-dot"></span>
+          <span class="hero-terminal-dot"></span>
+          <span class="hero-terminal-dot"></span>
+        </div>
+        <div class="hero-terminal-body">
+          <div><span class="t-dim">~ </span><span class="t-prompt">$</span> <span class="t-cmd">about</span></div>
+          <div class="t-out">PM · Analyst · Researcher</div>
+          <div>&nbsp;</div>
+          <div><span class="t-dim">~ </span><span class="t-prompt">$</span> <span class="t-cmd">ls skills/</span></div>
+          <div><span class="t-dir">research/</span> <span class="t-dir">analytics/</span></div>
+          <div><span class="t-dir">python/</span> <span class="t-dir">sql/</span></div>
+          <div>&nbsp;</div>
+          <div><span class="t-dim">~ </span><span class="t-prompt">$</span> <span class="t-cmd">ls work/</span></div>
+          <div><span class="t-dir">onboarding/</span> <span class="t-dir">conversion/</span></div>
+          <div><span class="t-dir">experimentation/</span></div>
+          <div>&nbsp;</div>
+          <div><span class="t-label">impact snapshot</span></div>
+          <div class="t-out">privacy-focused product</div>
+          <div class="t-out">decisions across recent</div>
+          <div class="t-out">PM and research roles</div>
+          <div>&nbsp;</div>
+          <div><span class="t-prompt">$</span> <span class="hero-terminal-blink"></span></div>
+        </div>
       </div>
 
-      <div class="hero-links anim anim-d5">
-        <a href="mailto:iyerswatip@gmail.com" title="Email"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></a>
-        <a href="https://www.linkedin.com/in/swatipiyer/" title="LinkedIn" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
-        <a href="https://github.com/swatipiyer" title="GitHub" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg></a>
-        <a href="assets/SwatiIyer_Resume.pdf" title="Resume" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></a>
-      </div>
-    </div>
+    </div><!-- /hero-row -->
 
   </section>
 
@@ -310,7 +431,7 @@
   <div class="section-break">
     <div class="section-header anim-left">
       <span class="section-num">00</span>
-      <h2 class="section-title">About Me</h2>
+      <h2 class="section-title">About</h2>
     </div>
   </div>
 
@@ -326,7 +447,7 @@
         Now I work across product and analytics: setting up KPI frameworks and tracking adoption at <strong style="color:var(--green);">Digo</strong>, running competitive analysis and building conversion dashboards at <strong style="color:var(--blue);">Giri Inc.</strong>, automating finance workflows at <strong style="color:var(--accent);">Opsfinity</strong>, and driving A/B tests at <strong style="color:var(--blue);">TechEquity AI</strong>.
       </p>
       <p>
-        I like working at the intersection of data and product decisions. Give me a messy dataset and a product question and I'll find the answer.
+        I like working at the intersection of data and product decisions. I’m especially drawn to PM and analyst roles where strong decisions come from strong signals.
       </p>
     </div>
     <div class="about-col-photo">
@@ -334,270 +455,17 @@
     </div>
   </div>
 
-
-  <!-- ═══════════════════════════
-       EXPERIENCE
-       ═══════════════════════════ -->
-  <div class="section-break" id="experience">
-    <div class="section-header anim-left">
-      <span class="section-num">01</span>
-      <h2 class="section-title">Experience</h2>
-    </div>
-  </div>
-
-  <div class="timeline">
-
-    <article class="tl-item anim anim-d1">
-      <div class="tl-date">
-        <span class="tl-date-range">Jan 2026 &ndash; Present</span>
-        <span class="tl-date-status">Current</span>
-      </div>
-      <div class="tl-dot"></div>
-      <div class="tl-card tl-green">
-        <div class="tl-card-top">
-          <div class="tl-heading">
-            <span class="tl-role">Product Lead (Founding Team)</span>
-            <h4 class="tl-company">Digo</h4>
-            <span class="tl-loc">Mountain View, CA</span>
-          </div>
-        </div>
-        <p>Built KPI and business-metrics tracking in Notion, ran user research and design testing in Figma, and helped shape ML-powered event recommendations for beta launch.</p>
-        <div class="tl-impact">40% less setup time</div>
-        <div class="tl-highlights">
-          <span>KPI tracking in Notion</span>
-          <span>User research + Figma testing</span>
-          <span>MVP setup time reduced by 40%</span>
-        </div>
-      </div>
-    </article>
-
-    <article class="tl-item anim anim-d2">
-      <div class="tl-date">
-        <span class="tl-date-range">Oct 2025 &ndash; Present</span>
-        <span class="tl-date-status">Part-time</span>
-      </div>
-      <div class="tl-dot"></div>
-      <div class="tl-card tl-blue">
-        <div class="tl-card-top">
-          <div class="tl-heading">
-            <span class="tl-role">Product Manager</span>
-            <h4 class="tl-company">Giri Inc.</h4>
-            <span class="tl-loc">Sunnyvale, CA</span>
-          </div>
-        </div>
-        <p>Led competitive analysis across five platforms, interviewed 15 users, built an analytics framework tracking eight KPIs, and wrote PRDs that simplified checkout from seven steps to three.</p>
-        <div class="tl-impact">+18% conversion</div>
-        <div class="tl-highlights">
-          <span>5 platforms benchmarked</span>
-          <span>15 user interviews</span>
-          <span>8 KPIs + Tableau dashboards</span>
-        </div>
-      </div>
-    </article>
-
-    <article class="tl-item anim anim-d3">
-      <div class="tl-date">
-        <span class="tl-date-range">Sep 2025 &ndash; Present</span>
-        <span class="tl-date-status">Part-time</span>
-      </div>
-      <div class="tl-dot"></div>
-      <div class="tl-card tl-accent">
-        <div class="tl-card-top">
-          <div class="tl-heading">
-            <span class="tl-role">Product Manager</span>
-            <h4 class="tl-company">Opsfinity</h4>
-            <span class="tl-loc">Remote</span>
-          </div>
-        </div>
-        <p>Improved approval and fraud-prevention workflows, automated manual finance operations, and used market analysis plus quantitative data to roadmap an accounts-payable solution.</p>
-        <div class="tl-impact">85% approval</div>
-        <div class="tl-highlights">
-          <span>3 manual workflows automated</span>
-          <span>PowerAutomate</span>
-          <span>Roadmapping with market + quantitative analysis</span>
-        </div>
-      </div>
-    </article>
-
-    <article class="tl-item anim anim-d4">
-      <div class="tl-date">
-        <span class="tl-date-range">Feb 2026 &ndash; Present</span>
-        <span class="tl-date-status">Part-time</span>
-      </div>
-      <div class="tl-dot"></div>
-      <div class="tl-card tl-copper">
-        <div class="tl-card-top">
-          <div class="tl-heading">
-            <span class="tl-role">Product Designer</span>
-            <h4 class="tl-company">TechEquity AI</h4>
-            <span class="tl-loc">Remote</span>
-          </div>
-        </div>
-        <p>Owned the UX for an AI tutoring platform in Figma, ran A/B tests on onboarding flows, drove accessibility audits, and worked with the ML team on NLP-based personalization.</p>
-        <div class="tl-impact">Accessibility-first</div>
-        <div class="tl-highlights">
-          <span>Figma prototypes</span>
-          <span>NLP personalization flows</span>
-          <span>Accessibility audits</span>
-          <span>A/B testing</span>
-        </div>
-      </div>
-    </article>
-
-    <article class="tl-item anim anim-d5">
-      <div class="tl-date">
-        <span class="tl-date-range">Jul 2023 &ndash; Jan 2026</span>
-        <span class="tl-date-status">Research</span>
-      </div>
-      <div class="tl-dot"></div>
-      <div class="tl-card tl-slate">
-        <div class="tl-card-top">
-          <div class="tl-heading">
-            <span class="tl-role">Undergraduate Research Assistant</span>
-            <h4 class="tl-company">UC Davis Department of Computer Science</h4>
-            <span class="tl-loc">Davis, CA</span>
-          </div>
-        </div>
-        <p>Built Python and SQL pipelines in Databricks for network-traffic anonymization and benchmarking, improving turnaround on research deliverables while evaluating intrusion-detection systems.</p>
-        <div class="tl-impact">95% accuracy</div>
-        <div class="tl-highlights">
-          <span>500+ users supported</span>
-          <span>50% faster deliverables</span>
-          <span>LaTeX + PowerPoint research communication</span>
-        </div>
-      </div>
-    </article>
-
-  </div>
-
-  <!-- ═══════════════════════════
-       SELECTED WORK
-       ═══════════════════════════ -->
-  <div class="section-break" id="work">
-    <div class="section-header anim-left">
-      <span class="section-num">02</span>
-      <h2 class="section-title">Selected Work</h2>
-    </div>
-  </div>
-
-  <!-- ═══ SHOWCASE 1: KeepSake ═══ -->
-  <section class="showcase-section showcase-keepsake">
-    <div class="showcase-wave-top">
-      <svg viewBox="0 0 1440 160" preserveAspectRatio="none"><path d="M0,0 C240,10 360,90 540,100 C720,110 840,40 960,60 C1080,80 1200,130 1440,80 L1440,0 L0,0 Z" fill="var(--bg)"/></svg>
-    </div>
-    <div class="showcase-inner anim visible">
-      <div class="showcase-text">
-        <span class="showcase-date">2025</span>
-        <h2 class="showcase-title">KeepSake</h2>
-        <p class="showcase-desc">Designed a family archive app that balances secure document storage with memory-keeping, after synthesizing 60 survey responses and 15 interviews into a six-week product sprint.</p>
-        <a href="pages/keepsake.html" class="showcase-cta">Read case study &rarr;</a>
-      </div>
-      <div class="showcase-visual">
-        <div class="showcase-img-wrap">
-          <img src="assets/keepsake.webp" alt="KeepSake app screens and family archive interface" class="showcase-real-image showcase-keepsake-main-image">
-        </div>
-        <div class="showcase-img-wrap showcase-img-secondary">
-          <img src="assets/keepsake2.webp" alt="KeepSake personas and user-needs slide" class="showcase-real-image showcase-keepsake-personas-image">
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ SHOWCASE 2: Digo ═══ -->
-  <section class="showcase-section showcase-botanical">
-    <div class="showcase-wave-top">
-      <svg viewBox="0 0 1440 160" preserveAspectRatio="none"><path d="M0,0 C180,5 300,80 480,110 C660,140 780,30 1020,50 C1260,70 1380,120 1440,90 L1440,0 L0,0 Z" fill="#b7d6e2"/></svg>
-    </div>
-    <div class="showcase-inner showcase-reverse anim visible">
-      <div class="showcase-text">
-        <span class="showcase-date">2026</span>
-        <h2 class="showcase-title">Digo</h2>
-        <p class="showcase-desc">Defined KPI tracking for MVP launch, monitored engagement and feature adoption in Notion, and translated user research into roadmap priorities and ML-informed product decisions.</p>
-        <a href="pages/digo.html" class="showcase-cta">Read case study &rarr;</a>
-      </div>
-      <div class="showcase-visual">
-        <div class="showcase-img-wrap">
-          <img src="assets/digo2.png" alt="Digo event listing interface with upcoming AI events" class="showcase-real-image showcase-digo-main-image">
-        </div>
-        <div class="showcase-img-wrap showcase-img-secondary">
-          <img src="assets/digo1.png" alt="Digo event detail and organizer dashboard view" class="showcase-real-image showcase-digo-secondary-image">
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ SHOWCASE 3: A/B Test ═══ -->
-  <section class="showcase-section showcase-terracotta">
-    <div class="showcase-wave-top">
-      <svg viewBox="0 0 1440 160" preserveAspectRatio="none"><path d="M0,0 C120,8 280,100 500,120 C720,140 900,20 1100,40 C1300,60 1400,110 1440,70 L1440,0 L0,0 Z" fill="#d8e1ee"/></svg>
-    </div>
-    <div class="showcase-inner anim visible">
-      <div class="showcase-text">
-        <span class="showcase-date">2025</span>
-        <h2 class="showcase-title">A/B Test:<br>Checkout Flow</h2>
-        <p class="showcase-desc">Built KPI reporting for Giri's product funnel, tracked DAU, feature adoption, and conversion, and used the dashboard insights to reduce checkout friction from 7 steps to 3.</p>
-        <a href="pages/giri-checkout.html" class="showcase-cta">Read case study &rarr;</a>
-      </div>
-      <div class="showcase-visual">
-        <div class="showcase-img-wrap">
-          <div class="showcase-placeholder">
-            <span class="showcase-placeholder-label">Funnel analysis</span>
-          </div>
-        </div>
-        <div class="showcase-img-wrap showcase-img-secondary">
-          <div class="showcase-placeholder">
-            <span class="showcase-placeholder-label">Experiment results</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ SHOWCASE 4: Research ═══ -->
-  <section class="showcase-section showcase-stone">
-    <div class="showcase-wave-top">
-      <svg viewBox="0 0 1440 160" preserveAspectRatio="none"><path d="M0,0 C200,12 340,110 560,130 C780,150 880,25 1060,45 C1240,65 1380,100 1440,75 L1440,0 L0,0 Z" fill="#e4c4a0"/></svg>
-    </div>
-    <div class="showcase-inner showcase-reverse anim visible">
-      <div class="showcase-text">
-        <span class="showcase-date">2023&ndash;2025</span>
-        <h2 class="showcase-title">Network Traffic &amp; Privacy</h2>
-        <p class="showcase-desc">Built and automated Python and SQL pipelines in Databricks for network data anonymization, then benchmarked intrusion detection systems and translated findings into reports and presentations.</p>
-        <a href="pages/research.html" class="showcase-cta">Read case study &rarr;</a>
-      </div>
-      <div class="showcase-visual">
-        <div class="showcase-img-wrap">
-          <div class="showcase-placeholder">
-            <span class="showcase-placeholder-label">Network analysis</span>
-          </div>
-        </div>
-        <div class="showcase-img-wrap showcase-img-secondary">
-          <div class="showcase-placeholder">
-            <span class="showcase-placeholder-label">Detection benchmarks</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- wave: stone → page bg -->
-  <div class="showcase-wave-bottom">
-    <svg viewBox="0 0 1440 160" preserveAspectRatio="none"><path d="M0,0 C200,10 360,100 540,120 C720,140 900,30 1100,50 C1300,70 1400,110 1440,70 L1440,0 L0,0 Z" fill="#ddd0c2"/></svg>
-  </div>
-
-
   <!-- ═══════════════════════════
        EXPLORE - Finder-style window
        ═══════════════════════════ -->
   <div class="section-break" id="explore">
     <div class="section-header anim-left">
-      <span class="section-num">03</span>
-      <h2 class="section-title">Explore</h2>
+      <span class="section-num">01</span>
+      <h2 class="section-title">Explore My Work</h2>
     </div>
   </div>
 
   <div class="finder-window anim">
-    <!-- Title bar with traffic lights -->
     <div class="finder-titlebar">
       <div class="finder-dots">
         <span class="dot-r"></span>
@@ -608,7 +476,7 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
       </div>
-      <span class="finder-title">~/swati/projects</span>
+      <span class="finder-title">~/swati/explore</span>
       <div class="finder-toolbar">
         <div class="finder-views">
           <button class="fv-btn active" title="Icon view" data-view="icon">
@@ -625,9 +493,7 @@
       </div>
     </div>
 
-    <!-- Finder body: sidebar + content area -->
     <div class="finder-body">
-      <!-- Sidebar -->
       <div class="finder-sidebar">
         <div class="finder-sb-section">
           <span class="finder-sb-label">Favorites</span>
@@ -635,78 +501,47 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
             Projects
           </button>
-          <button class="finder-sb-item" data-tab="writing">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-            Writing
-          </button>
-          <button class="finder-sb-item" data-tab="toolkit">
+          <button class="finder-sb-item" data-tab="analytics-toolkit">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-            Toolkit
+            Analytics Toolkit
           </button>
-          <button class="finder-sb-item" data-tab="certs">
+          <button class="finder-sb-item" data-tab="credentials">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            Certs
+            Credentials
           </button>
         </div>
       </div>
 
-      <!-- Content area -->
       <div class="finder-content">
         <div class="finder-path-bar">
           <button class="path-crumb path-root" data-crumb="root">Projects</button>
           <svg class="path-chevron path-chevron-detail" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M9 6l6 6-6 6"/></svg>
           <span class="path-current-detail" style="display:none;"></span>
-          <span class="finder-count">13 items</span>
+          <span class="finder-count">7 items</span>
         </div>
 
-        <!-- Folder icon grid -->
         <div class="finder-folder-grid">
-
-          <!-- Digo - pinned -->
-          <div class="finder-folder" data-category="product" data-project="digo"
-               data-title="Digo, AI Event Management"
-               data-role="Founding Product Manager"
+          <div class="finder-folder" data-category="product" data-project="scam-shield"
+               data-title="Scam Shield AI"
+               data-role="Product Designer"
                data-year="2025"
-               data-tools="TypeScript, Angular, Figma, Cursor, GitHub Copilot"
-               data-motivation="Event organizers waste 10+ hours per event on disconnected tools like forms, spreadsheets, email, and payment apps. After interviewing 10+ organizers and finding 40% of their time went to automatable admin, I built Digo to consolidate it all into one AI-powered platform."
-               data-desc="Defined vision and led product from concept to MVP. RICE-prioritized 3 core features: automated event pages, attendee communication, and real-time organizer dashboard. Designed complete UX system in Figma, then led development with TypeScript + Angular. Roadmap defined through Q3 2026 with 12 features informed by user research."
-               data-link="pages/digo.html"
-               data-metric="40% less setup time">
-            <div class="folder-icon folder-green">
+               data-tools="UX/UI, Strategy, AWS"
+               data-motivation="Online scams are getting harder to detect, especially for vulnerable populations. I designed a tool that uses AI to flag suspicious content in real time, with trust and accessibility at the center of every design decision."
+               data-desc="Designed and prototyped an AI-powered scam detection tool, from user research through high-fidelity mockups, with a focus on trust, accessibility, and clear decision support."
+               data-link="pages/scam-shield-ai.html"
+               data-metric="AI-powered">
+            <div class="folder-icon folder-slate">
               <svg class="folder-svg" viewBox="0 0 88 72" fill="none">
                 <path d="M0 12C0 8.68629 2.68629 6 6 6H28L34 0H82C85.3137 0 88 2.68629 88 6V12H0Z" fill="currentColor" opacity="0.7"/>
                 <rect y="10" width="88" height="56" rx="6" fill="currentColor"/>
               </svg>
               <span class="folder-badge">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
               </span>
             </div>
-            <span class="folder-name">Digo</span>
+            <span class="folder-name">Scam Shield AI</span>
           </div>
 
-          <!-- KeepSake -->
-          <div class="finder-folder" data-category="product" data-project="keepsake"
-               data-title="KeepSake"
-               data-role="Product Manager & Researcher"
-               data-year="2025"
-               data-tools="Figma, User Research, Prototyping"
-               data-motivation="As families grow more dispersed, personal stories, health histories, and generational knowledge get lost. After surveying 60 people and interviewing 15, we found users wanted a secure space for both confidential documents and family memorabilia passed down across generations."
-               data-desc="Led synthesis and ideation in a 5-person, 6-week design sprint. Built affinity maps, information architecture, personas, and lo-fi flows that shaped a concept blending secure records with family storytelling."
-               data-link="pages/keepsake.html"
-               data-metric="60 surveys · 15 interviews">
-            <div class="folder-icon folder-blue">
-              <svg class="folder-svg" viewBox="0 0 88 72" fill="none">
-                <path d="M0 12C0 8.68629 2.68629 6 6 6H28L34 0H82C85.3137 0 88 2.68629 88 6V12H0Z" fill="currentColor" opacity="0.7"/>
-                <rect y="10" width="88" height="56" rx="6" fill="currentColor"/>
-              </svg>
-              <span class="folder-badge">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-              </span>
-            </div>
-            <span class="folder-name">KeepSake</span>
-          </div>
-
-          <!-- PRD Generator -->
           <div class="finder-folder" data-category="engineering" data-project="prd-generator"
                data-title="PRD Generator CLI"
                data-role="Product Manager & Developer"
@@ -728,80 +563,14 @@
             <span class="folder-name">PRD Generator</span>
           </div>
 
-          <!-- AI Recipe Generator -->
-          <div class="finder-folder" data-category="engineering" data-project="recipe-gen"
-               data-title="AI Recipe Generator"
-               data-role="Product Designer & Developer"
-               data-year="2025"
-               data-tools="Python, Google Vision API, Spoonacular API"
-               data-motivation="Built to solve a real daily problem: figuring out what to cook with whatever's in the fridge. Snap a photo of your ingredients and get personalized recipe suggestions that respect your dietary needs."
-               data-desc="AI-powered recipe recommendation system combining Google Vision API for image-based ingredient detection with Spoonacular API for recipe matching. Includes personalized dietary filtering and smart ingredient substitutions."
-               data-link="https://docs.google.com/presentation/d/1uy1NgD82TQMktmP_Ds5xM9q0OzqVpdhfiu6BQbjJUpk/edit"
-               data-metric="Vision API">
-            <div class="folder-icon folder-gold">
-              <svg class="folder-svg" viewBox="0 0 88 72" fill="none">
-                <path d="M0 12C0 8.68629 2.68629 6 6 6H28L34 0H82C85.3137 0 88 2.68629 88 6V12H0Z" fill="currentColor" opacity="0.7"/>
-                <rect y="10" width="88" height="56" rx="6" fill="currentColor"/>
-              </svg>
-              <span class="folder-badge">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-              </span>
-            </div>
-            <span class="folder-name">AI Recipe Gen</span>
-          </div>
-
-          <!-- Scam Shield AI -->
-          <div class="finder-folder" data-category="product" data-project="scam-shield"
-               data-title="Scam Shield AI"
-               data-role="Product Designer"
-               data-year="2025"
-               data-tools="UX/UI, Strategy, AWS"
-               data-motivation="Online scams are getting harder to detect, especially for vulnerable populations. I designed a tool that uses AI to flag suspicious content in real time, with trust and accessibility at the center of every design decision."
-               data-desc="Designed and prototyped an AI-powered scam detection tool, from user research through high-fidelity mockups, with a focus on trust and accessibility."
-               data-link="pages/scam-shield-ai.html"
-               data-metric="AI-powered">
-            <div class="folder-icon folder-slate">
-              <svg class="folder-svg" viewBox="0 0 88 72" fill="none">
-                <path d="M0 12C0 8.68629 2.68629 6 6 6H28L34 0H82C85.3137 0 88 2.68629 88 6V12H0Z" fill="currentColor" opacity="0.7"/>
-                <rect y="10" width="88" height="56" rx="6" fill="currentColor"/>
-              </svg>
-              <span class="folder-badge">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              </span>
-            </div>
-            <span class="folder-name">Scam Shield AI</span>
-          </div>
-
-          <!-- G Street Jukebox -->
-          <div class="finder-folder" data-category="uxui" data-project="g-street-jukebox"
-               data-title="G Street Jukebox"
-               data-role="UX Designer"
-               data-year="2025"
-               data-tools="Figma, User Research, Interaction Design"
-               data-desc="Community-driven music queue interface for local venue. Designed voting system and real-time queue management to balance patron preferences with venue atmosphere."
-               data-link="pages/g-street-jukebox.html"
-               data-metric="120+ users">
-            <div class="folder-icon folder-purple">
-              <svg class="folder-svg" viewBox="0 0 88 72" fill="none">
-                <path d="M0 12C0 8.68629 2.68629 6 6 6H28L34 0H82C85.3137 0 88 2.68629 88 6V12H0Z" fill="currentColor" opacity="0.7"/>
-                <rect y="10" width="88" height="56" rx="6" fill="currentColor"/>
-              </svg>
-              <span class="folder-badge">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="15.5" r="2.5"/><path d="M8 17V5l12-2v12"/></svg>
-              </span>
-            </div>
-            <span class="folder-name">G St Jukebox</span>
-          </div>
-
-          <!-- GradCareer Navigator -->
           <div class="finder-folder" data-category="uxui" data-project="gradcareer"
                data-title="GradCareer Navigator"
                data-role="Product Designer & Researcher"
                data-year="2024"
                data-tools="Figma, User Research, Information Architecture"
-               data-desc="Student career planning platform mapping degree majors to skills, internships, and career pathways. Designed information architecture to reduce decision anxiety through clear visualizations."
+               data-desc="Student career planning platform mapping majors to skills, internships, and career pathways. Designed information architecture to reduce decision anxiety through clearer guidance."
                data-link="pages/gradcareer.html"
-               data-metric="50+ pilot users">
+               data-metric="Research synthesis">
             <div class="folder-icon folder-mint">
               <svg class="folder-svg" viewBox="0 0 88 72" fill="none">
                 <path d="M0 12C0 8.68629 2.68629 6 6 6H28L34 0H82C85.3137 0 88 2.68629 88 6V12H0Z" fill="currentColor" opacity="0.7"/>
@@ -814,49 +583,6 @@
             <span class="folder-name">GradCareer</span>
           </div>
 
-          <!-- EmpowHer -->
-          <div class="finder-folder" data-category="uxui" data-project="empowher"
-               data-title="EmpowHer Safety Platform"
-               data-role="UX/UI Designer"
-               data-year="2024"
-               data-tools="Figma, Prototyping, User Flows"
-               data-desc="Women's safety and mentorship app connecting users to trusted communities and live support. Designed low-friction flows balancing accessibility with privacy-first architecture."
-               data-link="https://www.figma.com/proto/WD6bckBdDgjFyra7n3LmOK/empowher"
-               data-metric="Privacy-first">
-            <div class="folder-icon folder-rose">
-              <svg class="folder-svg" viewBox="0 0 88 72" fill="none">
-                <path d="M0 12C0 8.68629 2.68629 6 6 6H28L34 0H82C85.3137 0 88 2.68629 88 6V12H0Z" fill="currentColor" opacity="0.7"/>
-                <rect y="10" width="88" height="56" rx="6" fill="currentColor"/>
-              </svg>
-              <span class="folder-badge">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-              </span>
-            </div>
-            <span class="folder-name">EmpowHer</span>
-          </div>
-
-          <!-- Sonar -->
-          <div class="finder-folder" data-category="uxui" data-project="sonar"
-               data-title="Sonar"
-               data-role="Product Designer"
-               data-year="2024"
-               data-tools="Figma, Rapid Prototyping, Design Sprint"
-               data-desc="Anonymous music-sharing platform designed at UC Irvine's True To You Design-A-Thon. Created unique social experience enabling cross-cultural connection through shared musical discovery."
-               data-link="https://www.figma.com/proto/xcwQc8pTs7sPHiebcISRYD/truetoyou24"
-               data-metric="Design-A-Thon">
-            <div class="folder-icon folder-purple">
-              <svg class="folder-svg" viewBox="0 0 88 72" fill="none">
-                <path d="M0 12C0 8.68629 2.68629 6 6 6H28L34 0H82C85.3137 0 88 2.68629 88 6V12H0Z" fill="currentColor" opacity="0.7"/>
-                <rect y="10" width="88" height="56" rx="6" fill="currentColor"/>
-              </svg>
-              <span class="folder-badge">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-              </span>
-            </div>
-            <span class="folder-name">Sonar</span>
-          </div>
-
-          <!-- Customer Segmentation -->
           <div class="finder-folder" data-category="research" data-project="segmentation"
                data-title="Customer Segmentation ML"
                data-role="Data Analyst & Researcher"
@@ -877,15 +603,14 @@
             <span class="folder-name">Segmentation ML</span>
           </div>
 
-          <!-- Password Generator -->
           <div class="finder-folder" data-category="research" data-project="password-gen"
                data-title="Secure Password Generator"
                data-role="UX Researcher & Developer"
                data-year="2024"
                data-tools="User Research, Python, HCI Principles"
-               data-desc="HCI-driven password generation tool balancing security and memorability. Applied cognitive science principles and user testing to create data-driven solution."
+               data-desc="HCI-driven password generation tool balancing security and memorability. Applied cognitive science principles and user testing to create a more usable security flow."
                data-link="https://docs.google.com/presentation/d/1kOIc5apdUvlklTyfkGYHZQmp0xcevWsfhz84W_PXXjo/edit"
-               data-metric="HCI-driven">
+               data-metric="Research + prototype">
             <div class="folder-icon folder-slate">
               <svg class="folder-svg" viewBox="0 0 88 72" fill="none">
                 <path d="M0 12C0 8.68629 2.68629 6 6 6H28L34 0H82C85.3137 0 88 2.68629 88 6V12H0Z" fill="currentColor" opacity="0.7"/>
@@ -898,28 +623,6 @@
             <span class="folder-name">Password Gen</span>
           </div>
 
-          <!-- Bloom Mentorship -->
-          <div class="finder-folder" data-category="uxui" data-project="bloom"
-               data-title="Bloom Mentorship"
-               data-role="Product Designer"
-               data-year="2024"
-               data-tools="Figma, User Research, Product Strategy"
-               data-desc="Professional networking platform reducing social friction in designer-mentee connections. Designed intuitive matching system and communication flows for career guidance."
-               data-link="https://swatipiyer.wixsite.com/swati-iyer/portfolio-collections/my-portfolio/bloom"
-               data-metric="Matching system">
-            <div class="folder-icon folder-gold">
-              <svg class="folder-svg" viewBox="0 0 88 72" fill="none">
-                <path d="M0 12C0 8.68629 2.68629 6 6 6H28L34 0H82C85.3137 0 88 2.68629 88 6V12H0Z" fill="currentColor" opacity="0.7"/>
-                <rect y="10" width="88" height="56" rx="6" fill="currentColor"/>
-              </svg>
-              <span class="folder-badge">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              </span>
-            </div>
-            <span class="folder-name">Bloom</span>
-          </div>
-
-          <!-- Network Security -->
           <div class="finder-folder" data-category="research" data-project="network-security"
                data-title="Network Security Research"
                data-role="Research Assistant"
@@ -941,30 +644,27 @@
             <span class="folder-name">Network Security</span>
           </div>
 
-          <!-- Schedule Builder -->
-          <div class="finder-folder" data-category="uxui" data-project="schedule-builder"
-               data-title="UC Davis Schedule Builder"
-               data-role="UX/UI Designer"
+          <div class="finder-folder" data-category="uxui" data-project="bloom"
+               data-title="Bloom Mentorship"
+               data-role="Product Designer"
                data-year="2024"
-               data-tools="Figma, User Testing, Prototyping"
-               data-desc="Comprehensive redesign of UC Davis course registration system. Added schedule comparison, enhanced navigation, and calendar export. Won Best Human-Centered Design award."
-               data-link="https://swatipiyer.wixsite.com/swati-iyer/portfolio-collections/my-portfolio/schedule-builder-redesign"
-               data-metric="Best HCD Award">
-            <div class="folder-icon folder-mint">
+               data-tools="Figma, User Research, Product Strategy"
+               data-desc="Professional networking platform reducing social friction in designer-mentee connections through matching flows, communication design, and product strategy."
+               data-link="https://swatipiyer.wixsite.com/swati-iyer/portfolio-collections/my-portfolio/bloom"
+               data-metric="Product strategy">
+            <div class="folder-icon folder-gold">
               <svg class="folder-svg" viewBox="0 0 88 72" fill="none">
                 <path d="M0 12C0 8.68629 2.68629 6 6 6H28L34 0H82C85.3137 0 88 2.68629 88 6V12H0Z" fill="currentColor" opacity="0.7"/>
                 <rect y="10" width="88" height="56" rx="6" fill="currentColor"/>
               </svg>
               <span class="folder-badge">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
               </span>
             </div>
-            <span class="folder-name">Schedule Builder</span>
+            <span class="folder-name">Bloom</span>
           </div>
-
         </div>
 
-        <!-- Inline detail panel (hidden by default) -->
         <div class="finder-detail" style="display:none;">
           <div class="finder-detail-inner">
             <button class="finder-detail-close">&times;</button>
@@ -983,144 +683,88 @@
           </div>
         </div>
 
-
-        <!-- ── Writing panel ── -->
-        <div class="finder-panel" id="panel-writing" style="display:none;">
-          <div class="finder-writing-list">
-            <a href="https://open.substack.com/pub/mullaimusings/p/the-gap-between-who-i-am-and-who?utm_campaign=post-expanded-share&utm_medium=post%20viewer" target="_blank" class="finder-writing-item">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-              <div class="writing-info">
-                <span class="writing-title">The Gap Between Who I Am and Who I Perform</span>
-                <span class="writing-meta">Substack essay on identity, self-presentation, and internal tension</span>
-              </div>
-              <span class="writing-arrow">&rarr;</span>
-            </a>
-            <a href="https://davisdesigninteractive.medium.com/keepsake-a-ux-case-study-802642f56654" target="_blank" class="finder-writing-item">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-              <div class="writing-info">
-                <span class="writing-title">KeepSake UX Case Study</span>
-                <span class="writing-meta">Medium feature on the family archive concept, research, and final design</span>
-              </div>
-              <span class="writing-arrow">&rarr;</span>
-            </a>
-            <a href="https://medium.com/@swatipiyer/the-let-them-theory-how-i-stopped-breaking-myself-to-please-everyone-else-44da50c2be41" target="_blank" class="finder-writing-item">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-              <div class="writing-info">
-                <span class="writing-title">The Let Them Theory</span>
-                <span class="writing-meta">Medium article on people-pleasing, boundaries, and self-trust</span>
-              </div>
-              <span class="writing-arrow">&rarr;</span>
-            </a>
-            <a href="https://medium.com/@swatipiyer/how-i-used-asana-and-a-bit-of-automation-to-land-interviews-faster-in-my-job-search-bbcd048eb86b" target="_blank" class="finder-writing-item">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-              <div class="writing-info">
-                <span class="writing-title">How I Used Asana and Automation to Land Interviews Faster</span>
-                <span class="writing-meta">Medium article on organizing a job search with workflows and automation</span>
-              </div>
-              <span class="writing-arrow">&rarr;</span>
-            </a>
-            <a href="https://medium.com/@swatipiyer" target="_blank" class="finder-writing-item">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-              <div class="writing-info">
-                <span class="writing-title">Medium Blog</span>
-                <span class="writing-meta">@swatipiyer &middot; Articles on product, data, and design</span>
-              </div>
-              <span class="writing-arrow">&rarr;</span>
-            </a>
-          </div>
-          <div class="finder-writing-empty">
-            <p>More posts coming soon.</p>
-          </div>
-        </div>
-
-        <!-- ── Toolkit panel ── -->
-        <div class="finder-panel" id="panel-toolkit" style="display:none;">
+        <div class="finder-panel" id="panel-analytics-toolkit" style="display:none;">
           <div class="finder-toolkit-grid">
             <div class="finder-tool-group">
-              <span class="tool-group-label">Languages</span>
+              <span class="tool-group-label">Product</span>
               <div class="tool-chips">
-                <span>Python</span><span>SQL</span><span>TypeScript</span><span>Go</span><span>R</span>
+                <span>PRDs</span><span>RICE</span><span>Roadmapping</span><span>User Research</span><span>Agile</span><span>Jira</span><span>Notion</span>
               </div>
             </div>
             <div class="finder-tool-group">
-              <span class="tool-group-label">Frameworks</span>
+              <span class="tool-group-label">Analytics</span>
               <div class="tool-chips">
-                <span>React</span><span>Angular</span><span>Node.js</span><span>Next.js</span>
+                <span>SQL</span><span>KPI Design</span><span>A/B Testing</span><span>Dashboards</span><span>Tableau</span><span>QuickSight</span><span>Excel</span>
               </div>
             </div>
             <div class="finder-tool-group">
-              <span class="tool-group-label">Data &amp; Analytics</span>
+              <span class="tool-group-label">Technical</span>
               <div class="tool-chips">
-                <span>Tableau</span><span>QuickSight</span><span>Databricks</span><span>Excel</span><span>Pandas</span>
+                <span>Python</span><span>TypeScript</span><span>Node.js</span><span>APIs</span><span>React</span><span>Angular</span><span>Git</span>
               </div>
             </div>
             <div class="finder-tool-group">
               <span class="tool-group-label">Design</span>
               <div class="tool-chips">
-                <span>Figma</span><span>Prototyping</span><span>Usability Testing</span>
-              </div>
-            </div>
-            <div class="finder-tool-group">
-              <span class="tool-group-label">Product</span>
-              <div class="tool-chips">
-                <span>PRDs</span><span>RICE</span><span>A/B Testing</span><span>User Research</span><span>Agile</span><span>Jira</span><span>Notion</span>
-              </div>
-            </div>
-            <div class="finder-tool-group">
-              <span class="tool-group-label">Other</span>
-              <div class="tool-chips">
-                <span>Git</span><span>LaTeX</span><span>PowerAutomate</span><span>Cursor</span><span>GitHub Copilot</span>
+                <span>Figma</span><span>Wireframes</span><span>Prototyping</span><span>Usability Testing</span><span>Information Architecture</span>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- ── Certs panel ── -->
-        <div class="finder-panel" id="panel-certs" style="display:none;">
-          <div class="finder-certs-grid">
-            <div class="finder-cert-item">
-              <div class="cert-icon" style="background:rgba(66,133,244,0.08);color:#4285f4;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <div class="finder-panel" id="panel-credentials" style="display:none;">
+          <div class="credentials-preview-grid">
+            <article class="credentials-preview-card">
+              <span class="credentials-preview-meta">01 · Snapshot</span>
+              <h3>Impact Snapshot</h3>
+              <p>Onboarding, conversion, experimentation, and privacy-focused product decisions across recent PM and research work.</p>
+            </article>
+            <article class="credentials-preview-card">
+              <span class="credentials-preview-meta">02 · Process</span>
+              <h3>How I Work</h3>
+              <p>Research, structure, and measurable iteration to turn ambiguity into product decisions.</p>
+            </article>
+            <article class="credentials-preview-card">
+              <span class="credentials-preview-meta">03 · Toolkit</span>
+              <h3>Analytics Toolkit</h3>
+              <p>Capability-based view of the SQL, KPI, dashboard, and mixed-method work behind product decisions.</p>
+            </article>
+            <article class="credentials-preview-card active">
+              <span class="credentials-preview-meta">04 · Credentials</span>
+              <h3>Credentials</h3>
+              <p>Formal training that complements hands-on work across product, research, analytics, and AI.</p>
+            </article>
+          </div>
+
+          <div class="credentials-section">
+            <span class="credentials-eyebrow">Credentials</span>
+            <h3 class="credentials-heading">Formal training that supports the hands-on work</h3>
+            <p class="credentials-copy">Formal training that complements my hands-on work across product, research, analytics, and AI.</p>
+
+            <div class="finder-certs-grid">
+              <div class="finder-cert-item">
+                <div class="cert-info">
+                  <span class="cert-name">Google Project Management</span>
+                  <span class="cert-issuer">Google</span>
+                </div>
               </div>
-              <div class="cert-info">
-                <span class="cert-name">Google UX Design</span>
-                <span class="cert-issuer">Google</span>
+              <div class="finder-cert-item">
+                <div class="cert-info">
+                  <span class="cert-name">Google UX Design</span>
+                  <span class="cert-issuer">Google</span>
+                </div>
               </div>
-            </div>
-            <div class="finder-cert-item">
-              <div class="cert-icon" style="background:rgba(0,120,212,0.08);color:#0078d4;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <div class="finder-cert-item">
+                <div class="cert-info">
+                  <span class="cert-name">Microsoft Product Management</span>
+                  <span class="cert-issuer">Microsoft</span>
+                </div>
               </div>
-              <div class="cert-info">
-                <span class="cert-name">Microsoft UX Design</span>
-                <span class="cert-issuer">Microsoft</span>
-              </div>
-            </div>
-            <div class="finder-cert-item">
-              <div class="cert-icon" style="background:rgba(66,133,244,0.08);color:#4285f4;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-              </div>
-              <div class="cert-info">
-                <span class="cert-name">Google Project Management</span>
-                <span class="cert-issuer">Google</span>
-              </div>
-            </div>
-            <div class="finder-cert-item">
-              <div class="cert-icon" style="background:rgba(66,133,244,0.08);color:#4285f4;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
-              </div>
-              <div class="cert-info">
-                <span class="cert-name">Google AI Essentials</span>
-                <span class="cert-issuer">Google</span>
-              </div>
-            </div>
-            <div class="finder-cert-item">
-              <div class="cert-icon" style="background:rgba(0,120,212,0.08);color:#0078d4;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-              </div>
-              <div class="cert-info">
-                <span class="cert-name">Microsoft Product Management</span>
-                <span class="cert-issuer">Microsoft</span>
+              <div class="finder-cert-item">
+                <div class="cert-info">
+                  <span class="cert-name">Google AI Essentials</span>
+                  <span class="cert-issuer">Google</span>
+                </div>
               </div>
             </div>
           </div>
@@ -1130,6 +774,258 @@
     </div>
   </div>
 
+
+
+  <!-- ═══════════════════════════
+       SELECTED WORK
+       ═══════════════════════════ -->
+  <div class="section-break" id="work">
+    <div class="section-header anim-left">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Selected Work</h2>
+    </div>
+  </div>
+
+  <!-- ═══ SHOWCASE 1: KeepSake ═══ -->
+  <section class="showcase-section showcase-keepsake showcase-color-1">
+    <div class="showcase-wave showcase-wave-top" aria-hidden="true">
+      <svg viewBox="0 0 1440 200" preserveAspectRatio="none">
+        <path d="M0,18 C246,-4 432,22 636,78 C836,132 1018,120 1194,98 C1310,84 1378,80 1440,86 L1440,0 L0,0 Z" fill="var(--bg)"/>
+      </svg>
+    </div>
+    <div class="showcase-inner anim visible">
+      <div class="showcase-text">
+        <span class="showcase-date">2025</span>
+        <h2 class="showcase-title">KeepSake</h2>
+        <p class="showcase-desc">Designed a family archive app that balances secure document storage with memory-keeping, after synthesizing 60 survey responses and 15 interviews into a six-week product sprint.</p>
+        <a href="pages/keepsake.html" class="showcase-cta">Read case study &rarr;</a>
+      </div>
+      <div class="showcase-visual">
+        <div class="showcase-img-wrap">
+          <img src="assets/keepsake.webp" alt="KeepSake app screens and family archive interface" class="showcase-real-image showcase-keepsake-main-image">
+        </div>
+        <div class="showcase-img-wrap showcase-img-secondary">
+          <img src="assets/keepsake2.webp" alt="KeepSake personas and user-needs slide" class="showcase-real-image showcase-keepsake-personas-image">
+        </div>
+      </div>
+    </div>
+    <div class="showcase-wave showcase-wave-bottom" aria-hidden="true">
+      <svg viewBox="0 0 1440 200" preserveAspectRatio="none">
+        <path d="M0,120 C180,180 400,40 720,100 C1000,150 1260,60 1440,90 L1440,200 L0,200 Z" fill="var(--showcase-next, #f0ebe6)"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ═══ SHOWCASE 2: Digo ═══ -->
+  <section class="showcase-section showcase-color-2">
+    <div class="showcase-inner showcase-reverse anim visible">
+      <div class="showcase-text">
+        <span class="showcase-date">2026</span>
+        <h2 class="showcase-title">Digo</h2>
+        <p class="showcase-desc">Defined KPI tracking for MVP launch, monitored engagement and feature adoption in Notion, and translated user research into roadmap priorities and ML-informed product decisions.</p>
+        <a href="pages/digo.html" class="showcase-cta">Read case study &rarr;</a>
+      </div>
+      <div class="showcase-visual">
+        <div class="showcase-img-wrap">
+          <img src="assets/digo2.png" alt="Digo event listing interface with upcoming AI events" class="showcase-real-image showcase-digo-main-image">
+        </div>
+        <div class="showcase-img-wrap showcase-img-secondary">
+          <img src="assets/digo1.png" alt="Digo event detail and organizer dashboard view" class="showcase-real-image showcase-digo-secondary-image">
+        </div>
+      </div>
+    </div>
+    <div class="showcase-wave showcase-wave-bottom" aria-hidden="true">
+      <svg viewBox="0 0 1440 200" preserveAspectRatio="none">
+        <path d="M0,80 C240,160 480,20 760,110 C980,170 1200,50 1440,100 L1440,200 L0,200 Z" fill="var(--showcase-next, #e6e9f0)"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ═══ SHOWCASE 3: Event Page Conversion ═══ -->
+  <section class="showcase-section showcase-color-3">
+    <div class="showcase-inner anim visible">
+      <div class="showcase-text">
+        <span class="showcase-date">2025</span>
+        <h2 class="showcase-title">When Users Said<br>&ldquo;More&rdquo; and the Data Said Otherwise</h2>
+        <p class="showcase-desc">Improving event page conversion by reconciling what users asked for with what they actually did.</p>
+        <a href="pages/giri-checkout.html" class="showcase-cta">Read case study &rarr;</a>
+      </div>
+      <!--
+      <div class="showcase-visual">
+        <div class="showcase-img-wrap">
+          <div class="showcase-placeholder">
+            <span class="showcase-placeholder-label">Funnel analysis</span>
+          </div>
+        </div>
+        <div class="showcase-img-wrap showcase-img-secondary">
+          <div class="showcase-placeholder">
+            <span class="showcase-placeholder-label">Experiment results</span>
+          </div>
+        </div>
+      </div>
+      -->
+    </div>
+    <div class="showcase-wave showcase-wave-bottom" aria-hidden="true">
+      <svg viewBox="0 0 1440 200" preserveAspectRatio="none">
+        <path d="M0,100 C300,170 600,30 900,120 C1100,170 1300,80 1440,110 L1440,200 L0,200 Z" fill="var(--bg)"/>
+      </svg>
+    </div>
+  </section>
+
+  <!--
+  ═══ SHOWCASE 4: Research ═══
+  <section class="showcase-section showcase-color-4">
+    <div class="showcase-inner showcase-reverse anim visible">
+      <div class="showcase-text">
+        <span class="showcase-date">2023-2025</span>
+        <h2 class="showcase-title">Network Traffic &amp; Privacy</h2>
+        <p class="showcase-desc">Built and automated Python and SQL pipelines in Databricks for network data anonymization, then benchmarked intrusion detection systems and translated findings into reports and presentations.</p>
+        <a href="pages/research.html" class="showcase-cta">Read case study &rarr;</a>
+      </div>
+      <div class="showcase-visual">
+        <div class="showcase-img-wrap">
+          <div class="showcase-placeholder">
+            <span class="showcase-placeholder-label">Network analysis</span>
+          </div>
+        </div>
+        <div class="showcase-img-wrap showcase-img-secondary">
+          <div class="showcase-placeholder">
+            <span class="showcase-placeholder-label">Detection benchmarks</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="showcase-wave showcase-wave-bottom" aria-hidden="true">
+      <svg viewBox="0 0 1440 200" preserveAspectRatio="none">
+        <path d="M0,100 C300,170 600,30 900,120 C1100,170 1300,80 1440,110 L1440,200 L0,200 Z" fill="var(--bg)"/>
+      </svg>
+    </div>
+  </section>
+  -->
+
+  <!-- ═══════════════════════════
+       EXPERIENCE
+       ═══════════════════════════ -->
+  <div class="section-break" id="experience">
+    <div class="section-header anim-left">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Experience</h2>
+    </div>
+  </div>
+
+  <div class="timeline">
+
+    <article class="tl-item anim anim-d1">
+      <div class="tl-date">
+        <span class="tl-date-range">Jan 2026 - Present</span>
+        <span class="tl-date-status">Current</span>
+      </div>
+      <div class="tl-dot"></div>
+        <div class="tl-card tl-green">
+          <div class="tl-card-top">
+            <div class="tl-heading">
+              <span class="tl-role">Founding Product Intern</span>
+              <h4 class="tl-company">Digo</h4>
+              <span class="tl-loc">Mountain View, CA</span>
+            </div>
+          </div>
+        <p>Owned early product discovery and KPI tracking for an AI event platform, turning organizer research into sharper MVP priorities.</p>
+        <div class="tl-highlights">
+          <span class="tl-metric">40% less setup time</span>
+          <span>Built KPI tracking and ran user research in Figma + Notion</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="tl-item anim anim-d2">
+      <div class="tl-date">
+        <span class="tl-date-range">Oct 2025 - Present</span>
+        <span class="tl-date-status">Part-time</span>
+      </div>
+      <div class="tl-dot"></div>
+        <div class="tl-card tl-blue">
+          <div class="tl-card-top">
+            <div class="tl-heading">
+              <span class="tl-role">Part-time Product Consultant</span>
+              <h4 class="tl-company">Giri Inc.</h4>
+              <span class="tl-loc">Sunnyvale, CA</span>
+            </div>
+          </div>
+        <p>Used analytics, research, and experimentation to tighten Giri’s funnel and make checkout decisions more evidence-driven.</p>
+        <div class="tl-highlights">
+          <span class="tl-metric">7 steps reduced to 3</span>
+          <span>Built an 8-KPI framework with competitive analysis and user interviews</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="tl-item anim anim-d3">
+      <div class="tl-date">
+        <span class="tl-date-range">Sep 2025 - Present</span>
+        <span class="tl-date-status">Part-time</span>
+      </div>
+      <div class="tl-dot"></div>
+        <div class="tl-card tl-accent">
+          <div class="tl-card-top">
+            <div class="tl-heading">
+              <span class="tl-role">Part-time Product Consultant</span>
+              <h4 class="tl-company">Opsfinity</h4>
+              <span class="tl-loc">Remote</span>
+            </div>
+          </div>
+        <p>Scoped workflow improvements for finance operations and used data plus market analysis to shape the next product bets.</p>
+        <div class="tl-highlights">
+          <span class="tl-metric">3 workflows automated</span>
+          <span>Improved approval and fraud-prevention flows with PowerAutomate</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="tl-item anim anim-d4">
+      <div class="tl-date">
+        <span class="tl-date-range">Feb 2026 - Present</span>
+        <span class="tl-date-status">Part-time</span>
+      </div>
+      <div class="tl-dot"></div>
+        <div class="tl-card tl-copper">
+          <div class="tl-card-top">
+            <div class="tl-heading">
+              <span class="tl-role">Product &amp; UX Contractor</span>
+              <h4 class="tl-company">TechEquity AI</h4>
+              <span class="tl-loc">Remote</span>
+            </div>
+          </div>
+        <p>Designed product flows for an AI tutoring platform and used testing to improve onboarding, accessibility, and personalization.</p>
+        <div class="tl-highlights">
+          <span class="tl-metric">A/B testing on onboarding</span>
+          <span>Built Figma prototypes and accessibility improvements for NLP-driven flows</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="tl-item anim anim-d5">
+      <div class="tl-date">
+        <span class="tl-date-range">Jul 2023 - Jan 2026</span>
+        <span class="tl-date-status">Research</span>
+      </div>
+      <div class="tl-dot"></div>
+        <div class="tl-card tl-slate">
+          <div class="tl-card-top">
+            <div class="tl-heading">
+              <span class="tl-role">Research Assistant (Product/ML)</span>
+              <h4 class="tl-company">UC Davis Department of Computer Science</h4>
+              <span class="tl-loc">Davis, CA</span>
+            </div>
+          </div>
+        <p>Built data pipelines and benchmarking workflows for network-security research, turning technical experiments into clearer findings for the lab.</p>
+        <div class="tl-highlights">
+          <span class="tl-metric">50% faster research deliverables</span>
+          <span>Developed Python + SQL pipelines in Databricks for IDS evaluation</span>
+        </div>
+      </div>
+    </article>
+
+  </div>
 
 
 </div>
@@ -1158,10 +1054,13 @@
           <h4>University of California, Davis</h4>
           <p class="edu-degrees">B.S. Cognitive Science &middot; B.A. Design &middot; Minor in Computer Science</p>
         </div>
-        <div class="edu-date">Sep 2022 &ndash; Jun 2025</div>
+        <div class="edu-date">Sep 2022 - Jun 2025</div>
       </div>
       <div class="edu-desc">
         Key courses: Tech Management, Algorithms, Human-Computer Interaction, Cognitive Psychology, Logic &amp; Probability, and Software Design.
+      </div>
+      <div class="edu-desc">
+        Standout leadership &amp; community: Finance Director for Davis Design Interactive, managing a $40,000 annual budget across 12+ design events, and Project Associate for the AI Student Collective, helping grow campus AI programming and community initiatives.
       </div>
     </div>
   </div>
@@ -1181,7 +1080,7 @@
       <h2 class="connect-heading">Let's build something real.</h2>
 
       <p class="connect-subcopy">
-        I'm looking for a team building AI products that need to ship fast and actually work for people. If that sounds like you, let's talk.
+        Interested in PM, product analytics, and early-career product roles. Let’s connect.
       </p>
 
       <div class="connect-actions">
@@ -1310,7 +1209,7 @@
       btn.classList.add('active');
 
       const tab = btn.dataset.tab;
-      const labels = { projects: 'Projects', writing: 'Writing', toolkit: 'Toolkit', certs: 'Certs' };
+      const labels = { projects: 'Projects', 'analytics-toolkit': 'Analytics Toolkit', credentials: 'Credentials' };
       const pathRoot = document.querySelector('.path-root');
       if (pathRoot) pathRoot.textContent = labels[tab] || 'Projects';
 
@@ -1322,7 +1221,6 @@
       const pathCurrent = document.querySelector('.path-current-detail');
       const finderNav = document.querySelector('.finder-nav');
 
-      // Hide all panels and detail
       panels.forEach(p => p.style.display = 'none');
       if (detail) detail.style.display = 'none';
       if (pathChevron) pathChevron.style.display = 'none';
@@ -1330,22 +1228,18 @@
       if (finderNav) finderNav.classList.remove('has-back');
 
       if (tab === 'projects') {
-        // Show folder grid
         folderGrid.style.display = '';
         document.querySelectorAll('.finder-folder').forEach(f => f.classList.remove('hidden'));
         const total = document.querySelectorAll('.finder-folder').length;
         if (countEl) countEl.textContent = total + ' item' + (total !== 1 ? 's' : '');
       } else {
-        // Hide folder grid, show the right panel
         folderGrid.style.display = 'none';
         const panel = document.getElementById('panel-' + tab);
         if (panel) panel.style.display = 'block';
 
-        // Count items for each panel
         const counts = {
-          writing: document.querySelectorAll('.finder-writing-item').length,
-          toolkit: document.querySelectorAll('.finder-tool-group').length,
-          certs: document.querySelectorAll('.finder-cert-item').length
+          'analytics-toolkit': document.querySelectorAll('#panel-analytics-toolkit .finder-tool-group').length,
+          credentials: document.querySelectorAll('#panel-credentials .credentials-preview-card').length
         };
         const c = counts[tab] || 0;
         if (countEl) countEl.textContent = c + ' item' + (c !== 1 ? 's' : '');
@@ -1483,7 +1377,6 @@
       }
     }
 
-    // ═══ BREADCRUMB CLICK HANDLERS ═══
     const pathRoot = document.querySelector('.path-root');
     if (pathRoot) {
       pathRoot.addEventListener('click', () => {
@@ -1491,7 +1384,6 @@
         document.querySelectorAll('.finder-sb-item').forEach(b => b.classList.remove('active'));
         const allBtn = document.querySelector('.finder-sb-item[data-tab="projects"]');
         if (allBtn) allBtn.classList.add('active');
-        // Hide any open panels
         document.querySelectorAll('.finder-panel').forEach(p => p.style.display = 'none');
         document.querySelectorAll('.finder-folder').forEach(f => f.classList.remove('hidden'));
         const total = document.querySelectorAll('.finder-folder').length;
@@ -1579,20 +1471,21 @@
     const launchInput = document.getElementById('terminal-launch-input');
     const launchDisplay = document.getElementById('terminal-launch-display');
     const skipBtn = document.getElementById('terminal-skip');
-    const introOverlay = document.getElementById('intro-overlay');
     if (!bootEl || !textEl || !launchForm || !launchInput || !launchDisplay) return;
 
     const lines = [
       '> booting up ...',
-      '> python 3.11 ................. OK',
-      '> sql, figma, tableau ......... OK',
-      '> dashboards .................. OK',
-      '> matcha supply ............... OK',
-      '> too many chrome tabs ........ OK',
       '',
-      '  ███ READY ███',
+      '> about',
+      'Product Manager · Product Analytics · User Research',
       '',
-      '> ready to step inside?'
+      '> ls focus/',
+      'onboarding/ conversion/ experimentation/ privacy/',
+      '',
+      '> ls toolkit/',
+      'research/ analytics/ sql/ dashboards/',
+      '',
+      '  ███ READY ███'
     ];
 
     let lineIdx = 0;
@@ -1606,27 +1499,25 @@
       launchDisplay.textContent = launchInput.value || launchPlaceholder;
     }
 
-    function finishBoot(playIntro = true) {
+    function finishBoot() {
       if (done) return;
       done = true;
       setTimeout(() => {
         bootEl.classList.add('fade-out');
         setTimeout(() => {
           bootEl.classList.add('gone');
-          if (playIntro) startIntroOverlay();
-          else if (introOverlay) introOverlay.classList.add('hidden');
         }, 700);
       }, 400);
     }
 
-    skipBtn.addEventListener('click', () => finishBoot(false));
+    skipBtn.addEventListener('click', finishBoot);
     launchForm.addEventListener('click', () => launchInput.focus());
     launchInput.addEventListener('input', syncLaunchDisplay);
     launchForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const value = launchInput.value.trim().toLowerCase();
       if (!value || value === 'yes' || value === 'y') {
-        finishBoot(true);
+        finishBoot();
       }
     });
 
@@ -1663,54 +1554,6 @@
     setTimeout(typeNext, 500);
   })();
 
-  // ═══ INTRO OVERLAY ═══
-  function startIntroOverlay() {
-    const overlay = document.getElementById('intro-overlay');
-    const logo = document.querySelector('.intro-logo');
-    const navLogo = document.querySelector('.nav-brand-logo');
-    if (!overlay || !logo) return;
-
-    document.body.classList.add('intro-active');
-
-    // Phase 1: Logo fades in and zooms from big to normal (0.8s)
-    requestAnimationFrame(() => { logo.classList.add('pop'); });
-
-    // Phase 2: After a brief hold, shrink logo to nav position
-    setTimeout(() => {
-      const logoRect = logo.getBoundingClientRect();
-      const navLogoRect = navLogo
-        ? navLogo.getBoundingClientRect()
-        : { left: 24, top: 16, width: 72, height: 45 };
-
-      // Pin logo to current position, then switch to fixed for the fly
-      logo.style.width = logoRect.width + 'px';
-      logo.style.left = logoRect.left + 'px';
-      logo.style.top = logoRect.top + 'px';
-      logo.classList.add('fly');
-
-      // Force reflow so the transition picks up
-      logo.offsetHeight;
-
-      // Animate to nav logo position
-      logo.style.width = navLogoRect.width + 'px';
-      logo.style.left = navLogoRect.left + 'px';
-      logo.style.top = navLogoRect.top + 'px';
-      logo.style.opacity = '0';
-
-      // Fade out the dark overlay background
-      overlay.style.transition = 'opacity 0.5s ease 0.2s';
-      overlay.style.opacity = '0';
-
-      document.body.classList.remove('intro-active');
-
-      setTimeout(() => {
-        overlay.classList.add('hidden');
-        overlay.style.opacity = '';
-        logo.remove();
-      }, 800);
-    }, 1400);
-  }
-
   // ═══ CUSTOM CURSOR DOT ═══
   (function customCursor() {
     if (window.innerWidth < 768 || 'ontouchstart' in window) return;
@@ -1724,23 +1567,10 @@
     });
 
     // Enlarge on interactive elements
-    const hoverTargets = 'a, button, .hero-btn, .nav-cta, .connect-mail-btn, .connect-resume-btn, .finder-folder, .toolkit-row, .tl-card, .fv-btn, .finder-sb-item, .showcase-cta, .connect-social-pill';
+    const hoverTargets = 'a, button, .hero-btn, .nav-cta, .connect-mail-btn, .connect-resume-btn, .tl-card, .showcase-cta, .connect-social-pill';
     document.querySelectorAll(hoverTargets).forEach(el => {
       el.addEventListener('mouseenter', () => dot.classList.add('cursor-hover'));
       el.addEventListener('mouseleave', () => dot.classList.remove('cursor-hover'));
-    });
-  })();
-
-  // ═══ TOOLKIT ROW EXPAND/COLLAPSE ═══
-  (function toolkitExpand() {
-    document.querySelectorAll('.toolkit-row').forEach(row => {
-      row.addEventListener('click', () => {
-        const wasExpanded = row.classList.contains('expanded');
-        // Close all rows first
-        document.querySelectorAll('.toolkit-row.expanded').forEach(r => r.classList.remove('expanded'));
-        // Toggle clicked row
-        if (!wasExpanded) row.classList.add('expanded');
-      });
     });
   })();
 

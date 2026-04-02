@@ -3,29 +3,866 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Giri Checkout Flow - Swati Iyer</title>
+  <title>Event Page Conversion | Swati Iyer</title>
   <link rel="stylesheet" href="../css/style.css">
   <link rel="icon" type="image/png" href="../assets/swatiiyer-logo-tab.png">
   <link rel="apple-touch-icon" href="../assets/swatiiyer-logo-tab.png">
+  <style>
+    body {
+      background: linear-gradient(180deg, #f3eefc 0%, #ede8f8 180px, #f8f5fc 100%);
+    }
+
+    /* ═══ SHELL ═══ */
+    .cs-shell {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 136px 32px 100px;
+    }
+
+    /* ═══ HEADER ═══ */
+    .cs-kicker {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0.72;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .cs-kicker::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.6;
+    }
+
+    .cs-title {
+      font-family: var(--display);
+      font-size: clamp(34px, 5.5vw, 62px);
+      line-height: 1.0;
+      letter-spacing: -0.04em;
+      color: var(--text);
+      margin-bottom: 14px;
+      max-width: 780px;
+    }
+
+    .cs-subtitle {
+      font-size: 18px;
+      line-height: 1.65;
+      color: var(--text-mid);
+      max-width: 640px;
+      margin-bottom: 40px;
+      font-weight: 400;
+    }
+
+    /* ═══ SNAPSHOT STRIP ═══ */
+    .cs-snapshot {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: rgba(139, 94, 171, 0.1);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(139, 94, 171, 0.12);
+      margin-bottom: 60px;
+    }
+    .cs-snap-cell {
+      background: rgba(255, 255, 255, 0.72);
+      padding: 18px 20px;
+    }
+    .cs-snap-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0.65;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .cs-snap-value {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    /* ═══ BODY PROSE ═══ */
+    .cs-section {
+      margin-bottom: 56px;
+    }
+    .cs-section-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0.6;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .cs-h2 {
+      font-family: var(--display);
+      font-size: clamp(22px, 3vw, 30px);
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+    .cs-p {
+      font-size: 16.5px;
+      line-height: 1.82;
+      color: var(--text-mid);
+      margin-bottom: 18px;
+      max-width: 720px;
+    }
+    .cs-p:last-child { margin-bottom: 0; }
+    .cs-p strong { color: var(--text); font-weight: 600; }
+
+    /* ═══ DIVIDER ═══ */
+    .cs-rule {
+      border: none;
+      border-top: 1px solid rgba(139, 94, 171, 0.12);
+      margin: 60px 0;
+    }
+
+    /* ═══ INSIGHT CARDS (2-col grid) ═══ */
+    .cs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .cs-card {
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(139, 94, 171, 0.12);
+      border-radius: 18px;
+      padding: 24px 26px;
+      box-shadow: 0 8px 24px rgba(69, 51, 85, 0.05);
+    }
+    .cs-card-num {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent);
+      opacity: 0.55;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .cs-card p {
+      font-size: 15px;
+      line-height: 1.72;
+      color: var(--text-mid);
+      margin: 0;
+    }
+    .cs-card p strong { color: var(--text); }
+
+    /* ═══ BEHAVIORAL STAT CARDS ═══ */
+    .cs-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 24px;
+    }
+    .cs-stat {
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(139, 94, 171, 0.12);
+      border-radius: 16px;
+      padding: 20px 22px;
+      box-shadow: 0 6px 18px rgba(69, 51, 85, 0.05);
+    }
+    .cs-stat-figure {
+      font-family: var(--display);
+      font-size: 30px;
+      letter-spacing: -0.04em;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .cs-stat p {
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: var(--text-mid);
+      margin: 0;
+    }
+
+    /* ═══ TENSION CALLOUT ═══ */
+    .cs-tension {
+      background: linear-gradient(135deg, rgba(139, 94, 171, 0.07) 0%, rgba(107, 73, 145, 0.04) 100%);
+      border: 1px solid rgba(139, 94, 171, 0.2);
+      border-radius: 20px;
+      padding: 36px 40px;
+      margin: 28px 0;
+    }
+    .cs-tension-eyebrow {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+      display: block;
+    }
+    .cs-tension h3 {
+      font-family: var(--display);
+      font-size: clamp(20px, 2.5vw, 26px);
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 16px;
+      line-height: 1.15;
+    }
+    .cs-tension p {
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--text-mid);
+      margin-bottom: 14px;
+      max-width: 680px;
+    }
+    .cs-tension p:last-child { margin-bottom: 0; }
+    .cs-tension p strong { color: var(--text); }
+
+    /* ═══ FINAL INSIGHT PULL QUOTE ═══ */
+    .cs-insight-pull {
+      border-left: 3px solid var(--accent);
+      padding: 6px 0 6px 26px;
+      margin: 28px 0;
+    }
+    .cs-insight-pull blockquote {
+      font-family: var(--display);
+      font-size: clamp(20px, 2.8vw, 28px);
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      color: var(--text);
+      margin: 0 0 10px;
+    }
+    .cs-insight-pull cite {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0.6;
+      font-style: normal;
+    }
+
+    /* ═══ SOLUTION LAYOUT ═══ */
+    .cs-solution-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .cs-sol-group {
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(139, 94, 171, 0.12);
+      border-radius: 18px;
+      padding: 22px 26px;
+      box-shadow: 0 6px 18px rgba(69, 51, 85, 0.05);
+    }
+    .cs-sol-group.full-width {
+      grid-column: 1 / -1;
+    }
+    .cs-sol-tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0.6;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .cs-sol-group ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .cs-sol-group ul li {
+      font-size: 14.5px;
+      line-height: 1.6;
+      color: var(--text-mid);
+      padding-left: 16px;
+      position: relative;
+    }
+    .cs-sol-group ul li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      opacity: 0.5;
+      font-size: 12px;
+    }
+    .cs-sol-group ul li strong { color: var(--text); }
+
+    /* ═══ METRICS TABLE ═══ */
+    .cs-metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 24px;
+    }
+    .cs-metric-block {
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(139, 94, 171, 0.12);
+      border-radius: 16px;
+      padding: 20px 24px;
+      box-shadow: 0 6px 16px rgba(69, 51, 85, 0.04);
+    }
+    .cs-metric-type {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0.6;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .cs-metric-block ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .cs-metric-block ul li {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-mid);
+    }
+
+    /* ═══ TRADEOFFS ═══ */
+    .cs-tradeoff-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 24px;
+    }
+    .cs-tradeoff {
+      display: grid;
+      grid-template-columns: 1fr 24px 1fr;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(139, 94, 171, 0.1);
+      border-radius: 14px;
+      padding: 16px 22px;
+      box-shadow: 0 4px 14px rgba(69, 51, 85, 0.04);
+    }
+    .cs-tradeoff-side {
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--text-mid);
+    }
+    .cs-tradeoff-side strong {
+      color: var(--text);
+      font-size: 13px;
+      display: block;
+      margin-bottom: 2px;
+    }
+    .cs-tradeoff-vs {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--accent);
+      opacity: 0.5;
+      text-align: center;
+    }
+
+    /* ═══ REFLECTION ═══ */
+    .cs-reflection {
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(139, 94, 171, 0.14);
+      border-radius: 20px;
+      padding: 36px 40px;
+    }
+    .cs-reflection p {
+      font-size: 16.5px;
+      line-height: 1.82;
+      color: var(--text-mid);
+      margin-bottom: 18px;
+      max-width: 720px;
+    }
+    .cs-reflection p:last-child { margin-bottom: 0; }
+    .cs-reflection p strong { color: var(--text); }
+
+    /* ═══ NEXT STEPS ═══ */
+    .cs-next {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 24px;
+    }
+    .cs-next-item {
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(139, 94, 171, 0.1);
+      border-radius: 14px;
+      padding: 18px 22px;
+    }
+    .cs-next-item p {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--text-mid);
+      margin: 0;
+    }
+    .cs-next-item p strong {
+      color: var(--text);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    /* ═══ BACK LINK ═══ */
+    .cs-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 60px;
+      padding: 12px 20px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(139, 94, 171, 0.18);
+      color: var(--text-mid);
+      font-size: 14px;
+      font-weight: 600;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s;
+    }
+    .cs-back:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(139, 94, 171, 0.12);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ═══ RESPONSIVE ═══ */
+    @media (max-width: 700px) {
+      .cs-shell { padding: 120px 20px 72px; }
+      .cs-snapshot { grid-template-columns: repeat(2, 1fr); }
+      .cs-grid,
+      .cs-solution-grid,
+      .cs-metrics,
+      .cs-next { grid-template-columns: 1fr; }
+      .cs-stats { grid-template-columns: 1fr 1fr; }
+      .cs-tradeoff { grid-template-columns: 1fr; }
+      .cs-tradeoff-vs { display: none; }
+      .cs-tension,
+      .cs-reflection { padding: 24px 22px; }
+    }
+  </style>
 </head>
 <body>
-  <nav class="site-nav">
-    <div class="nav-inner">
-      <a href="../index.html" class="nav-brand">&larr; Back</a>
-      <div class="nav-links">
-        <a href="../index.html#work">Work</a>
-        <a href="../index.html#explore">Explore</a>
-        <a href="mailto:iyerswatip@gmail.com">Contact</a>
-      </div>
-    </div>
-  </nav>
-  <div class="page-wrap" style="max-width: 860px; padding-top: 140px; padding-bottom: 80px;">
-    <div class="edu-entry anim visible">
-      <div class="work-tag" style="color:var(--accent);"><span class="tag-dot" style="background:var(--accent);"></span> Experimentation · 2025</div>
-      <h1 style="font-family:var(--display);font-size:clamp(38px,6vw,68px);line-height:0.98;margin-bottom:18px;">A/B Test: Checkout Flow</h1>
-      <p style="font-size:18px;color:var(--text-mid);max-width:680px;margin-bottom:28px;">Placeholder page for the Giri checkout experiment. Add the funnel, KPI framework, experiment design, and results here.</p>
-      <div class="work-tools"><span>Tableau</span><span>Reporting</span><span>PRDs</span></div>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">&larr; Back</a>
+    <div class="nav-links">
+      <a href="../index.html#work">Work</a>
+      <a href="../index.html#explore">Explore</a>
+      <a href="mailto:iyerswatip@gmail.com">Contact</a>
     </div>
   </div>
+</nav>
+
+<main class="cs-shell">
+
+  <!-- ═══ HEADER ═══ -->
+  <div class="cs-kicker anim">Research &middot; Analytics &middot; Product Strategy</div>
+
+  <h1 class="cs-title anim">When Users Said &ldquo;More&rdquo; and the Data Said Otherwise</h1>
+
+  <p class="cs-subtitle anim">
+    Improving event page conversion by reconciling what users asked for with what they actually did.
+  </p>
+
+  <!-- ═══ PROJECT SNAPSHOT ═══ -->
+  <div class="cs-snapshot anim">
+    <div class="cs-snap-cell">
+      <span class="cs-snap-label">Role</span>
+      <span class="cs-snap-value">PM &middot; Product Analyst</span>
+    </div>
+    <div class="cs-snap-cell">
+      <span class="cs-snap-label">Type</span>
+      <span class="cs-snap-value">Concept &middot; Redesign</span>
+    </div>
+    <div class="cs-snap-cell">
+      <span class="cs-snap-label">Timeline</span>
+      <span class="cs-snap-value">8 weeks</span>
+    </div>
+    <div class="cs-snap-cell">
+      <span class="cs-snap-label">Methods</span>
+      <span class="cs-snap-value">Interviews &middot; Funnel &middot; Scroll Analysis &middot; Figma</span>
+    </div>
+  </div>
+
+  <!-- ═══ OVERVIEW ═══ -->
+  <section class="cs-section anim">
+    <span class="cs-section-label">Overview</span>
+    <h2 class="cs-h2">The conversion problem hiding in plain sight</h2>
+    <p class="cs-p">
+      Event discovery platforms live and die by registration conversion. A user can find an event, feel genuinely interested, and still leave without signing up. The event detail page is the moment that determines whether intent becomes action &mdash; and for most platforms, it&rsquo;s one of the least-examined parts of the funnel.
+    </p>
+    <p class="cs-p">
+      This case study traces how I investigated a persistent conversion gap on an event detail page by running user interviews and behavioral analytics in parallel &mdash; and what I did when the two sources appeared to tell completely different stories.
+    </p>
+  </section>
+
+  <hr class="cs-rule">
+
+  <!-- ═══ THE PROBLEM ═══ -->
+  <section class="cs-section anim">
+    <span class="cs-section-label">The Problem</span>
+    <h2 class="cs-h2">Users were arriving. They weren&rsquo;t registering.</h2>
+    <p class="cs-p">
+      Registration conversion on the event detail page was lower than expected &mdash; and lower than comparable benchmarks for the event category. Roughly 60&ndash;70% of users who landed on an event page left without registering, including many who had clicked through from a personalized recommendation or a targeted campaign. Both signals pointed to genuine, prior intent.
+    </p>
+    <p class="cs-p">
+      This wasn&rsquo;t an attention or awareness problem. Users were already in the door. Something was happening on the page itself that prevented commitment, and the team needed to understand what.
+    </p>
+  </section>
+
+  <!-- ═══ INITIAL ASSUMPTION ═══ -->
+  <section class="cs-section anim">
+    <span class="cs-section-label">Initial Assumption</span>
+    <h2 class="cs-h2">&ldquo;They just need more information.&rdquo;</h2>
+    <p class="cs-p">
+      The team&rsquo;s initial read was intuitive: if someone visits an event page and doesn&rsquo;t register, they probably didn&rsquo;t have enough to make a confident decision. Early user feedback seemed to support this &mdash; people mentioned wanting to know more about the speaker, more about the agenda, more about format and time commitment.
+    </p>
+    <p class="cs-p">
+      The proposed response was to enrich the page: expand the agenda section, surface longer speaker bios, add an FAQ. More information means more confidence means more registrations. It was a reasonable hypothesis &mdash; but it needed validation before anyone started building toward it.
+    </p>
+  </section>
+
+  <hr class="cs-rule">
+
+  <!-- ═══ RESEARCH APPROACH ═══ -->
+  <section class="cs-section anim">
+    <span class="cs-section-label">Research Approach</span>
+    <h2 class="cs-h2">Two parallel tracks: what users said vs. what they did</h2>
+    <p class="cs-p">
+      I ran the investigation using two methods simultaneously. On the qualitative side: twelve user interviews with a mix of recent event attendees and users who had visited event pages but not registered. Sessions focused on the decision-making moment &mdash; what they were looking for, what made them feel uncertain, what would have made them more confident earlier.
+    </p>
+    <p class="cs-p">
+      On the quantitative side: behavioral analysis of a sample of event pages across scroll depth, funnel drop-off, CTA interaction patterns, time-on-page, and device type. The goal was to understand not just what users experienced, but how far into the page they actually got.
+    </p>
+    <p class="cs-p">
+      Running both methods in parallel wasn&rsquo;t just about thoroughness &mdash; it was the only way to catch a discrepancy if one existed. Qualitative research captures what users want and why. Behavioral data captures what users actually do. Neither alone gives you the full picture.
+    </p>
+  </section>
+
+  <hr class="cs-rule">
+
+  <!-- ═══ INTERVIEW FINDINGS ═══ -->
+  <section class="cs-section anim">
+    <span class="cs-section-label">What User Interviews Said</span>
+    <h2 class="cs-h2">Five patterns from twelve conversations</h2>
+
+    <div class="cs-grid">
+      <div class="cs-card">
+        <span class="cs-card-num">01</span>
+        <p><strong>Relevance before everything.</strong> Before reading anything in depth, users wanted to quickly assess whether the event was right for them. &ldquo;Is this for someone at my level?&rdquo; came up in multiple forms. Audience fit was the first filter &mdash; not the topic or the agenda.</p>
+      </div>
+      <div class="cs-card">
+        <span class="cs-card-num">02</span>
+        <p><strong>Confidence had a specific shape.</strong> Users described wanting confidence before registering, but confidence didn&rsquo;t mean volume of information. It meant the right information arriving fast. Several described scanning for a specific answer rather than reading the page top to bottom.</p>
+      </div>
+      <div class="cs-card">
+        <span class="cs-card-num">03</span>
+        <p><strong>Speaker credibility, but briefly.</strong> Speaker credentials mattered, but not in the way the page assumed. Users didn&rsquo;t want long bios. They wanted one or two anchoring facts: industry, role, a recognizable credential. Enough to assess quickly, not read at length.</p>
+      </div>
+      <div class="cs-card">
+        <span class="cs-card-num">04</span>
+        <p><strong>Outcomes over agenda.</strong> What users consistently said they wanted most was clarity on what they&rsquo;d walk away with. Practical takeaways and learning outcomes outweighed session titles or scheduling details by a significant margin.</p>
+      </div>
+      <div class="cs-card" style="grid-column: 1 / -1;">
+        <span class="cs-card-num">05</span>
+        <p><strong>&ldquo;More details&rdquo; often meant faster clarity.</strong> When users said they wanted more information, that phrase deserved scrutiny. In several cases, the information they said was missing was already on the page &mdash; just positioned below the fold or inside an expandable section. What they were describing wasn&rsquo;t a content gap. It was a surfacing problem.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="cs-rule">
+
+  <!-- ═══ BEHAVIORAL DATA ═══ -->
+  <section class="cs-section anim">
+    <span class="cs-section-label">What Behavioral Data Showed</span>
+    <h2 class="cs-h2">Users weren&rsquo;t reading what they said they needed</h2>
+
+    <div class="cs-stats">
+      <div class="cs-stat">
+        <div class="cs-stat-figure">38%</div>
+        <p>Median scroll depth on desktop. Most users never reached the agenda, speaker bios, or FAQ.</p>
+      </div>
+      <div class="cs-stat">
+        <div class="cs-stat-figure">24%</div>
+        <p>Median scroll depth on mobile. Nearly 3 in 4 mobile users left before reaching mid-page content.</p>
+      </div>
+      <div class="cs-stat">
+        <div class="cs-stat-figure">2.4&times;</div>
+        <p>Mobile drop-off rate vs. desktop. Mobile sessions were also 40% shorter on average.</p>
+      </div>
+      <div class="cs-stat">
+        <div class="cs-stat-figure">18s</div>
+        <p>Average time-to-first-CTA-visibility on mobile. The registration button wasn&rsquo;t in view on first load.</p>
+      </div>
+      <div class="cs-stat">
+        <div class="cs-stat-figure">&lt;12%</div>
+        <p>Click-through on &ldquo;See full agenda&rdquo; and &ldquo;About the speaker&rdquo; expandable sections.</p>
+      </div>
+      <div class="cs-stat">
+        <div class="cs-stat-figure">~0</div>
+        <p>Scroll engagement on most bounce sessions. Users who left weren&rsquo;t searching &mdash; they left quickly.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ TENSION ═══ -->
+  <section class="cs-section anim">
+    <div class="cs-tension">
+      <span class="cs-tension-eyebrow">The Core Tension</span>
+      <h3>Interviews said: users want more detail.<br>Data said: users aren&rsquo;t reading the detail they already have.</h3>
+      <p>
+        Taken at face value, the two data sources seemed to point in opposite directions. Users said they needed more information before they felt ready to commit. Analytics showed they were leaving before they ever reached the information already available.
+      </p>
+      <p>
+        The resolution isn&rsquo;t that one source was wrong &mdash; both were accurate. They were just describing different things. <strong>Interviews capture what users want from an ideal experience. Behavioral data captures what users do in the actual experience, including when it fails to meet them early enough.</strong>
+      </p>
+      <p>
+        Users who said they wanted more details weren&rsquo;t asking to scroll further. They were describing an unmet need that the page wasn&rsquo;t surfacing in time. They left before the content that could have answered their questions came into view.
+      </p>
+      <p>
+        The problem wasn&rsquo;t a content gap. <strong>It was a hierarchy problem.</strong>
+      </p>
+    </div>
+  </section>
+
+  <hr class="cs-rule">
+
+  <!-- ═══ FINAL INSIGHT ═══ -->
+  <section class="cs-section anim">
+    <span class="cs-section-label">Final Product Insight</span>
+    <div class="cs-insight-pull">
+      <blockquote>Users weren&rsquo;t asking for more content. They were asking for faster clarity.</blockquote>
+      <cite>core finding</cite>
+    </div>
+    <p class="cs-p">
+      The event detail page was structured as a document to be read. Users were approaching it as a decision to be made. Those are different things, and they call for different information architectures.
+    </p>
+    <p class="cs-p">
+      The content that could have converted users already existed on the page &mdash; it was just positioned as if users had already decided to invest time, when in reality they were still deciding whether to invest attention. Relevance, credibility, value, and a clear call to action needed to arrive before users had a reason to leave, not after.
+    </p>
+  </section>
+
+  <!-- ═══ PRODUCT DECISION ═══ -->
+  <section class="cs-section anim">
+    <span class="cs-section-label">The Product Decision</span>
+    <h2 class="cs-h2">Don&rsquo;t add more content. Reorganize what already exists.</h2>
+    <p class="cs-p">
+      The decision was to redesign the event detail page to be <strong>summary-first and trust-first</strong> &mdash; leading with the elements that enable fast decision-making rather than assuming users would scroll to find them.
+    </p>
+    <p class="cs-p">
+      This was a deliberate tradeoff. The instinctive response to &ldquo;users want more information&rdquo; is to add more sections. The data-informed response was to surface the highest-confidence-building content above the fold, before users had a reason to leave. Adding more content would have extended the decision path and increased cognitive load. Reorganizing gives users a shorter, cleaner path that doesn&rsquo;t require them to do the work of surfacing what&rsquo;s relevant themselves.
+    </p>
+  </section>
+
+  <hr class="cs-rule">
+
+  <!-- ═══ SOLUTION ═══ -->
+  <section class="cs-section anim">
+    <span class="cs-section-label">Design Direction</span>
+    <h2 class="cs-h2">Redesigning the information hierarchy</h2>
+    <p class="cs-p">
+      The redesigned page structure treats two sections of the page as serving two different user states: users still deciding whether this is worth their time, and users who&rsquo;ve already decided yes and want to go deeper.
+    </p>
+
+    <div class="cs-solution-grid">
+      <div class="cs-sol-group">
+        <span class="cs-sol-tag">Above the fold &mdash; decision zone</span>
+        <ul>
+          <li><strong>Event title + one-sentence value prop</strong> &mdash; not what it is, but why it matters to the target audience</li>
+          <li><strong>&ldquo;Who this is for&rdquo;</strong> &mdash; a plain-language audience signal, not a long paragraph</li>
+          <li><strong>Date / time / format / duration</strong> &mdash; in a scannable metadata row</li>
+          <li><strong>3&ndash;5 key takeaways</strong> &mdash; written as outcomes, not session titles</li>
+          <li><strong>Speaker trust signal</strong> &mdash; photo, name, title, one-line credential</li>
+          <li><strong>Social proof indicator</strong> &mdash; registrant count or peer interest</li>
+          <li><strong>Sticky registration card</strong> &mdash; one CTA, always visible on scroll</li>
+        </ul>
+      </div>
+      <div class="cs-sol-group">
+        <span class="cs-sol-tag">Below the fold &mdash; depth zone</span>
+        <ul>
+          <li><strong>Full agenda</strong> &mdash; for users who want session-level detail</li>
+          <li><strong>Complete speaker biography</strong> &mdash; for users who want full background</li>
+          <li><strong>FAQ</strong> &mdash; for users with specific logistics questions</li>
+          <li><strong>Additional event context</strong> &mdash; format notes, recording policy, prerequisites</li>
+        </ul>
+      </div>
+      <div class="cs-sol-group full-width">
+        <span class="cs-sol-tag">The principle behind the structure</span>
+        <ul>
+          <li>Every piece of existing content stays on the page &mdash; nothing removed, only reordered</li>
+          <li>The page earns deeper engagement by satisfying the surface decision first</li>
+          <li>Mobile receives its own treatment, not a responsive copy of the desktop layout</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr class="cs-rule">
+
+  <!-- ═══ METRICS ═══ -->
+  <section class="cs-section anim">
+    <span class="cs-section-label">Metrics &amp; Success Criteria</span>
+    <h2 class="cs-h2">What we&rsquo;d measure &mdash; and why clicks alone would mislead</h2>
+
+    <div class="cs-metrics">
+      <div class="cs-metric-block">
+        <span class="cs-metric-type">Primary</span>
+        <ul>
+          <li>Registration conversion rate on the event detail page</li>
+        </ul>
+      </div>
+      <div class="cs-metric-block">
+        <span class="cs-metric-type">Secondary</span>
+        <ul>
+          <li>CTA click-through rate (visibility vs. intent)</li>
+          <li>Scroll depth relative to CTA position</li>
+          <li>Event save and share rate</li>
+        </ul>
+      </div>
+      <div class="cs-metric-block">
+        <span class="cs-metric-type">Guardrail</span>
+        <ul>
+          <li>No-show rate (are we attracting the right attendees?)</li>
+          <li>Registration completion quality</li>
+          <li>Post-event satisfaction signal</li>
+        </ul>
+      </div>
+      <div class="cs-metric-block">
+        <span class="cs-metric-type">Why clicks alone mislead</span>
+        <ul>
+          <li>A fast registration also means a short session &mdash; bounce rate conflates two different behaviors</li>
+          <li>CTA visibility is a prerequisite for a click; without scroll context, causality is unclear</li>
+          <li>More signups only matter if they produce genuine attendance, not just registrations</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr class="cs-rule">
+
+  <!-- ═══ TRADEOFFS ═══ -->
+  <section class="cs-section anim">
+    <span class="cs-section-label">Business Tradeoffs</span>
+    <h2 class="cs-h2">The tensions worth naming explicitly</h2>
+
+    <div class="cs-tradeoff-list">
+      <div class="cs-tradeoff">
+        <div class="cs-tradeoff-side">
+          <strong>Summary-first layout</strong>
+          Faster decisions for ready-to-commit users; better mobile experience; lower cognitive load.
+        </div>
+        <div class="cs-tradeoff-vs">vs.</div>
+        <div class="cs-tradeoff-side">
+          <strong>Detail-first layout</strong>
+          More upfront context for complex events; organizers feel their event is fully represented; users who research deeply can do so immediately.
+        </div>
+      </div>
+      <div class="cs-tradeoff">
+        <div class="cs-tradeoff-side">
+          <strong>Optimizing for conversion rate</strong>
+          Clearer path to registration; more registrations per session; measurable business impact.
+        </div>
+        <div class="cs-tradeoff-vs">vs.</div>
+        <div class="cs-tradeoff-side">
+          <strong>Optimizing for attendee quality</strong>
+          Users who understand the full event are more likely to show up and engage; lower no-show rate; stronger organizer trust in the platform.
+        </div>
+      </div>
+      <div class="cs-tradeoff">
+        <div class="cs-tradeoff-side">
+          <strong>A single page template</strong>
+          Simpler to build and test; easier to iterate; consistent experience across event types.
+        </div>
+        <div class="cs-tradeoff-vs">vs.</div>
+        <div class="cs-tradeoff-side">
+          <strong>Event-type-specific layouts</strong>
+          A 2-hour workshop and a 30-minute lunch have different information needs; one template may serve neither well.
+        </div>
+      </div>
+    </div>
+
+    <p class="cs-p" style="margin-top: 24px;">
+      None of these tradeoffs resolve themselves. Naming them clearly is part of the product work &mdash; they shape whether the redesign ships as the default template or as an opt-in format, and they inform what the A/B test is actually designed to learn.
+    </p>
+  </section>
+
+  <hr class="cs-rule">
+
+  <!-- ═══ WHAT I LEARNED ═══ -->
+  <section class="cs-section anim">
+    <span class="cs-section-label">What I Learned</span>
+    <h2 class="cs-h2">The insight only visible when you use both sources</h2>
+    <div class="cs-reflection">
+      <p>
+        The most durable lesson from this project is that user interviews and behavioral data are not competing sources of truth. They&rsquo;re complementary &mdash; and you need both to understand a product problem accurately.
+      </p>
+      <p>
+        <strong>Interviews told me what users were trying to accomplish and where they felt uncertain.</strong> They explained the motivation behind behavior. But interviews can&rsquo;t tell you what users actually do when left alone with the product. People describe idealized versions of their own decision-making, and the gap between what they say and what they do is often exactly where the design problem lives.
+      </p>
+      <p>
+        <strong>Behavioral data told me what users actually did:</strong> how far they scrolled, where they dropped off, which elements they interacted with. It revealed that the information users said they were missing was already on the page &mdash; they just weren&rsquo;t reaching it. Without the quantitative signal, I might have built exactly the wrong thing: more content, more sections, more of what wasn&rsquo;t working.
+      </p>
+      <p>
+        Relying on one source alone would have produced a confident but wrong decision. Interviews alone send you toward a longer, richer page. Analytics alone might suggest the problem is the event type or the page length &mdash; without explaining why users were leaving or what they were actually missing.
+      </p>
+      <p>
+        <strong>The insight that users want faster clarity, not more content, only becomes visible when both sources are read together and the gap between them is taken seriously.</strong> That gap isn&rsquo;t a contradiction to explain away. It&rsquo;s where the actual product problem lives &mdash; and it&rsquo;s the thing worth building toward.
+      </p>
+    </div>
+  </section>
+
+  <hr class="cs-rule">
+
+  <!-- ═══ NEXT STEPS ═══ -->
+  <section class="cs-section anim">
+    <span class="cs-section-label">Next Steps</span>
+    <h2 class="cs-h2">What validation looks like</h2>
+
+    <div class="cs-next">
+      <div class="cs-next-item">
+        <p><strong>A/B test the layout</strong> Summary-first vs. current detail-heavy structure, measured against registration conversion and scroll depth. Run long enough to capture different event types and audience segments.</p>
+      </div>
+      <div class="cs-next-item">
+        <p><strong>Segment by device</strong> Mobile deserves its own treatment &mdash; the drop-off gap is large enough that a responsive version of the desktop redesign may not be sufficient.</p>
+      </div>
+      <div class="cs-next-item">
+        <p><strong>Test trust signals independently</strong> Does registrant count improve conversion more than speaker credential? Different trust cues may resonate with different segments. There&rsquo;s enough uncertainty here to run a dedicated test.</p>
+      </div>
+      <div class="cs-next-item">
+        <p><strong>Evaluate organizer satisfaction</strong> If the redesign increases registrations, does it also change how organizers feel about how their event is represented? That answer shapes whether this becomes the default template or an opt-in format.</p>
+      </div>
+    </div>
+  </section>
+
+  <a href="../index.html#work" class="cs-back anim">&larr; Back to selected work</a>
+
+</main>
+
+<footer class="site-footer">Swati Iyer &middot; 2026</footer>
+
+<script>
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.06, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.anim, .anim-left').forEach(el => obs.observe(el));
+</script>
+
 </body>
 </html>
