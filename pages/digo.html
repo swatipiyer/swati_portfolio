@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digo Case Study - Swati Iyer</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" type="image/png" href="../assets/swatiiyer-logo-tab.png">
+  <link rel="apple-touch-icon" href="../assets/swatiiyer-logo-tab.png">
+  <style>
+    body {
+      background:
+        linear-gradient(180deg, #f5efe5 0%, #f1eadf 220px, #f8f5fc 100%);
+    }
+    .digo-shell {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 132px 32px 88px;
+    }
+    .digo-kicker {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #8b7557;
+      margin-bottom: 16px;
+    }
+    .digo-title {
+      font-family: var(--display);
+      font-size: clamp(52px, 7vw, 88px);
+      line-height: 0.94;
+      letter-spacing: -0.05em;
+      color: #2f2317;
+      max-width: 1100px;
+      margin-bottom: 18px;
+    }
+    .digo-role {
+      font-size: 18px;
+      font-weight: 700;
+      color: #9a7744;
+      margin-bottom: 34px;
+    }
+    .digo-hero-image {
+      margin-bottom: 28px;
+      border-radius: 30px;
+      overflow: hidden;
+      border: 1px solid rgba(47, 35, 23, 0.08);
+      box-shadow: 0 22px 58px rgba(58, 44, 28, 0.12);
+      background: #fff;
+    }
+    .digo-hero-image img {
+      width: 100%;
+      display: block;
+      border-radius: 0;
+    }
+    .digo-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+    .digo-card,
+    .digo-results {
+      background: rgba(255, 255, 255, 0.84);
+      border: 1px solid rgba(47, 35, 23, 0.08);
+      border-radius: 26px;
+      padding: 30px 34px;
+      box-shadow: 0 14px 30px rgba(58, 44, 28, 0.06);
+    }
+    .digo-card-label,
+    .digo-results-label {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #9a7744;
+      margin-bottom: 18px;
+      display: inline-block;
+    }
+    .digo-card p,
+    .digo-results li,
+    .digo-summary p {
+      font-size: 17px;
+      line-height: 1.75;
+      color: #43362a;
+    }
+    .digo-card p { margin: 0; }
+    .digo-card strong,
+    .digo-results strong {
+      color: #2d2318;
+    }
+    .digo-results {
+      margin-top: 24px;
+    }
+    .digo-results ul {
+      margin: 0;
+      padding-left: 24px;
+      display: grid;
+      gap: 14px;
+    }
+    .digo-summary {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: 0.92fr 1.08fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+    .digo-summary-copy {
+      background: rgba(255, 255, 255, 0.84);
+      border: 1px solid rgba(47, 35, 23, 0.08);
+      border-radius: 26px;
+      padding: 30px 34px;
+      box-shadow: 0 14px 30px rgba(58, 44, 28, 0.06);
+    }
+    .digo-summary-copy h2 {
+      font-family: var(--display);
+      font-size: clamp(28px, 3vw, 40px);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: #2f2317;
+      margin-bottom: 14px;
+    }
+    .digo-summary-copy p {
+      margin-bottom: 14px;
+    }
+    .digo-summary-visual {
+      border-radius: 26px;
+      overflow: hidden;
+      border: 1px solid rgba(47, 35, 23, 0.08);
+      box-shadow: 0 18px 42px rgba(58, 44, 28, 0.08);
+      background: #fff;
+    }
+    .digo-summary-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 0;
+    }
+    .digo-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 32px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(47, 35, 23, 0.1);
+      color: #5c4834;
+      font-weight: 600;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .digo-back:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(58, 44, 28, 0.08);
+    }
+    @media (max-width: 900px) {
+      .digo-grid,
+      .digo-summary {
+        grid-template-columns: 1fr;
+      }
+      .digo-shell {
+        padding: 120px 20px 72px;
+      }
+      .digo-card,
+      .digo-results,
+      .digo-summary-copy {
+        padding: 24px 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">&larr; Back</a>
+    <div class="nav-links">
+      <a href="../index.html#work">Work</a>
+      <a href="../index.html#explore">Explore</a>
+      <a href="mailto:iyerswatip@gmail.com">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<main class="digo-shell">
+  <div class="digo-kicker">Featured Case Study</div>
+  <h1 class="digo-title">Digo, AI Event Management Platform</h1>
+  <div class="digo-role">Founding Product Manager</div>
+
+  <div class="digo-hero-image anim visible">
+    <img src="../assets/digo2.png" alt="Digo platform event listing and browsing interface">
+  </div>
+
+  <section class="digo-grid">
+    <article class="digo-card anim visible">
+      <span class="digo-card-label">Problem</span>
+      <p>Student orgs, small businesses, and community groups waste 10+ hours per event on manual coordination, stitching together Google Forms, Sheets, email, Venmo, and group chats. Existing tools like Eventbrite solve ticketing, not the full event lifecycle. I interviewed 10+ event organizers and found that <strong>40% of their time goes to admin tasks that could be automated</strong>, and the #1 pain point is last-minute changes that force manual updates across 4-5 disconnected tools.</p>
+    </article>
+
+    <article class="digo-card anim visible">
+      <span class="digo-card-label">Research</span>
+      <p>I mapped end-to-end workflows for organizers managing 5-50 events per year on limited budgets. The key insight was that the problem is not any single tool. It is fragmentation. Every change, whether that is a venue update, time shift, or speaker cancellation, cascades across forms, emails, and spreadsheets with no single source of truth. Competitive analysis confirmed that no affordable platform covers registration, communication, and real-time visibility together.</p>
+    </article>
+
+    <article class="digo-card anim visible">
+      <span class="digo-card-label">Strategy</span>
+      <p>I used RICE scoring to prioritize the MVP around three high-impact features: automated event page creation with built-in registration, attendee communication and reminders, and a real-time organizer dashboard. I explicitly deprioritized payment processing and vendor management to v2. They scored high on reach but low on confidence because of integration complexity.</p>
+    </article>
+
+    <article class="digo-card anim visible">
+      <span class="digo-card-label">Execution</span>
+      <p>As the founding PM, I drove platform development from discovery through delivery. I owned product requirements, UX design in Figma, sprint planning, and user feedback sessions. Working closely with engineering, I prioritized features using RICE scoring and scoped sprints to weekly deliverables based on interview priorities. I also facilitated rapid iteration using AI-powered development tools like Cursor and GitHub Copilot.</p>
+    </article>
+  </section>
+
+  <section class="digo-results anim visible">
+    <span class="digo-results-label">Results</span>
+    <ul>
+      <li><strong>40% reduction</strong> in manual event setup time for pilot users.</li>
+      <li>Currently in MVP with active users testing the platform.</li>
+      <li>Defined product roadmap through Q3 2026 with <strong>12 planned features</strong> prioritized by user interview data.</li>
+    </ul>
+  </section>
+
+  <section class="digo-summary">
+    <div class="digo-summary-copy anim visible">
+      <h2>What This Work Shows</h2>
+      <p>This project captures how I work as a founding PM: start with workflow pain, get specific about the operational bottleneck, and cut scope until the MVP becomes sharp enough to ship.</p>
+      <p>The most important product decision was not adding features. It was deciding what to leave out so Digo could solve the highest-friction part of the organizer experience first.</p>
+      <a href="../index.html#work" class="digo-back">&larr; Back to selected work</a>
+    </div>
+    <div class="digo-summary-visual anim visible">
+      <img src="../assets/digo1.png" alt="Digo event detail page with agenda, follow actions, and organizer tools">
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">Swati Iyer · 2026</footer>
+
+<script>
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
+  document.querySelectorAll('.anim, .anim-left, .anim-scale').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>

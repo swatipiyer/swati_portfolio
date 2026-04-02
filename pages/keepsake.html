@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KeepSake - Swati Iyer</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" type="image/png" href="../assets/swatiiyer-logo-tab.png">
+  <link rel="apple-touch-icon" href="../assets/swatiiyer-logo-tab.png">
+  <style>
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(79, 138, 129, 0.14), transparent 30%),
+        linear-gradient(180deg, #f7fbfa 0%, #eef6f3 280px, #f8f5fc 760px);
+    }
+    .ks-shell {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 132px 28px 96px;
+    }
+    .ks-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+      gap: 34px;
+      align-items: center;
+      margin-bottom: 52px;
+    }
+    .ks-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(31, 94, 84, 0.08);
+      color: #1f5e54;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .ks-eyebrow::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4d9086;
+    }
+    .ks-hero h1 {
+      font-family: var(--display);
+      font-size: clamp(46px, 7vw, 82px);
+      line-height: 0.96;
+      letter-spacing: -0.05em;
+      color: #16312b;
+      margin-bottom: 18px;
+    }
+    .ks-subhead {
+      max-width: 620px;
+      font-size: 18px;
+      line-height: 1.75;
+      color: #4f615f;
+      margin-bottom: 28px;
+    }
+    .ks-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .ks-chip {
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(22, 49, 43, 0.08);
+      font-size: 13px;
+      color: #34534c;
+      box-shadow: 0 10px 30px rgba(35, 72, 63, 0.06);
+    }
+    .ks-hero-visual {
+      position: relative;
+      min-height: 520px;
+    }
+    .ks-hero-card,
+    .ks-hero-card-secondary {
+      position: absolute;
+      overflow: hidden;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow: 0 26px 60px rgba(45, 86, 76, 0.16);
+    }
+    .ks-hero-card {
+      inset: 0 12% 10% 0;
+      transform: rotate(-3deg);
+    }
+    .ks-hero-card-secondary {
+      right: 0;
+      bottom: 0;
+      width: 52%;
+      transform: rotate(5deg);
+    }
+    .ks-hero-card img,
+    .ks-hero-card-secondary img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 0;
+    }
+    .ks-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+    .ks-card {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(22, 49, 43, 0.08);
+      border-radius: 28px;
+      padding: 30px;
+      box-shadow: 0 14px 36px rgba(46, 83, 76, 0.07);
+    }
+    .ks-card h2,
+    .ks-wide h2,
+    .ks-section h2 {
+      font-family: var(--display);
+      font-size: clamp(28px, 3.3vw, 40px);
+      letter-spacing: -0.04em;
+      color: #18352f;
+      margin-bottom: 14px;
+    }
+    .ks-card p,
+    .ks-wide p,
+    .ks-section p {
+      color: #506562;
+      line-height: 1.8;
+      font-size: 15.5px;
+      margin-bottom: 14px;
+    }
+    .ks-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+    .ks-stat {
+      padding: 18px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(77, 144, 134, 0.12), rgba(77, 144, 134, 0.03));
+      border: 1px solid rgba(77, 144, 134, 0.12);
+    }
+    .ks-stat strong {
+      display: block;
+      font-size: 28px;
+      line-height: 1;
+      color: #17483f;
+      margin-bottom: 6px;
+    }
+    .ks-stat span {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #5b7f79;
+    }
+    .ks-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 20px;
+    }
+    .ks-list-item {
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(77, 144, 134, 0.06);
+      border: 1px solid rgba(77, 144, 134, 0.12);
+    }
+    .ks-list-item strong {
+      display: block;
+      margin-bottom: 6px;
+      color: #204942;
+      font-size: 14px;
+    }
+    .ks-list-item span {
+      color: #55706b;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .ks-wide {
+      margin: 24px 0;
+      padding: 34px;
+      border-radius: 32px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.84), rgba(236, 246, 243, 0.96));
+      border: 1px solid rgba(22, 49, 43, 0.08);
+      box-shadow: 0 16px 42px rgba(46, 83, 76, 0.08);
+    }
+    .ks-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .ks-pill {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: #16312b;
+      color: #eef6f3;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .ks-process {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+    .ks-step {
+      padding: 20px 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(22, 49, 43, 0.08);
+    }
+    .ks-step .week {
+      display: inline-block;
+      margin-bottom: 10px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #4d9086;
+    }
+    .ks-step h3 {
+      font-size: 16px;
+      color: #1d4039;
+      margin-bottom: 8px;
+    }
+    .ks-step p {
+      font-size: 14px;
+      line-height: 1.65;
+      color: #56706b;
+      margin: 0;
+    }
+    .ks-image-panel {
+      margin: 24px 0;
+      border-radius: 28px;
+      overflow: hidden;
+      border: 1px solid rgba(22, 49, 43, 0.08);
+      background: #fff;
+      box-shadow: 0 18px 44px rgba(45, 86, 76, 0.1);
+    }
+    .ks-image-panel img {
+      width: 100%;
+      display: block;
+      border-radius: 0;
+    }
+    .ks-caption {
+      padding: 16px 18px;
+      font-size: 13px;
+      color: #5d7772;
+      background: rgba(242, 248, 246, 0.88);
+      border-top: 1px solid rgba(22, 49, 43, 0.08);
+    }
+    .ks-section {
+      margin-top: 28px;
+      padding-top: 28px;
+      border-top: 1px solid rgba(22, 49, 43, 0.09);
+    }
+    .ks-two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .ks-feature-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .ks-feature-list div {
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(77, 144, 134, 0.06);
+      color: #4f6863;
+      line-height: 1.7;
+    }
+    .ks-feature-list strong {
+      color: #1a413a;
+    }
+    .ks-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 36px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(22, 49, 43, 0.12);
+      color: #375a53;
+      background: rgba(255,255,255,0.7);
+      font-weight: 600;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .ks-back:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 26px rgba(46, 83, 76, 0.12);
+    }
+    @media (max-width: 900px) {
+      .ks-hero,
+      .ks-grid,
+      .ks-two-col,
+      .ks-process {
+        grid-template-columns: 1fr;
+      }
+      .ks-hero-visual {
+        min-height: 420px;
+      }
+      .ks-hero-card {
+        inset: 0 8% 14% 0;
+      }
+      .ks-hero-card-secondary {
+        width: 58%;
+      }
+    }
+    @media (max-width: 600px) {
+      .ks-shell {
+        padding: 120px 20px 72px;
+      }
+      .ks-card,
+      .ks-wide {
+        padding: 24px 20px;
+        border-radius: 24px;
+      }
+      .ks-hero-visual {
+        min-height: 340px;
+      }
+      .ks-hero-card-secondary {
+        width: 64%;
+      }
+      .ks-stat-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">&larr; Back</a>
+      <div class="nav-links">
+        <a href="../index.html#work">Work</a>
+        <a href="../index.html#explore">Explore</a>
+        <a href="mailto:iyerswatip@gmail.com">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="ks-shell">
+    <header class="ks-hero anim visible">
+      <div>
+        <span class="ks-eyebrow">Product Design Sprint · 6 Weeks</span>
+        <h1>KeepSake</h1>
+        <p class="ks-subhead">A secure family archive designed to hold both high-stakes records and the stories people actually want to pass down.</p>
+        <div class="ks-meta">
+          <span class="ks-chip">Role: Synthesis and ideation lead</span>
+          <span class="ks-chip">Tools: Figma, surveys, interviews, affinity mapping</span>
+          <span class="ks-chip">Team: 5-person student design sprint</span>
+          <a href="https://davisdesigninteractive.medium.com/keepsake-a-ux-case-study-802642f56654" target="_blank" class="ks-chip" style="text-decoration:none;font-weight:600;">Read original Medium article &rarr;</a>
+        </div>
+      </div>
+      <div class="ks-hero-visual">
+        <div class="ks-hero-card">
+          <img src="../assets/keepsake.webp" alt="KeepSake app concept with family tree, dashboard, and document sharing screens">
+        </div>
+        <div class="ks-hero-card-secondary">
+          <img src="../assets/keepsake2.webp" alt="KeepSake persona board highlighting user needs and frustrations">
+        </div>
+      </div>
+    </header>
+
+    <section class="ks-grid">
+      <div class="ks-card anim visible">
+        <h2>Overview</h2>
+        <p>Families already store critical information somewhere, but it is usually split across paper folders, cloud drives, text threads, and the memory of one responsible person. That makes it hard to find documents when they matter, and even harder to preserve stories, recipes, photos, and health context across generations.</p>
+        <p>We designed KeepSake as a shared family archive that treats documents and memories as part of the same system. The concept combined secure storage, permission-based sharing, family profiles, and legacy planning in one place.</p>
+        <div class="ks-stat-grid">
+          <div class="ks-stat">
+            <strong>60</strong>
+            <span>survey respondents</span>
+          </div>
+          <div class="ks-stat">
+            <strong>15</strong>
+            <span>user interviews</span>
+          </div>
+          <div class="ks-stat">
+            <strong>2</strong>
+            <span>rounds of testing</span>
+          </div>
+          <div class="ks-stat">
+            <strong>5</strong>
+            <span>core product surfaces</span>
+          </div>
+        </div>
+      </div>
+      <aside class="ks-card anim visible">
+        <h2>My Role</h2>
+        <div class="ks-list">
+          <div class="ks-list-item">
+            <strong>Week 2 lead</strong>
+            <span>I led synthesis and ideation, including affinity mapping, information architecture, and low-fidelity wireframing.</span>
+          </div>
+          <div class="ks-list-item">
+            <strong>Product framing</strong>
+            <span>I helped translate research from a document-storage problem into a broader family-archive concept with stronger emotional value.</span>
+          </div>
+          <div class="ks-list-item">
+            <strong>Design direction</strong>
+            <span>I shaped the early navigation model and feature set that later carried into prototyping and high-fidelity flows.</span>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="ks-wide anim visible">
+      <h2>The Core Problem</h2>
+      <p>Traditional ways of sharing family knowledge are fragmented, insecure, or inaccessible to the people who need them most. Important files may live in one folder, while personal history lives in photos, recipes, or stories that never make it into a system at all.</p>
+      <p>We started with a question about secure records, but our research revealed a more human one: how might families preserve information that is both practical and meaningful?</p>
+      <div class="ks-pill-row">
+        <span class="ks-pill">Secure storage</span>
+        <span class="ks-pill">Family memory</span>
+        <span class="ks-pill">Legacy planning</span>
+        <span class="ks-pill">Shared access</span>
+      </div>
+    </section>
+
+    <section class="ks-wide anim visible">
+      <h2>Sprint Structure</h2>
+      <p>This was a six-week student-led design sprint with clear ownership by week, which made it easier to move quickly while still handing off work between research, synthesis, testing, and visual refinement.</p>
+      <div class="ks-process">
+        <div class="ks-step">
+          <span class="week">Week 1</span>
+          <h3>Research</h3>
+          <p>Surveys, interviews, and competitive analysis established the initial problem space around document management.</p>
+        </div>
+        <div class="ks-step">
+          <span class="week">Week 2</span>
+          <h3>Synthesis</h3>
+          <p>I led affinity mapping, information architecture, and low-fidelity exploration to define what the product should actually be.</p>
+        </div>
+        <div class="ks-step">
+          <span class="week">Weeks 3 to 4</span>
+          <h3>Mid-Fi + Testing</h3>
+          <p>The team turned the structure into prototype flows and pressure-tested clarity, security, and navigation with users.</p>
+        </div>
+        <div class="ks-step">
+          <span class="week">Weeks 5 to 6</span>
+          <h3>Hi-Fi Refinement</h3>
+          <p>We finalized design systems, polished the product language, and integrated usability feedback into the final concept.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="ks-section anim visible">
+      <h2>Research That Changed the Product</h2>
+      <p>Our original framing leaned heavily toward storing high-stakes documents. That stayed important, but the stronger signal from research was emotional continuity. Users wanted a place for confidential forms and a place for family memorabilia, not two separate products.</p>
+      <p>Survey participants were cautious about uploading sensitive files online, but they became more open when multiple layers of security were present. Interview participants pushed the concept even further by describing a desire to preserve photos, recipes, timelines, and stories that could be passed down over time.</p>
+      <div class="ks-two-col">
+        <div class="ks-card">
+          <h2>Key Research Goals</h2>
+          <div class="ks-feature-list">
+            <div><strong>Identify pain points</strong><br>How people manage sensitive family files today, and where trust breaks down.</div>
+            <div><strong>Understand platform preferences</strong><br>What would make people willing to use a digital archive instead of paper or ad hoc storage.</div>
+            <div><strong>Design for safety and clarity</strong><br>How to make the experience feel secure without making it overwhelming.</div>
+          </div>
+        </div>
+        <div class="ks-card">
+          <h2>Main Insight</h2>
+          <p>The opportunity was not just "store documents online." It was to create one system for records, memories, and legacy handoff. That shift gave the product both stronger utility and a more differentiated emotional reason to exist.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="ks-image-panel anim visible">
+      <img src="../assets/keepsake2.webp" alt="KeepSake persona board with two representative users and their goals">
+      <div class="ks-caption">We translated research into personas that reflected both practical needs, like secure access to records, and emotional needs, like preserving family stories and memorabilia.</div>
+    </div>
+
+    <section class="ks-section anim visible">
+      <h2>How We Synthesized the Problem</h2>
+      <p>Affinity mapping helped us organize findings into themes like security, accessibility, habits, organization, and emotional value. That work made it easier to see where people were aligned and where the product needed to balance competing needs.</p>
+      <p>From there, I helped build the information architecture for five primary surfaces: onboarding, dashboard, documents, family tree, and profile settings. The goal was to create a product that felt coherent even though it was solving for both archival storage and family storytelling.</p>
+    </section>
+
+    <div class="ks-image-panel anim visible">
+      <img src="../assets/keepsake.webp" alt="KeepSake concept screens showing dashboard, family tree, personal profile, and document sharing">
+      <div class="ks-caption">The concept brought together secure documents, family profiles, and shared history into one experience instead of separating them into disconnected tools.</div>
+    </div>
+
+    <section class="ks-section anim visible">
+      <h2>Product Direction and Key Flows</h2>
+      <div class="ks-two-col">
+        <div class="ks-card">
+          <h2>1. Secure onboarding</h2>
+          <p>We prioritized trust early. The onboarding flow introduced identity verification, a four-digit access pin, and visible progress cues so the security model felt intentional rather than hidden.</p>
+        </div>
+        <div class="ks-card">
+          <h2>2. Documents with permissions</h2>
+          <p>Document upload and sharing focused on clarity. Users needed folder organization, permission controls, and confidence that the right file was reaching the right family member.</p>
+        </div>
+      </div>
+      <div class="ks-two-col" style="margin-top:24px;">
+        <div class="ks-card">
+          <h2>3. Family tree as archive</h2>
+          <p>The family tree became more than genealogy. It was designed as a way to navigate profiles, timelines, photos, memorabilia, and health context through relationships.</p>
+        </div>
+        <div class="ks-card">
+          <h2>4. Profile settings for control</h2>
+          <p>Privacy, accessibility, legacy access, linked accounts, and security settings all lived in one place so users could feel ownership over what was shared and with whom.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="ks-section anim visible">
+      <h2>Testing and Iteration</h2>
+      <p>After mid-fidelity prototyping, the team ran two rounds of usability testing: one with five design students at UC Davis and one with two family members for more real-world perspective. We tested whether onboarding felt appropriate for the product, whether document sharing felt secure, whether family-tree navigation was understandable, and whether profile settings felt usable instead of intimidating.</p>
+      <p>The biggest takeaway was that users accepted stronger security when the logic was visible and the flow stayed clear. Trust did not come from simply adding more controls. It came from explaining the system and sequencing it in a way that felt understandable.</p>
+    </section>
+
+    <section class="ks-section anim visible">
+      <h2>Final Concept</h2>
+      <p>The high-fidelity concept leaned into a calm, minimal interface with green as the main accent to signal trust, stability, and continuity. The final design emphasized five connected interactions: onboarding, dashboard, documents, family tree, and profile settings.</p>
+      <div class="ks-feature-list">
+        <div><strong>Verify identity + four-digit pin</strong><br>Security mechanisms were made explicit to support trust around confidential files.</div>
+        <div><strong>Granular sharing controls</strong><br>Users could choose who received access and what level of access they had.</div>
+        <div><strong>Legacy access and linked accounts</strong><br>The concept accounted for emergencies, caregivers, minors, and family administration.</div>
+        <div><strong>Memorabilia and medical context in one system</strong><br>The archive was designed to support both practical needs and generational storytelling.</div>
+      </div>
+    </section>
+
+    <section class="ks-section anim visible">
+      <h2>Challenges</h2>
+      <p>The hardest design tension was balancing security with ease of access. A meaningful family archive needs privacy controls, but it also has to be usable by people with different levels of technical confidence.</p>
+      <p>Another challenge was conceptual: we were effectively connecting two products, a secure document vault and a family-memory platform, into one experience. That required us to keep revisiting our how-might-we statements, user flows, and priorities as the concept evolved.</p>
+    </section>
+
+    <section class="ks-section anim visible">
+      <h2>What I Took Away</h2>
+      <p>This project reinforced how non-linear design work really is. The strongest version of the concept did not come from pushing forward on the original idea. It came from listening closely enough to pivot when the research revealed a deeper user need.</p>
+      <p>If we had more time, I would explore richer document-viewing experiences, more tailored micro-interactions for different artifact types like recipes and certificates, and a responsive mobile-to-desktop system that made family collaboration feel even more alive.</p>
+      <a href="../index.html#work" class="ks-back">Back to selected work &rarr;</a>
+    </section>
+  </main>
+</body>
+</html>
