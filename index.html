@@ -36,24 +36,24 @@
 
     #terminal-text {
       box-sizing: border-box;
-      color: #8b5eab;
-      font-size: clamp(12px, 1.4vw, 14px);
-      line-height: 1.9;
+      color: #c89cff;
+      font-size: clamp(14px, 1.7vw, 18px);
+      line-height: 2;
       width: min(680px, calc(100vw - 48px));
       max-width: 680px;
       padding: 2rem;
       white-space: pre-wrap;
-      text-shadow: 0 0 12px rgba(139, 94, 171, 0.3);
+      text-shadow: 0 0 16px rgba(200, 156, 255, 0.35);
     }
     #terminal-text .t-cursor {
       display: inline-block;
       width: 8px;
       height: 15px;
-      background: #8b5eab;
+      background: #c89cff;
       animation: t-blink 0.6s step-end infinite;
       vertical-align: text-bottom;
       margin-left: 2px;
-      box-shadow: 0 0 8px rgba(139, 94, 171, 0.5);
+      box-shadow: 0 0 10px rgba(200, 156, 255, 0.55);
     }
     @keyframes t-blink { 50% { opacity: 0; } }
 
@@ -65,9 +65,9 @@
       background: repeating-linear-gradient(
         0deg,
         transparent,
-        transparent 2px,
-        rgba(139, 94, 171, 0.015) 2px,
-        rgba(139, 94, 171, 0.015) 4px
+        transparent 3px,
+        rgba(139, 94, 171, 0.008) 3px,
+        rgba(139, 94, 171, 0.008) 6px
       );
       pointer-events: none;
       z-index: 1;
@@ -125,12 +125,12 @@
       align-items: center;
       gap: 8px;
       font-family: 'IBM Plex Mono', 'Courier New', monospace;
-      font-size: clamp(12px, 1.4vw, 14px);
+      font-size: clamp(14px, 1.7vw, 18px);
       font-weight: 400;
-      line-height: 1.9;
+      line-height: 2;
       letter-spacing: 0;
-      color: #8b5eab;
-      text-shadow: 0 0 12px rgba(139, 94, 171, 0.3);
+      color: #c89cff;
+      text-shadow: 0 0 16px rgba(200, 156, 255, 0.35);
     }
     .terminal-launch-command {
       position: relative;
@@ -141,7 +141,7 @@
       white-space: nowrap;
     }
     .terminal-launch-prompt {
-      color: #8b5eab;
+      color: #c89cff;
       font-family: 'IBM Plex Mono', 'Courier New', monospace;
       font-weight: 400;
       font-size: inherit;
@@ -185,8 +185,8 @@
       width: 12px;
       height: 1.32em;
       margin-left: 3px;
-      background: #8b5eab;
-      box-shadow: 0 0 10px rgba(139, 94, 171, 0.42);
+      background: #c89cff;
+      box-shadow: 0 0 12px rgba(200, 156, 255, 0.48);
       animation: t-blink 0.8s step-end infinite;
       vertical-align: text-bottom;
       flex: 0 0 auto;
@@ -411,10 +411,10 @@
           <div><span class="t-dir">onboarding/</span> <span class="t-dir">conversion/</span></div>
           <div><span class="t-dir">experimentation/</span></div>
           <div>&nbsp;</div>
-          <div><span class="t-label">impact snapshot</span></div>
-          <div class="t-out">privacy-focused product</div>
-          <div class="t-out">decisions across recent</div>
-          <div class="t-out">PM and research roles</div>
+          <div><span class="t-dim">~ </span><span class="t-prompt">$</span> <span class="t-cmd">ls impact-snapshot/</span></div>
+          <div><span class="t-dir">privacy-focused-product/</span></div>
+          <div><span class="t-dir">recent-pm-decisions/</span></div>
+          <div><span class="t-dir">research-roles/</span></div>
           <div>&nbsp;</div>
           <div><span class="t-prompt">$</span> <span class="hero-terminal-blink"></span></div>
         </div>
@@ -1472,6 +1472,12 @@
     const launchDisplay = document.getElementById('terminal-launch-display');
     const skipBtn = document.getElementById('terminal-skip');
     if (!bootEl || !textEl || !launchForm || !launchInput || !launchDisplay) return;
+    const introSeenKey = 'swati-portfolio-intro-seen';
+
+    if (window.sessionStorage.getItem(introSeenKey) === 'true') {
+      bootEl.classList.add('gone');
+      return;
+    }
 
     const lines = [
       '> booting up ...',
@@ -1500,6 +1506,7 @@
     function finishBoot() {
       if (done) return;
       done = true;
+      window.sessionStorage.setItem(introSeenKey, 'true');
       setTimeout(() => {
         bootEl.classList.add('fade-out');
         setTimeout(() => {
