@@ -440,18 +440,18 @@ img { max-width: 100%; display: block; border-radius: var(--radius-sm); }
 }
 
 .hc-1 { --clip-rotate: -6deg; left: 8%; top: 19%; width: 300px; }
-.hc-2 { --clip-rotate: 8deg; right: 11%; top: 24%; width: 205px; }
-.hc-3 { --clip-rotate: -8deg; left: 11%; bottom: 13%; width: 250px; }
+.hc-2 { --clip-rotate: 8deg; left: 10%; bottom: 12%; width: 205px; }
+.hc-3 { --clip-rotate: -8deg; right: 11%; bottom: 13%; width: 250px; }
 
 @media (max-width: 1200px) {
   .hc-1 { left: 5%; top: 20%; width: 230px; }
-  .hc-2 { right: 7%; top: 24%; width: 162px; }
-  .hc-3 { left: 7%; bottom: 12%; width: 205px; }
+  .hc-2 { left: 5%; bottom: 11%; width: 162px; }
+  .hc-3 { right: 7%; bottom: 12%; width: 205px; }
 }
 @media (max-width: 768px) {
-  .hc-1 { --clip-rotate: -5deg; left: 3%; bottom: 8%; top: auto; width: 150px; opacity: 0.9; }
-  .hc-2 { --clip-rotate: 7deg; right: 3%; top: 18%; width: 118px; opacity: 0.92; }
-  .hc-3 { --clip-rotate: -7deg; left: 4%; top: 18%; bottom: auto; width: 142px; opacity: 0.88; }
+  .hc-1 { --clip-rotate: -5deg; left: 3%; top: 18%; width: 150px; opacity: 0.9; }
+  .hc-2 { --clip-rotate: 7deg; left: 4%; bottom: 8%; width: 118px; opacity: 0.92; }
+  .hc-3 { --clip-rotate: -7deg; right: 3%; bottom: 8%; width: 142px; opacity: 0.88; }
   .hero-clip .clip-tooltip { display: none; }
   .hero::before { display: none; }
 }
@@ -2627,28 +2627,35 @@ img { max-width: 100%; display: block; border-radius: var(--radius-sm); }
   width: 100%;
 }
 
-.connect-availability {
-  display: inline-flex;
+.connect-status {
+  display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 28px;
-  padding: 8px 18px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.connect-section .avail-dot {
-  background: #5cd47a;
-  box-shadow: 0 0 0 3px rgba(92, 212, 122, 0.18);
-}
-
-.connect-section .avail-text {
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 32px;
   font-family: var(--sans);
-  font-style: normal;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.5);
   font-size: 13px;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.01em;
+}
+.connect-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #5cd47a;
+  box-shadow: 0 0 0 3px rgba(92, 212, 122, 0.15);
+  flex-shrink: 0;
+}
+.connect-status-label {
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 600;
+}
+.connect-status-sep {
+  color: rgba(255, 255, 255, 0.2);
+}
+.connect-status-detail {
+  color: rgba(255, 255, 255, 0.35);
+  font-weight: 400;
 }
 
 .connect-heading {
