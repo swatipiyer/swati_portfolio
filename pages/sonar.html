@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sonar - Swati Iyer</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" type="image/png" href="../assets/branding/swatiiyer-logo-tab.png">
+  <link rel="apple-touch-icon" href="../assets/branding/swatiiyer-logo-tab.png">
+  <style>
+    body {
+      background:
+        linear-gradient(180deg, #edf5f4 0%, #e8f0ef 220px, #f4f8f7 100%);
+    }
+    .sonar-shell {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 132px 32px 88px;
+    }
+    .sonar-kicker {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #3d7a6e;
+      margin-bottom: 16px;
+    }
+    .sonar-title {
+      font-family: var(--display);
+      font-size: clamp(52px, 7vw, 88px);
+      line-height: 0.94;
+      letter-spacing: -0.05em;
+      color: #142e29;
+      max-width: 1100px;
+      margin-bottom: 18px;
+    }
+    .sonar-role {
+      font-size: 18px;
+      font-weight: 700;
+      color: #3d7a6e;
+      margin-bottom: 12px;
+    }
+    .sonar-sub {
+      font-size: 17px;
+      line-height: 1.7;
+      color: #3a5c55;
+      max-width: 640px;
+      margin-bottom: 32px;
+    }
+    .sonar-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 36px;
+    }
+    .sonar-tools span {
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 5px 14px;
+      border-radius: 999px;
+      background: rgba(61, 122, 110, 0.1);
+      color: #2d6358;
+      border: 1px solid rgba(61, 122, 110, 0.2);
+    }
+    .sonar-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+    .sonar-card {
+      background: rgba(255, 255, 255, 0.84);
+      border: 1px solid rgba(61, 122, 110, 0.1);
+      border-radius: 26px;
+      padding: 30px 34px;
+      box-shadow: 0 14px 30px rgba(40, 90, 78, 0.06);
+    }
+    .sonar-card-label {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #3d7a6e;
+      margin-bottom: 18px;
+      display: inline-block;
+    }
+    .sonar-card p {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.75;
+      color: #2a4a43;
+    }
+    .sonar-card strong {
+      color: #142e29;
+    }
+    .sonar-summary {
+      margin-top: 24px;
+    }
+    .sonar-summary-copy {
+      background: rgba(255, 255, 255, 0.84);
+      border: 1px solid rgba(61, 122, 110, 0.1);
+      border-radius: 26px;
+      padding: 30px 34px;
+      box-shadow: 0 14px 30px rgba(40, 90, 78, 0.06);
+    }
+    .sonar-summary-copy h2 {
+      font-family: var(--display);
+      font-size: clamp(28px, 3vw, 40px);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: #142e29;
+      margin-bottom: 14px;
+    }
+    .sonar-summary-copy p {
+      font-size: 17px;
+      line-height: 1.75;
+      color: #2a4a43;
+      margin-bottom: 14px;
+    }
+    .sonar-proto-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 18px;
+      padding: 12px 22px;
+      border-radius: 999px;
+      background: #3d7a6e;
+      color: #fff;
+      font-weight: 600;
+      font-size: 15px;
+      text-decoration: none;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .sonar-proto-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(40, 90, 78, 0.18);
+    }
+    .sonar-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 20px;
+      margin-left: 12px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(61, 122, 110, 0.14);
+      color: #3d7a6e;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .sonar-back:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(40, 90, 78, 0.1);
+    }
+    @media (max-width: 900px) {
+      .sonar-grid {
+        grid-template-columns: 1fr;
+      }
+      .sonar-shell {
+        padding: 120px 20px 72px;
+      }
+      .sonar-card,
+      .sonar-summary-copy {
+        padding: 24px 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">&larr; Back</a>
+    <div class="nav-links">
+      <a href="../index.html#work">Work</a>
+      <a href="../index.html#explore">Explore</a>
+      <a href="mailto:iyerswatip@gmail.com">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<main class="sonar-shell">
+  <div class="sonar-kicker">Design Sprint · UC Irvine · 2024</div>
+  <h1 class="sonar-title">Sonar</h1>
+  <div class="sonar-role">Product Designer, True To You Design-A-Thon</div>
+  <p class="sonar-sub">An anonymous music-sharing platform designed to connect people across cultures through the music they love, without the social pressure of public profiles.</p>
+
+  <div class="sonar-tools">
+    <span>Figma</span><span>Rapid Prototyping</span><span>Design Sprint</span>
+  </div>
+
+  <section class="sonar-grid">
+    <article class="sonar-card anim visible">
+      <span class="sonar-card-label">The Prompt</span>
+      <p>The design-a-thon theme was "True To You," asking teams to create something that lets people express who they really are. Most social platforms reward curation over honesty. We wanted to flip that by designing around music taste as identity, stripped of names and photos.</p>
+    </article>
+
+    <article class="sonar-card anim visible">
+      <span class="sonar-card-label">What We Built</span>
+      <p>Sonar is an anonymous music-sharing app where users discover other people through what they listen to, not what they look like. You share tracks, find overlaps with strangers, and connect through shared musical discovery. The prototype focused on the core loop: share, match, explore.</p>
+    </article>
+  </section>
+
+  <section class="sonar-summary">
+    <div class="sonar-summary-copy anim visible">
+      <h2>What I took away</h2>
+      <p>This was a fast build. The interesting constraint was designing a social experience where anonymity is the feature, not the bug. Every screen had to feel personal without revealing the person behind it.</p>
+      <p>It was a good exercise in scoping under pressure and making design decisions that serve the concept instead of defaulting to what social apps usually look like.</p>
+      <div>
+        <a href="https://www.figma.com/proto/xcwQc8pTs7sPHiebcISRYD/truetoyou24?node-id=0-1&t=cPfJzVf1cg2HSyW9-1" target="_blank" rel="noopener" class="sonar-proto-link">View Figma Prototype &rarr;</a>
+        <a href="../index.html#work" class="sonar-back">&larr; Back to selected work</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">Swati Iyer · 2026</footer>
+
+<script>
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
+  document.querySelectorAll('.anim, .anim-left, .anim-scale').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food Recipe Generator - Swati Iyer</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" type="image/png" href="../assets/branding/swatiiyer-logo-tab.png">
+  <link rel="apple-touch-icon" href="../assets/branding/swatiiyer-logo-tab.png">
+  <style>
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(210, 105, 30, 0.12), transparent 30%),
+        linear-gradient(180deg, #fffbf7 0%, #fff5e6 280px, #fef8f0 760px);
+    }
+    .rg-shell {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 132px 28px 96px;
+    }
+    .rg-hero {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 34px;
+      align-items: center;
+      margin-bottom: 52px;
+    }
+    .rg-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(139, 69, 19, 0.08);
+      color: #8B4513;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .rg-eyebrow::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #D2691E;
+    }
+    .rg-hero h1 {
+      font-family: var(--display);
+      font-size: clamp(46px, 7vw, 82px);
+      line-height: 0.96;
+      letter-spacing: -0.05em;
+      color: #5C3317;
+      margin-bottom: 18px;
+    }
+    .rg-subhead {
+      max-width: 620px;
+      font-size: 18px;
+      line-height: 1.75;
+      color: #8B6F47;
+      margin-bottom: 28px;
+    }
+    .rg-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .rg-chip {
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(139, 69, 19, 0.08);
+      font-size: 13px;
+      color: #704214;
+      box-shadow: 0 10px 30px rgba(139, 69, 19, 0.06);
+    }
+    .rg-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+    .rg-card {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(139, 69, 19, 0.08);
+      border-radius: 28px;
+      padding: 30px;
+      box-shadow: 0 14px 36px rgba(210, 105, 30, 0.07);
+    }
+    .rg-card h2,
+    .rg-wide h2,
+    .rg-section h2 {
+      font-family: var(--display);
+      font-size: clamp(28px, 3.3vw, 40px);
+      letter-spacing: -0.04em;
+      color: #5C3317;
+      margin-bottom: 14px;
+    }
+    .rg-card p,
+    .rg-wide p,
+    .rg-section p {
+      color: #8B6F47;
+      line-height: 1.8;
+      font-size: 15.5px;
+      margin-bottom: 14px;
+    }
+    .rg-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+    .rg-stat {
+      padding: 18px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(210, 105, 30, 0.12), rgba(210, 105, 30, 0.03));
+      border: 1px solid rgba(210, 105, 30, 0.12);
+    }
+    .rg-stat strong {
+      display: block;
+      font-size: 28px;
+      line-height: 1;
+      color: #6B4423;
+      margin-bottom: 6px;
+    }
+    .rg-stat span {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #A0826D;
+    }
+    .rg-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 20px;
+    }
+    .rg-list-item {
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(210, 105, 30, 0.06);
+      border: 1px solid rgba(210, 105, 30, 0.12);
+    }
+    .rg-list-item strong {
+      display: block;
+      margin-bottom: 6px;
+      color: #6B4423;
+      font-size: 14px;
+    }
+    .rg-list-item span {
+      color: #9B7B65;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .rg-wide {
+      margin: 24px 0;
+      padding: 34px;
+      border-radius: 32px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.84), rgba(255, 245, 230, 0.96));
+      border: 1px solid rgba(139, 69, 19, 0.08);
+      box-shadow: 0 16px 42px rgba(210, 105, 30, 0.08);
+    }
+    .rg-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .rg-pill {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: #8B4513;
+      color: #FFF5E6;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .rg-process {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+    .rg-step {
+      padding: 20px 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(139, 69, 19, 0.08);
+    }
+    .rg-step .week {
+      display: inline-block;
+      margin-bottom: 10px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #D2691E;
+    }
+    .rg-step h3 {
+      font-size: 16px;
+      color: #6B4423;
+      margin-bottom: 8px;
+    }
+    .rg-step p {
+      font-size: 14px;
+      line-height: 1.65;
+      color: #9B7B65;
+      margin: 0;
+    }
+    .rg-section {
+      margin-top: 28px;
+      padding-top: 28px;
+      border-top: 1px solid rgba(139, 69, 19, 0.09);
+    }
+    .rg-two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .rg-feature-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .rg-feature-list div {
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(210, 105, 30, 0.06);
+      color: #8B6F47;
+      line-height: 1.7;
+    }
+    .rg-feature-list strong {
+      color: #5C3317;
+    }
+    .rg-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 36px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(139, 69, 19, 0.12);
+      color: #704214;
+      background: rgba(255,255,255,0.7);
+      font-weight: 600;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .rg-back:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 26px rgba(210, 105, 30, 0.12);
+    }
+    @media (max-width: 900px) {
+      .rg-hero,
+      .rg-grid,
+      .rg-two-col,
+      .rg-process {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 600px) {
+      .rg-shell {
+        padding: 120px 20px 72px;
+      }
+      .rg-card,
+      .rg-wide {
+        padding: 24px 20px;
+        border-radius: 24px;
+      }
+      .rg-stat-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">&larr; Back</a>
+      <div class="nav-links">
+        <a href="../index.html#work">Work</a>
+        <a href="../index.html#explore">Explore</a>
+        <a href="mailto:iyerswatip@gmail.com">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="rg-shell">
+    <header class="rg-hero anim visible">
+      <div>
+        <span class="rg-eyebrow">Hackathon Project · Team Quack-In-Queue</span>
+        <h1>Food Recipe Generator</h1>
+        <p class="rg-subhead">A web app that generates recipe ideas from whatever's in your kitchen. Filters for dietary restrictions and your preferences.</p>
+        <div class="rg-meta">
+          <span class="rg-chip">Role: Frontend + Integration</span>
+          <span class="rg-chip">Tools: React, Node.js, Express, Spoonacular API, Google Vision</span>
+          <span class="rg-chip">Team: 3-person hackathon team</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="rg-grid">
+      <div class="rg-card anim visible">
+        <h2>Overview</h2>
+        <p>The idea was simple: cooking shouldn't start with a grocery run. We built a recipe generator that takes whatever ingredients you already have, applies your dietary preferences, and returns recipes you can actually make tonight.</p>
+        <p>The app connected a React frontend to a Node.js backend powered by the Spoonacular API. We also experimented with Google Vision for image-based ingredient detection. Snap a photo of your fridge and let the app figure out what you're working with.</p>
+        <div class="rg-stat-grid">
+          <div class="rg-stat">
+            <strong>3</strong>
+            <span>team members</span>
+          </div>
+          <div class="rg-stat">
+            <strong>1</strong>
+            <span>hackathon sprint</span>
+          </div>
+          <div class="rg-stat">
+            <strong>100+</strong>
+            <span>recipes in database</span>
+          </div>
+          <div class="rg-stat">
+            <strong>1</strong>
+            <span>image-to-ingredient pipeline</span>
+          </div>
+        </div>
+      </div>
+      <aside class="rg-card anim visible">
+        <h2>My Role</h2>
+        <div class="rg-list">
+          <div class="rg-list-item">
+            <strong>Frontend development</strong>
+            <span>Built the React interface for ingredient input, dietary preference selection, and recipe display.</span>
+          </div>
+          <div class="rg-list-item">
+            <strong>API integration</strong>
+            <span>Connected the Spoonacular database to our backend and handled recipe filtering logic.</span>
+          </div>
+          <div class="rg-list-item">
+            <strong>Image detection flow</strong>
+            <span>Helped wire up Google Vision for scanning ingredients from uploaded photos.</span>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="rg-wide anim visible">
+      <h2>The Core Problem</h2>
+      <p>A lot of effort goes into deciding what to cook. You check what you have, figure out what to make, and then realize you're missing half the ingredients. We wanted to shortcut that entire process by starting with what's already in your kitchen.</p>
+      <p>The goal was to make meal planning feel less like a chore and more like a suggestion from a friend who knows what's in your pantry.</p>
+      <div class="rg-pill-row">
+        <span class="rg-pill">Ingredient Input</span>
+        <span class="rg-pill">Recipe Matching</span>
+        <span class="rg-pill">Dietary Filters</span>
+        <span class="rg-pill">Image Scanning</span>
+      </div>
+    </section>
+
+    <section class="rg-wide anim visible">
+      <h2>How It Works</h2>
+      <div class="rg-process">
+        <div class="rg-step">
+          <span class="week">Step 1</span>
+          <h3>Ingredients</h3>
+          <p>Input what you have on hand, type it in or upload a photo for automatic detection via Google Vision.</p>
+        </div>
+        <div class="rg-step">
+          <span class="week">Step 2</span>
+          <h3>Preferences</h3>
+          <p>Set dietary restrictions, taste preferences, and any ingredients you want to avoid.</p>
+        </div>
+        <div class="rg-step">
+          <span class="week">Step 3</span>
+          <h3>Matching</h3>
+          <p>The backend queries Spoonacular's database and filters results based on your inputs and available ingredients.</p>
+        </div>
+        <div class="rg-step">
+          <span class="week">Step 4</span>
+          <h3>Results</h3>
+          <p>Get a curated list of recipes you can actually make, complete with instructions and ingredient lists.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="rg-section anim visible">
+      <h2>Tech Stack</h2>
+      <div class="rg-two-col">
+        <div class="rg-card">
+          <h2>Frontend</h2>
+          <div class="rg-feature-list">
+            <div><strong>React</strong><br>for the user interface</div>
+            <div><strong>CSS</strong><br>for styling and layout</div>
+            <div><strong>Client-side state management</strong><br>for ingredient lists and preferences</div>
+          </div>
+        </div>
+        <div class="rg-card">
+          <h2>Backend</h2>
+          <div class="rg-feature-list">
+            <div><strong>Node.js with Express</strong><br>server framework</div>
+            <div><strong>Axios</strong><br>for API requests to Spoonacular</div>
+            <div><strong>CORS handling</strong><br>for cross-origin requests</div>
+            <div><strong>Google Vision API</strong><br>for image-based ingredient detection</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rg-section anim visible">
+      <h2>What I Took Away</h2>
+      <p>This was one of those projects where the constraint (build it in a weekend) actually helped. We couldn't overthink the architecture or the design, we just had to make it work. The biggest lesson was around API integration. Spoonacular's data was messy in places, and learning to handle edge cases in recipe matching was a real exercise in defensive programming.</p>
+      <p>If I had more time, I'd improve the image detection accuracy, add a saved-recipes feature, and build out a more polished mobile experience.</p>
+      <a href="../index.html#work" class="rg-back">Back to selected work &rarr;</a>
+    </section>
+  </main>
+</body>
+</html>

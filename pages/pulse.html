@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pulse - Swati Iyer</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" type="image/png" href="../assets/branding/swatiiyer-logo-tab.png">
+  <link rel="apple-touch-icon" href="../assets/branding/swatiiyer-logo-tab.png">
+  <style>
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(56, 126, 245, 0.06), transparent 40%),
+        linear-gradient(180deg, #f2f5fb 0%, #edf1fa 220px, #f6f7fc 100%);
+    }
+    .pulse-shell {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 132px 32px 88px;
+    }
+    .pulse-kicker {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #3b6fc2;
+      margin-bottom: 16px;
+    }
+    .pulse-title {
+      font-family: var(--display);
+      font-size: clamp(52px, 7vw, 88px);
+      line-height: 0.94;
+      letter-spacing: -0.05em;
+      color: #121a2e;
+      max-width: 1100px;
+      margin-bottom: 18px;
+    }
+    .pulse-role {
+      font-size: 18px;
+      font-weight: 700;
+      color: #3b6fc2;
+      margin-bottom: 12px;
+    }
+    .pulse-sub {
+      font-size: 17px;
+      line-height: 1.7;
+      color: #3a4a6b;
+      max-width: 660px;
+      margin-bottom: 32px;
+    }
+    .pulse-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 40px;
+    }
+    .pulse-tools span {
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 5px 14px;
+      border-radius: 999px;
+      background: rgba(59, 111, 194, 0.08);
+      color: #2d5a9e;
+      border: 1px solid rgba(59, 111, 194, 0.18);
+    }
+    .pulse-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+    .pulse-card,
+    .pulse-results {
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(59, 111, 194, 0.1);
+      border-radius: 26px;
+      padding: 30px 34px;
+      box-shadow: 0 14px 30px rgba(30, 60, 120, 0.05);
+    }
+    .pulse-card-label,
+    .pulse-results-label {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #3b6fc2;
+      margin-bottom: 18px;
+      display: inline-block;
+    }
+    .pulse-card p,
+    .pulse-results li,
+    .pulse-summary p {
+      font-size: 17px;
+      line-height: 1.75;
+      color: #2a3752;
+    }
+    .pulse-card p { margin: 0; }
+    .pulse-card strong,
+    .pulse-results strong {
+      color: #121a2e;
+    }
+    .pulse-results {
+      margin-top: 24px;
+    }
+    .pulse-results ul {
+      margin: 0;
+      padding-left: 24px;
+      display: grid;
+      gap: 14px;
+    }
+    .pulse-full-width {
+      grid-column: 1 / -1;
+    }
+    .pulse-summary {
+      margin-top: 24px;
+    }
+    .pulse-summary-copy {
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(59, 111, 194, 0.1);
+      border-radius: 26px;
+      padding: 30px 34px;
+      box-shadow: 0 14px 30px rgba(30, 60, 120, 0.05);
+    }
+    .pulse-summary-copy h2 {
+      font-family: var(--display);
+      font-size: clamp(28px, 3vw, 40px);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: #121a2e;
+      margin-bottom: 14px;
+    }
+    .pulse-summary-copy p {
+      margin-bottom: 14px;
+    }
+    .pulse-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 32px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(59, 111, 194, 0.14);
+      color: #3b6fc2;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .pulse-back:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(30, 60, 120, 0.1);
+    }
+    @media (max-width: 900px) {
+      .pulse-grid {
+        grid-template-columns: 1fr;
+      }
+      .pulse-shell {
+        padding: 120px 20px 72px;
+      }
+      .pulse-card,
+      .pulse-results,
+      .pulse-summary-copy {
+        padding: 24px 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">&larr; Back</a>
+    <div class="nav-links">
+      <a href="../index.html#work">Work</a>
+      <a href="../index.html#explore">Explore</a>
+      <a href="mailto:iyerswatip@gmail.com">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<main class="pulse-shell">
+  <div class="pulse-kicker">0 &rarr; 1 Product · 2026</div>
+  <h1 class="pulse-title">Pulse</h1>
+  <div class="pulse-role">Sole Product Manager &amp; Builder</div>
+  <p class="pulse-sub">An AI-powered analytics copilot that helps product teams at early-stage startups stop drowning in dashboards and start finding the signals that actually matter.</p>
+
+  <div class="pulse-tools">
+    <span>Python</span><span>SQL</span><span>LLM APIs</span><span>NLP</span><span>React</span><span>User Research</span><span>KPI Design</span>
+  </div>
+
+  <section class="pulse-grid">
+    <article class="pulse-card anim visible">
+      <span class="pulse-card-label">The Problem</span>
+      <p>I've been the person building KPI frameworks from scratch at three different startups. Every time it's the same thing: you set up tracking, write SQL queries, build dashboards, and then spend hours each week pulling numbers that should just be there. PMs at early-stage companies don't have a data team. They're doing this themselves, and most of the time the insights come too late to act on.</p>
+    </article>
+
+    <article class="pulse-card anim visible">
+      <span class="pulse-card-label">Research</span>
+      <p>I interviewed 12 PMs and analysts at Series A through C startups. The pattern was consistent: they all had dashboards, but nobody trusted them to surface what mattered. <strong>9 out of 12 said they still write ad-hoc SQL queries weekly</strong> because their dashboards don't answer the questions they actually have. The gap isn't data access. It's that the data doesn't talk back.</p>
+    </article>
+
+    <article class="pulse-card anim visible">
+      <span class="pulse-card-label">Competitive Landscape</span>
+      <p>Tools like Amplitude and Mixpanel are powerful but designed for companies with dedicated analytics teams. Metabase and Mode are flexible but still require SQL fluency. The newer AI analytics tools (like Narrator, Zing) focus on visualization, not on the interpretive layer. None of them answer the question: "what changed this week, and should I care?"</p>
+    </article>
+
+    <article class="pulse-card anim visible">
+      <span class="pulse-card-label">Strategy</span>
+      <p>I scoped the MVP around three high-confidence features using RICE: <strong>natural language querying</strong> (ask your data a question, get an answer without SQL), <strong>anomaly detection</strong> (flag when a metric moves outside its normal range), and <strong>weekly digest</strong> (an AI-generated summary of what changed and why it might matter). Pushed dashboards and custom alerts to v2.</p>
+    </article>
+
+    <article class="pulse-card pulse-full-width anim visible">
+      <span class="pulse-card-label">Technical Approach</span>
+      <p>Pulse connects to a startup's existing data warehouse (Postgres, BigQuery, or Snowflake) and uses an LLM layer to translate natural language questions into SQL, run them, and return plain-English answers with supporting charts. The anomaly detection runs nightly, comparing each tracked metric against its trailing 30-day distribution and flagging anything beyond 2 standard deviations. The weekly digest is generated using a combination of anomaly output, week-over-week deltas, and a summarization model that writes like a PM would for their standup notes. All queries are read-only and the schema mapping is done during onboarding so users don't need to configure anything after setup.</p>
+    </article>
+  </section>
+
+  <section class="pulse-results anim visible">
+    <span class="pulse-results-label">Metrics Framework</span>
+    <ul>
+      <li><strong>Activation rate (target: 60% in 24h):</strong> % of signups who connect a data source and run their first natural language query within 24 hours. The onboarding flow is designed specifically around this: schema mapping, starter question suggestions, and a single-click first query lower the activation barrier as much as possible.</li>
+      <li><strong>Weekly engagement (target: 45%):</strong> % of active users who open the weekly digest and take at least one follow-up action in the same session. "Open only" doesn't count. The digest needs to be useful enough to pull people back into the product, not just readable.</li>
+      <li><strong>Query trust (target: 70%):</strong> % of natural language queries where the user accepts the AI-generated answer without immediately re-running it or switching to raw SQL. This is the core signal for whether the LLM layer is actually working. Tracked per query and trended over time as the model improves.</li>
+      <li><strong>Time to insight (target: under 30 seconds):</strong> Median time from question submitted to answer viewed. Baseline from research is ~25 minutes doing it manually. At launch I'm targeting sub-30 seconds end to end. This metric lives on the engineering side as much as the product side.</li>
+      <li><strong>4-week retention (target: 50%):</strong> % of activated users still running at least one query per week at the 4-week mark. Early-stage analytics tools often see a "honeymoon drop" after week 1 when novelty fades. Retention at 4 weeks is the first real signal of habit formation.</li>
+      <li><strong>NPS (tracked at week 2 and week 8):</strong> Simple 0-10 survey with one follow-up question: "What would you miss most if Pulse disappeared?" The qualitative answers here matter more than the score. Week 2 captures first impressions; week 8 captures whether the product has built a real workflow dependency.</li>
+    </ul>
+  </section>
+
+  <section class="pulse-summary">
+    <div class="pulse-summary-copy anim visible">
+      <h2>Why I'm building this</h2>
+      <p>This isn't a hypothetical. I've set up KPI tracking at Digo, built analytics frameworks at Giri, and automated data pipelines at UC Davis for over two years. Every time, I wished something like Pulse existed so I could skip the plumbing and get to the part that actually matters: making product decisions with real data.</p>
+      <p>The case study above covers the research and product thinking. The product itself is in development.</p>
+      <a href="../index.html#work" class="pulse-back">&larr; Back to selected work</a>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">Swati Iyer · 2026</footer>
+
+<script>
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
+  document.querySelectorAll('.anim, .anim-left, .anim-scale').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>

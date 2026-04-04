@@ -5,8 +5,287 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Scam Shield AI - Swati Iyer</title>
   <link rel="stylesheet" href="../css/style.css">
-  <link rel="icon" type="image/png" href="../assets/swatiiyer-logo-tab.png">
-  <link rel="apple-touch-icon" href="../assets/swatiiyer-logo-tab.png">
+  <link rel="icon" type="image/png" href="../assets/branding/swatiiyer-logo-tab.png">
+  <link rel="apple-touch-icon" href="../assets/branding/swatiiyer-logo-tab.png">
+  <style>
+    body {
+      background:
+        radial-gradient(circle at top right, rgba(220, 38, 38, 0.08), transparent 30%),
+        linear-gradient(180deg, #faf8f7 0%, #f5f0ed 280px, #faf5f8 760px);
+    }
+    .ss-shell {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 132px 28px 96px;
+    }
+    .ss-hero {
+      margin-bottom: 52px;
+    }
+    .ss-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(220, 38, 38, 0.08);
+      color: #991b1b;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .ss-eyebrow::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #dc2626;
+    }
+    .ss-hero h1 {
+      font-family: var(--display);
+      font-size: clamp(46px, 7vw, 82px);
+      line-height: 0.96;
+      letter-spacing: -0.05em;
+      color: #1c1917;
+      margin-bottom: 18px;
+    }
+    .ss-subhead {
+      max-width: 680px;
+      font-size: 18px;
+      line-height: 1.75;
+      color: #57534e;
+      margin-bottom: 28px;
+    }
+    .ss-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .ss-chip {
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(28, 25, 23, 0.08);
+      font-size: 13px;
+      color: #44403c;
+      box-shadow: 0 10px 30px rgba(28, 25, 23, 0.06);
+    }
+    .ss-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+    .ss-card {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(28, 25, 23, 0.08);
+      border-radius: 28px;
+      padding: 30px;
+      box-shadow: 0 14px 36px rgba(28, 25, 23, 0.07);
+    }
+    .ss-card h2,
+    .ss-wide h2,
+    .ss-section h2 {
+      font-family: var(--display);
+      font-size: clamp(28px, 3.3vw, 40px);
+      letter-spacing: -0.04em;
+      color: #1c1917;
+      margin-bottom: 14px;
+    }
+    .ss-card p,
+    .ss-wide p,
+    .ss-section p {
+      color: #57534e;
+      line-height: 1.8;
+      font-size: 15.5px;
+      margin-bottom: 14px;
+    }
+    .ss-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+    .ss-stat {
+      padding: 18px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(220, 38, 38, 0.1), rgba(220, 38, 38, 0.02));
+      border: 1px solid rgba(220, 38, 38, 0.1);
+    }
+    .ss-stat strong {
+      display: block;
+      font-size: 28px;
+      line-height: 1;
+      color: #991b1b;
+      margin-bottom: 6px;
+    }
+    .ss-stat span {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #78716c;
+    }
+    .ss-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 20px;
+    }
+    .ss-list-item {
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(220, 38, 38, 0.04);
+      border: 1px solid rgba(220, 38, 38, 0.1);
+    }
+    .ss-list-item strong {
+      display: block;
+      margin-bottom: 6px;
+      color: #44403c;
+      font-size: 14px;
+    }
+    .ss-list-item span {
+      color: #78716c;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .ss-wide {
+      margin: 24px 0;
+      padding: 34px;
+      border-radius: 32px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.84), rgba(254, 242, 242, 0.96));
+      border: 1px solid rgba(28, 25, 23, 0.08);
+      box-shadow: 0 16px 42px rgba(28, 25, 23, 0.08);
+    }
+    .ss-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .ss-pill {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: #1c1917;
+      color: #faf8f7;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .ss-process {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+    .ss-step {
+      padding: 20px 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(28, 25, 23, 0.08);
+    }
+    .ss-step .phase {
+      display: inline-block;
+      margin-bottom: 10px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #dc2626;
+    }
+    .ss-step h3 {
+      font-size: 16px;
+      color: #1c1917;
+      margin-bottom: 8px;
+    }
+    .ss-step p {
+      font-size: 14px;
+      line-height: 1.65;
+      color: #78716c;
+      margin: 0;
+    }
+    .ss-section {
+      margin-top: 28px;
+      padding-top: 28px;
+      border-top: 1px solid rgba(28, 25, 23, 0.09);
+    }
+    .ss-two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .ss-feature-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .ss-feature-list div {
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(220, 38, 38, 0.04);
+      color: #57534e;
+      line-height: 1.7;
+    }
+    .ss-feature-list strong {
+      color: #1c1917;
+    }
+    .ss-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 36px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(28, 25, 23, 0.12);
+      color: #44403c;
+      background: rgba(255,255,255,0.7);
+      font-weight: 600;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .ss-back:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 26px rgba(28, 25, 23, 0.12);
+    }
+    .ss-callout {
+      margin: 24px 0;
+      padding: 28px 30px;
+      border-radius: 24px;
+      background: rgba(28, 25, 23, 0.03);
+      border: 1px solid rgba(28, 25, 23, 0.08);
+    }
+    .ss-callout h3 {
+      font-family: var(--display);
+      font-size: 20px;
+      letter-spacing: -0.03em;
+      color: #1c1917;
+      margin-bottom: 10px;
+    }
+    .ss-callout p {
+      color: #57534e;
+      line-height: 1.75;
+      font-size: 15px;
+      margin: 0;
+    }
+    @media (max-width: 900px) {
+      .ss-grid,
+      .ss-two-col,
+      .ss-process {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 600px) {
+      .ss-shell {
+        padding: 120px 20px 72px;
+      }
+      .ss-card,
+      .ss-wide {
+        padding: 24px 20px;
+        border-radius: 24px;
+      }
+      .ss-stat-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
   <nav class="site-nav">
@@ -19,11 +298,173 @@
       </div>
     </div>
   </nav>
-  <div class="page-wrap" style="max-width: 860px; padding-top: 140px; padding-bottom: 80px;">
-    <div class="edu-entry anim visible">
-      <h1 style="font-family:var(--display);font-size:clamp(38px,6vw,68px);line-height:0.98;margin-bottom:18px;">Scam Shield AI</h1>
-      <p style="font-size:18px;color:var(--text-mid);max-width:680px;">Placeholder page for Scam Shield AI. Add your UX/UI flow, strategy, and system details here.</p>
-    </div>
-  </div>
+
+  <main class="ss-shell">
+    <header class="ss-hero anim visible">
+      <div>
+        <span class="ss-eyebrow">Hackathon</span>
+        <h1>Scam Shield AI</h1>
+        <p class="ss-subhead">A web app that detects scams in real time by combining local analysis with AI. Built on the belief that protecting people shouldn't need a subscription or a CS degree.</p>
+        <div class="ss-meta">
+          <span class="ss-chip">Role: Product Designer &amp; Frontend</span>
+          <span class="ss-chip">Tools: React, Tailwind, Figma, Google Gemini API, Twilio</span>
+          <span class="ss-chip">Team: 4-person hackathon team</span>
+          <a href="https://devpost.com/software/legallens-9jvehb" target="_blank" class="ss-chip" style="text-decoration:none;font-weight:600;">View on Devpost &rarr;</a>
+        </div>
+      </div>
+    </header>
+
+    <section class="ss-grid">
+      <div class="ss-card anim visible">
+        <h2>Overview</h2>
+        <p>Scam calls and messages targeting elderly people are everywhere. Someone impersonating a police officer, a doctor, a Medicare representative. And the person on the other end often has no one there to tell them it's fake. That was the starting point for this.</p>
+        <p>We built ScamShield AI to analyze text-based documents, emails, contracts, messages. It flags the suspicious stuff in plain language. Two modes: a local engine that catches common red flags instantly, or optional AI mode using Google Gemini 1.5 Flash for deeper analysis. No account required. Your data stays in your browser unless you choose otherwise.</p>
+        <div class="ss-stat-grid">
+          <div class="ss-stat">
+            <strong>2</strong>
+            <span>analysis modes</span>
+          </div>
+          <div class="ss-stat">
+            <strong>0</strong>
+            <span>data sent to our servers</span>
+          </div>
+          <div class="ss-stat">
+            <strong>Free</strong>
+            <span>for all users</span>
+          </div>
+          <div class="ss-stat">
+            <strong>Hybrid</strong>
+            <span>local + cloud AI</span>
+          </div>
+        </div>
+      </div>
+      <aside class="ss-card anim visible">
+        <h2>My Role</h2>
+        <div class="ss-list">
+          <div class="ss-list-item">
+            <strong>Product thinking</strong>
+            <span>Mapped the problem space around elder fraud, from phone scams to phishing emails, and narrowed the scope to text-based detection for the weekend timeline.</span>
+          </div>
+          <div class="ss-list-item">
+            <strong>UX design + Figma prototyping</strong>
+            <span>Designed the full UI flow in Figma, including the two-mode interface, API key settings, and visual indicators for analysis states.</span>
+          </div>
+          <div class="ss-list-item">
+            <strong>Frontend development</strong>
+            <span>Built the React UI with Tailwind CSS. Text input, results display, risk scoring, and the "AI Enhanced" badge system.</span>
+          </div>
+          <div class="ss-list-item">
+            <strong>Research + ideation</strong>
+            <span>Explored Twilio-based call interception, Skyflow for privacy vaults, and Hugging Face deepfake detection before we narrowed down to text analysis.</span>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="ss-wide anim visible">
+      <h2>Why This Problem</h2>
+      <p>Financial scams targeting older adults are getting worse. Phone calls pretending to be from the police or a doctor's office. Emails that look real enough to fool anyone. Financial harm is healthcare. Medical debt, drained savings, the stress of realizing you've been taken advantage of. It's all connected.</p>
+      <p>Most existing products focus on spam filtering, blocking known bad numbers or flagging junk mail. We were more interested in the calls and messages that get through, the ones that sound legitimate. That's where the real damage happens.</p>
+      <div class="ss-pill-row">
+        <span class="ss-pill">Elder fraud</span>
+        <span class="ss-pill">Privacy-first</span>
+        <span class="ss-pill">Accessible AI</span>
+        <span class="ss-pill">Plain English</span>
+        <span class="ss-pill">No subscriptions</span>
+      </div>
+    </section>
+
+    <section class="ss-wide anim visible">
+      <h2>How We Got Here</h2>
+      <p>We started broader. Initially explored the full elderly care space: health monitoring, safety features, communication tools. We kept coming back to scam detection as the highest-impact problem that wasn't getting solved.</p>
+      <div class="ss-process">
+        <div class="ss-step">
+          <span class="phase">Phase 1</span>
+          <h3>Research</h3>
+          <p>Mapped the elderly care product landscape. Phone and text scams were clearly the biggest gap. Explored Twilio for call interception and Skyflow for privacy-first data vaults.</p>
+        </div>
+        <div class="ss-step">
+          <span class="phase">Phase 2</span>
+          <h3>Architecture</h3>
+          <p>Designed a four-layer system: telephony, webhook server, AI agent, and data store. Explored VoIP bridges and real-time call analysis before scoping to text-based detection.</p>
+        </div>
+        <div class="ss-step">
+          <span class="phase">Phase 3</span>
+          <h3>Build</h3>
+          <p>Built the hybrid engine. Local pattern matching for instant results, Google Gemini integration for deeper analysis. Prototyped in Figma, then built in React and Tailwind.</p>
+        </div>
+        <div class="ss-step">
+          <span class="phase">Phase 4</span>
+          <h3>Ship</h3>
+          <p>Deployed on Vercel. Tested against real scam emails and contracts. Added visual indicators, fallbacks, and the bring-your-own-key privacy model.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="ss-section anim visible">
+      <h2>The Approach That Didn't Ship (But Shaped Everything)</h2>
+      <p>Before we built the text analyzer, we spent real time designing a phone call interception system. The idea: incoming calls would route through a Twilio-powered AI agent that listens in, detects scam patterns in real time, and either flags the call or transfers it to a family member.</p>
+      <p>We mapped out the full architecture: Twilio for telephony, a Node.js webhook server, an NLP-based AI agent for scam detection, and a Redis/Firestore data store for continuous learning. Users would register through a privacy vault (Skyflow), whitelist trusted contacts, and let the system screen everything else.</p>
+      <p>We dropped it for the hackathon because the scope was too big for a weekend, but the thinking directly shaped our final product. The privacy-first ethos, the hybrid AI approach, the focus on making results understandable instead of just accurate. All of that came from this earlier exploration.</p>
+    </section>
+
+    <section class="ss-section anim visible">
+      <h2>How It Works</h2>
+      <div class="ss-two-col">
+        <div class="ss-card">
+          <h2>Local Analysis</h2>
+          <p>The default mode. A JavaScript engine on your device scans pasted text against a library of regex patterns, scam keywords, and known red flags. Results are instant and nothing leaves your browser.</p>
+          <p>This mattered to us. Not everyone wants to connect an API key, and the basic protection should work on its own.</p>
+        </div>
+        <div class="ss-card">
+          <h2>AI-Enhanced Mode</h2>
+          <p>Users who want deeper analysis can add their own free Google AI API key. The app sends the text to Gemini 1.5 Flash, which returns a plain-language summary, contextual red flag detection, and a risk score with reasoning.</p>
+          <p>The key stays in your browser. Never touches our servers. If the API call fails, the app falls back to local analysis automatically.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="ss-section anim visible">
+      <h2>Design Decisions</h2>
+      <div class="ss-two-col">
+        <div class="ss-card">
+          <h2>Bring Your Own Key</h2>
+          <p>We didn't want to run a server that handles API costs or stores user data. With bring-your-own-key, the app stays free, privacy is airtight, and users stay in control. Google's free tier covers the rest.</p>
+        </div>
+        <div class="ss-card">
+          <h2>Always-Visible Mode State</h2>
+          <p>When you're analyzing text, you should know if you're using local analysis or AI. We added persistent purple "AI Enhanced" badges, clear loading states, and mode indicators throughout so there's no confusion.</p>
+        </div>
+      </div>
+      <div class="ss-two-col" style="margin-top:24px;">
+        <div class="ss-card">
+          <h2>Plain English First</h2>
+          <p>The AI output isn't a confidence score in a dashboard. It's a clear explanation of what the text is doing and why it's suspicious. If your grandma can't understand the warning, we failed.</p>
+        </div>
+        <div class="ss-card">
+          <h2>Graceful Fallback</h2>
+          <p>If the Gemini API fails, the app doesn't show an error. It falls back to local analysis silently and gives you results anyway. You always get an answer.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="ss-section anim visible">
+      <h2>Tech Stack</h2>
+      <div class="ss-feature-list">
+        <div><strong>React.js + Tailwind CSS</strong><br>Single-page app with a responsive interface. Prototyped in Figma first.</div>
+        <div><strong>Google Gemini 1.5 Flash</strong><br>Integrated via Google AI Studio with structured prompts that return JSON. Safety settings allow analysis of deceptive content.</div>
+        <div><strong>Local Pattern Engine</strong><br>Regex-based scanning on your device for instant, offline analysis against common scam patterns.</div>
+        <div><strong>Vercel</strong><br>Hosting and continuous deployment. No backend server needed.</div>
+        <div><strong>Taskade</strong><br>Project management. Mind maps for architecture, Kanban for sprints, AI agents for research.</div>
+      </div>
+    </section>
+
+    <section class="ss-section anim visible">
+      <h2>What I'd Do Next</h2>
+      <p>Phone calls came up constantly in our research. Text analysis helps, but the real-time call interception system, the one we designed but couldn't build in a weekend, that's where this needs to go. A browser extension that scans emails and web pages in place would be next, plus OCR so you could photograph a physical letter and analyze it instantly.</p>
+      <p>The other piece is community patterns. Right now the local engine uses a static library. Opening that up so users can flag new scam types and feed them back would make the baseline protection smarter over time without depending on AI.</p>
+      <a href="../index.html#work" class="ss-back">Back to selected work &rarr;</a>
+    </section>
+  </main>
 </body>
 </html>

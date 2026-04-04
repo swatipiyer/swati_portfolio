@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pulse - AI Analytics</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'IBM Plex Sans', sans-serif;
+      background-color: #fafaf8;
+      color: #2c2c2c;
+      overflow: hidden;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+    }
+
+    /* SLIM SIDEBAR */
+    .sidebar {
+      width: 56px;
+      background-color: #f5f5f2;
+      border-right: 1px solid #e5e5e2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 12px 0;
+      position: fixed;
+      height: 100vh;
+      left: 0;
+      top: 0;
+      z-index: 100;
+      gap: 8px;
+    }
+
+    .nav {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .nav-item {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      cursor: pointer;
+      color: #8b8b88;
+      background-color: transparent;
+      position: relative;
+      transition: background-color 0.15s ease;
+    }
+
+    .nav-item:hover {
+      background-color: #f0f0ed;
+    }
+
+    .nav-item.active {
+      color: #0d9488;
+    }
+
+    .nav-item.active::before {
+      content: '';
+      position: absolute;
+      left: -12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 24px;
+      background-color: #0d9488;
+      border-radius: 0 2px 2px 0;
+    }
+
+    .nav-icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    .demo-badge {
+      background-color: #f0f0ed;
+      color: #666663;
+      padding: 4px 6px;
+      border-radius: 3px;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      margin-top: auto;
+      margin-bottom: 8px;
+    }
+
+    /* MAIN CONTENT */
+    .main-content {
+      flex: 1;
+      margin-left: 56px;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 32px;
+      border-bottom: 1px solid #e5e5e2;
+      background-color: #fafaf8;
+    }
+
+    .top-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .pulse-wordmark {
+      font-size: 18px;
+      font-weight: 700;
+      color: #2c2c2c;
+      letter-spacing: -0.5px;
+    }
+
+    .sync-status {
+      font-size: 12px;
+      color: #999996;
+    }
+
+    .top-bar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .demo-badge-top {
+      background-color: #f0f0ed;
+      color: #666663;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: #e5cfc0;
+      border: 1px solid #d4bfb0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: #8b6f5e;
+    }
+
+    .content {
+      flex: 1;
+      padding: 32px;
+      overflow-y: auto;
+    }
+
+    /* METRICS GRID */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .metric-card {
+      background-color: #ffffff;
+      border: 1px solid #e5e5e2;
+      border-radius: 8px;
+      padding: 20px;
+      transition: all 0.2s ease;
+    }
+
+    .metric-card:hover {
+      border-color: #0d9488;
+      box-shadow: 0 2px 8px rgba(13, 148, 136, 0.08);
+    }
+
+    .metric-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #999996;
+      letter-spacing: 0.4px;
+      margin-bottom: 10px;
+    }
+
+    .metric-value {
+      font-size: 28px;
+      font-weight: 600;
+      color: #2c2c2c;
+      margin-bottom: 10px;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    .metric-change {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      margin-bottom: 14px;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    .metric-change.positive {
+      color: #059669;
+    }
+
+    .metric-change.negative {
+      color: #d97706;
+    }
+
+    .metric-sparkline {
+      width: 100%;
+      height: 32px;
+    }
+
+    /* DASHBOARD GRID */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 20px;
+    }
+
+    /* ANOMALIES SECTION */
+    .anomalies-section {
+      background-color: #ffffff;
+      border: 1px solid #e5e5e2;
+      border-radius: 8px;
+      padding: 24px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #2c2c2c;
+      margin-bottom: 20px;
+    }
+
+    .anomaly-item {
+      display: flex;
+      gap: 14px;
+      padding: 16px 0;
+      border-bottom: 1px solid #f0f0ed;
+      transition: all 0.15s ease;
+    }
+
+    .anomaly-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .anomaly-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+
+    .anomaly-dot.critical {
+      background-color: #dc2626;
+    }
+
+    .anomaly-dot.warning {
+      background-color: #f59e0b;
+    }
+
+    .anomaly-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .anomaly-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #2c2c2c;
+      margin-bottom: 4px;
+    }
+
+    .anomaly-subtitle {
+      font-size: 12px;
+      color: #999996;
+      margin-bottom: 8px;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    .anomaly-link {
+      font-size: 12px;
+      color: #0d9488;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .anomaly-link:hover {
+      color: #0f766e;
+    }
+
+    /* DIGEST SECTION */
+    .digest-section {
+      background-color: #ffffff;
+      border: 1px solid #e5e5e2;
+      border-radius: 8px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .digest-header {
+      font-size: 15px;
+      font-weight: 600;
+      color: #2c2c2c;
+      margin-bottom: 6px;
+    }
+
+    .digest-period {
+      font-size: 11px;
+      color: #999996;
+      margin-bottom: 16px;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    .digest-list {
+      list-style: none;
+      flex: 1;
+    }
+
+    .digest-item {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-size: 13px;
+      color: #666663;
+      line-height: 1.5;
+    }
+
+    .digest-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .digest-bullet {
+      width: 3px;
+      height: 3px;
+      background-color: #0d9488;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 7px;
+    }
+
+    .digest-link {
+      display: inline-block;
+      margin-top: 16px;
+      color: #0d9488;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 500;
+      transition: color 0.15s ease;
+    }
+
+    .digest-link:hover {
+      color: #0f766e;
+    }
+
+    /* SCROLLBAR */
+    .content::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .content::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .content::-webkit-scrollbar-thumb {
+      background-color: #d4d4d1;
+      border-radius: 3px;
+    }
+
+    .content::-webkit-scrollbar-thumb:hover {
+      background-color: #bfbfbb;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1200px) {
+      .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .metrics-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .top-bar {
+        padding: 16px 20px;
+      }
+
+      .content {
+        padding: 20px;
+      }
+
+      .top-bar-left {
+        gap: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- SLIM SIDEBAR -->
+    <aside class="sidebar">
+      <nav class="nav">
+        <!-- Dashboard -->
+        <a href="dashboard.html" class="nav-item active" title="Dashboard">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+          </svg>
+        </a>
+
+        <!-- Ask Pulse -->
+        <a href="query.html" class="nav-item" title="Ask Pulse">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </a>
+
+        <!-- Anomalies -->
+        <a href="#" class="nav-item" title="Anomalies">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 2l10 20H2L12 2z"></path>
+            <path d="M12 9v4M12 17h.01"></path>
+          </svg>
+        </a>
+
+        <!-- Digest -->
+        <a href="#" class="nav-item" title="Digest">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+            <path d="M4 10h16M8 14h8M8 18h4"></path>
+          </svg>
+        </a>
+
+        <!-- Settings -->
+        <a href="#" class="nav-item" title="Settings">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m3.08 3.08l4.24 4.24M1 12h6m6 0h6m-17.78 7.78l4.24-4.24m3.08-3.08l4.24-4.24"></path>
+          </svg>
+        </a>
+      </nav>
+
+      <div class="demo-badge">Demo</div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      <!-- TOP BAR -->
+      <div class="top-bar">
+        <div class="top-bar-left">
+          <div class="pulse-wordmark">Pulse</div>
+          <div class="sync-status">Last synced 4 min ago</div>
+        </div>
+        <div class="top-bar-right">
+          <div class="demo-badge-top">Demo</div>
+          <div class="avatar">SI</div>
+        </div>
+      </div>
+
+      <!-- CONTENT -->
+      <div class="content">
+        <!-- METRICS GRID -->
+        <div class="metrics-grid">
+          <!-- Daily Signups -->
+          <div class="metric-card">
+            <div class="metric-label">Daily Signups</div>
+            <div class="metric-value">194</div>
+            <div class="metric-change positive">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                <polyline points="17 6 23 6 23 12"></polyline>
+              </svg>
+              <span>+8.2%</span>
+            </div>
+            <svg class="metric-sparkline" viewBox="0 0 120 40" preserveAspectRatio="none">
+              <polyline points="0,32 4,31 8,30 12,29 16,28 20,26 24,25 28,24 32,22 36,20 40,19 44,17 48,16 52,14 56,12 60,10 64,8 68,6 72,5 76,4 80,3 84,2 88,2 92,3 96,4 100,5 104,6 108,7 112,8 116,10 120,12" stroke="#059669" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></polyline>
+            </svg>
+          </div>
+
+          <!-- Conversion Rate -->
+          <div class="metric-card">
+            <div class="metric-label">Conversion Rate</div>
+            <div class="metric-value">12.4%</div>
+            <div class="metric-change negative">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                <polyline points="17 18 23 18 23 12"></polyline>
+              </svg>
+              <span>-1.1%</span>
+            </div>
+            <svg class="metric-sparkline" viewBox="0 0 120 40" preserveAspectRatio="none">
+              <polyline points="0,10 4,11 8,13 12,14 16,15 20,16 24,18 28,19 32,20 36,22 40,23 44,24 48,25 52,27 56,28 60,29 64,30 68,31 72,32 76,33 80,34 84,35 88,36 92,36 96,37 100,37 104,37 108,36 112,36 116,35 120,34" stroke="#d97706" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></polyline>
+            </svg>
+          </div>
+
+          <!-- Daily Active Users -->
+          <div class="metric-card">
+            <div class="metric-label">DAU</div>
+            <div class="metric-value">2,847</div>
+            <div class="metric-change positive">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                <polyline points="17 6 23 6 23 12"></polyline>
+              </svg>
+              <span>+14.3%</span>
+            </div>
+            <svg class="metric-sparkline" viewBox="0 0 120 40" preserveAspectRatio="none">
+              <polyline points="0,34 4,32 8,30 12,28 16,26 20,24 24,22 28,20 32,18 36,16 40,14 44,13 48,12 52,11 56,10 60,9 64,8 68,7 72,6 76,5 80,4 84,3 88,2 92,3 96,4 100,5 104,6 108,7 112,8 116,9 120,10" stroke="#059669" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></polyline>
+            </svg>
+          </div>
+
+          <!-- Revenue -->
+          <div class="metric-card">
+            <div class="metric-label">Revenue</div>
+            <div class="metric-value">$5,240</div>
+            <div class="metric-change positive">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                <polyline points="17 6 23 6 23 12"></polyline>
+              </svg>
+              <span>+6.7%</span>
+            </div>
+            <svg class="metric-sparkline" viewBox="0 0 120 40" preserveAspectRatio="none">
+              <polyline points="0,30 4,29 8,28 12,26 16,25 20,24 24,23 28,22 32,20 36,19 40,17 44,16 48,15 52,13 56,12 60,11 64,10 68,8 72,7 76,6 80,5 84,4 88,3 92,2 96,2 100,3 104,4 108,5 112,6 116,8 120,10" stroke="#059669" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></polyline>
+            </svg>
+          </div>
+        </div>
+
+        <!-- DASHBOARD GRID -->
+        <div class="dashboard-grid">
+          <!-- ANOMALIES SECTION -->
+          <div class="anomalies-section">
+            <h2 class="section-title">Anomalies</h2>
+
+            <div class="anomaly-item">
+              <div class="anomaly-dot critical"></div>
+              <div class="anomaly-content">
+                <div class="anomaly-title">Daily signups dropped 34%</div>
+                <div class="anomaly-subtitle">142 vs 7-day avg 215</div>
+                <a href="#" class="anomaly-link">View details</a>
+              </div>
+            </div>
+
+            <div class="anomaly-item">
+              <div class="anomaly-dot warning"></div>
+              <div class="anomaly-content">
+                <div class="anomaly-title">Conversion rate declining</div>
+                <div class="anomaly-subtitle">12.4% vs 7-day avg 12.8%</div>
+                <a href="#" class="anomaly-link">View details</a>
+              </div>
+            </div>
+
+            <div class="anomaly-item">
+              <div class="anomaly-dot critical"></div>
+              <div class="anomaly-content">
+                <div class="anomaly-title">Feature adoption stalled</div>
+                <div class="anomaly-subtitle">No change for 3 days</div>
+                <a href="#" class="anomaly-link">View details</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- DIGEST SECTION -->
+          <div class="digest-section">
+            <h2 class="digest-header">This Week</h2>
+            <p class="digest-period">Mar 30 - Apr 3</p>
+
+            <ul class="digest-list">
+              <li class="digest-item">
+                <div class="digest-bullet"></div>
+                <span>Signups recovered after Tuesday's dip</span>
+              </li>
+              <li class="digest-item">
+                <div class="digest-bullet"></div>
+                <span>Feature adoption hit 40%</span>
+              </li>
+              <li class="digest-item">
+                <div class="digest-bullet"></div>
+                <span>Revenue up 6.7% WoW</span>
+              </li>
+              <li class="digest-item">
+                <div class="digest-bullet"></div>
+                <span>Watch: conversion trending down</span>
+              </li>
+            </ul>
+
+            <a href="#" class="digest-link">Read full digest</a>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Navigation active state
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', function(e) {
+        if (this.href === 'dashboard.html' || this.href === 'query.html') {
+          return;
+        }
+        e.preventDefault();
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

@@ -8,10 +8,13 @@
   <meta property="og:title" content="Swati Iyer | Product & Analytics">
   <meta property="og:description" content="Product manager and analyst using Python, SQL, dashboards, and KPI frameworks to drive product decisions with data.">
   <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:url" content="https://swatibuilds.com/">
+  <meta property="og:image" content="https://swatibuilds.com/assets/og-preview.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://swatibuilds.com/assets/og-preview.png">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" type="image/png" href="assets/swatiiyer-logo-tab.png">
-  <link rel="apple-touch-icon" href="assets/swatiiyer-logo-tab.png">
+  <link rel="icon" type="image/png" href="assets/branding/swatiiyer-logo-tab.png">
+  <link rel="apple-touch-icon" href="assets/branding/swatiiyer-logo-tab.png">
   <style>
     /* ═══ TERMINAL BOOT SCREEN ═══ */
     #terminal-boot {
@@ -69,10 +72,10 @@
         rgba(139, 94, 171, 0.008) 3px,
         rgba(139, 94, 171, 0.008) 6px
       );
-      pointer-events: none;
+      pointer-events: none !important;
       z-index: 1;
     }
-    #terminal-text { position: relative; z-index: 2; }
+    #terminal-text { position: relative; z-index: 2; pointer-events: none; }
 
     .terminal-skip {
       position: absolute;
@@ -222,7 +225,7 @@
     .hero-terminal {
       position: absolute;
       top: calc(26% + 96px);
-      right: calc(6% - 96px);
+      right: 8%;
       width: 300px;
       background: #120e1c;
       border-radius: 14px;
@@ -301,6 +304,159 @@
       }
       .hero-terminal { display: none; }
     }
+
+    /* ═══ ROLE SELECTION IN TERMINAL ═══ */
+    .terminal-roles {
+      position: relative;
+      z-index: 5;
+      width: min(680px, calc(100vw - 48px));
+      padding: 0 2rem 2rem;
+      box-sizing: border-box;
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .terminal-roles.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .terminal-roles-prompt {
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+      font-size: clamp(14px, 1.7vw, 18px);
+      color: #c89cff;
+      text-shadow: 0 0 16px rgba(200, 156, 255, 0.35);
+      margin-bottom: 16px;
+      line-height: 2;
+    }
+    .terminal-role-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+      font-size: clamp(13px, 1.5vw, 16px);
+      color: rgba(200, 156, 255, 0.72);
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin-bottom: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      letter-spacing: 0.02em;
+      position: relative;
+      z-index: 10;
+    }
+    .terminal-role-btn:hover, .terminal-role-btn:focus-visible {
+      color: #f1defd;
+      background: rgba(139, 94, 171, 0.14);
+      border-color: rgba(166, 106, 209, 0.4);
+      text-shadow: 0 0 14px rgba(200, 156, 255, 0.3);
+      transform: translateX(6px);
+    }
+    .terminal-role-num {
+      color: #8b5eab;
+      margin-right: 6px;
+    }
+
+    /* ═══ TERMINAL GREETING ═══ */
+    .terminal-greeting {
+      position: relative;
+      z-index: 2;
+      width: min(680px, calc(100vw - 48px));
+      padding: 0 2rem;
+      box-sizing: border-box;
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+      font-size: clamp(14px, 1.7vw, 18px);
+      color: #a8e6a3;
+      text-shadow: 0 0 16px rgba(168, 230, 163, 0.3);
+      line-height: 2;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .terminal-greeting.visible { opacity: 1; }
+
+    /* ═══ ROLE-BASED DIMMING — disabled ═══ */
+
+    /* ═══ FLOATING ROLE BADGE ═══ */
+    .role-badge {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9000;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      color: rgba(226, 196, 247, 0.85);
+      background: rgba(14, 11, 20, 0.88);
+      border: 1px solid rgba(139, 94, 171, 0.35);
+      border-radius: 999px;
+      padding: 8px 14px 8px 16px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 16px rgba(139, 94, 171, 0.12);
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .role-badge.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .role-badge-switch {
+      font-family: inherit;
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #c89cff;
+      background: rgba(139, 94, 171, 0.18);
+      border: 1px solid rgba(166, 106, 209, 0.4);
+      border-radius: 999px;
+      padding: 3px 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .role-badge-switch:hover {
+      background: rgba(139, 94, 171, 0.32);
+      border-color: rgba(201, 147, 240, 0.7);
+      color: #f1defd;
+    }
+
+    /* ═══ ROLE SWITCHER OVERLAY ═══ */
+    .role-switcher-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(14, 11, 20, 0.92);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .role-switcher-overlay.visible { opacity: 1; }
+    .role-switcher-overlay .terminal-roles {
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+    }
+    .role-switcher-close {
+      margin-top: 16px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      color: rgba(200, 156, 255, 0.5);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px 16px;
+    }
+    .role-switcher-close:hover { color: #c89cff; }
   </style>
 </head>
 <body>
@@ -308,35 +464,26 @@
 <!-- ═══ TERMINAL BOOT SCREEN ═══ -->
 <div id="terminal-boot">
   <div id="terminal-text"></div>
-  <form class="terminal-launch" id="terminal-launch">
-    <span class="terminal-launch-main">
-      <span class="terminal-launch-command">
-        <span class="terminal-launch-prompt">&gt;</span>
-        <span class="terminal-launch-shell" aria-hidden="true">
-          <span class="terminal-launch-display" id="terminal-launch-display">type yes or press enter</span>
-          <span class="terminal-launch-cursor"></span>
-        </span>
-        <input
-          id="terminal-launch-input"
-          class="terminal-launch-input"
-          type="text"
-          autocomplete="off"
-          spellcheck="false"
-          autocapitalize="off"
-          enterkeyhint="go"
-          placeholder="type yes or press enter"
-          aria-label="Type yes or press enter to continue"
-        >
-      </span>
-    </span>
-  </form>
+  <div class="terminal-roles" id="terminal-roles">
+    <div class="terminal-roles-prompt">&gt; who are you?</div>
+    <button class="terminal-role-btn" data-role="recruiter">
+      <span class="terminal-role-num">[1]</span> here to hire
+    </button>
+    <button class="terminal-role-btn" data-role="pm">
+      <span class="terminal-role-num">[2]</span> in the field
+    </button>
+    <button class="terminal-role-btn" data-role="browse">
+      <span class="terminal-role-num">[3]</span> just vibing
+    </button>
+  </div>
+  <div class="terminal-greeting" id="terminal-greeting"></div>
   <button class="terminal-skip" id="terminal-skip">skip &rarr;</button>
 </div>
 
 <nav class="site-nav">
   <div class="nav-inner">
     <a href="/" class="nav-brand nav-brand-logo-link" aria-label="swati iyer home">
-      <img src="assets/swatiiyer-logo-header.png" alt="Swati Iyer logo" class="nav-brand-logo">
+      <img src="assets/branding/swatiiyer-logo-header.png" alt="Swati Iyer logo" class="nav-brand-logo">
     </a>
     <button class="nav-hamburger" aria-label="Toggle menu">
       <span></span><span></span><span></span>
@@ -350,12 +497,10 @@
   </div>
 </nav>
 
-<div class="page-wrap">
-
-  <!-- ═══════════════════════════
-       HERO - Collage-style, organic
-       ═══════════════════════════ -->
-  <section class="hero">
+<!-- ═══════════════════════════
+     HERO - full-width, outside page-wrap
+     ═══════════════════════════ -->
+<section class="hero" data-role-section="hero">
 
     <div class="hero-clip hc-1 anim anim-d1"><img src="assets/clipart/p1.png" alt="Desk clipart"><span class="clip-tooltip">my setup</span></div>
     <div class="hero-clip hc-2 anim anim-d2"><img src="assets/clipart/p2.png" alt="Headphones clipart"><span class="clip-tooltip">lo-fi beats</span></div>
@@ -381,14 +526,14 @@
 
         <div class="hero-actions anim anim-d5">
           <a href="#work" class="hero-btn primary">View Case Studies</a>
-          <a href="assets/SwatiIyer_Resume.pdf" class="hero-btn secondary" target="_blank">Resume</a>
+          <a href="assets/docs/SwatiIyer_Resume.pdf" class="hero-btn secondary" target="_blank">Resume</a>
         </div>
 
         <div class="hero-links anim anim-d5">
           <a href="mailto:iyerswatip@gmail.com" title="Email"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></a>
           <a href="https://www.linkedin.com/in/swatipiyer/" title="LinkedIn" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
           <a href="https://github.com/swatipiyer" title="GitHub" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg></a>
-          <a href="assets/SwatiIyer_Resume.pdf" title="Resume" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></a>
+          <a href="assets/docs/SwatiIyer_Resume.pdf" title="Resume" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></a>
         </div>
       </div>
 
@@ -424,18 +569,19 @@
 
   </section>
 
+<div class="page-wrap">
 
   <!-- ═══════════════════════════
        ABOUT ME
        ═══════════════════════════ -->
-  <div class="section-break">
+  <div class="section-break" data-role-section="about">
     <div class="section-header anim-left">
       <span class="section-num">00</span>
       <h2 class="section-title">About</h2>
     </div>
   </div>
 
-  <div class="about-grid anim">
+  <div class="about-grid anim" data-role-section="about">
     <div class="about-col-text">
       <p class="about-opener">
         I'm the person who asks "what does the data say" before anyone starts building.
@@ -451,21 +597,21 @@
       </p>
     </div>
     <div class="about-col-photo">
-      <img src="assets/gradtree.jpeg" alt="Swati at UC Davis graduation">
+      <img src="assets/photos/gradtree.jpeg" alt="Swati at UC Davis graduation">
     </div>
   </div>
 
   <!-- ═══════════════════════════
        EXPLORE - Finder-style window
        ═══════════════════════════ -->
-  <div class="section-break" id="explore">
+  <div class="section-break" id="explore" data-role-section="explore">
     <div class="section-header anim-left">
       <span class="section-num">01</span>
       <h2 class="section-title">Explore My Work</h2>
     </div>
   </div>
 
-  <div class="finder-window anim">
+  <div class="finder-window anim" data-role-section="explore">
     <div class="finder-titlebar">
       <div class="finder-dots">
         <span class="dot-r"></span>
@@ -503,11 +649,15 @@
           </button>
           <button class="finder-sb-item" data-tab="analytics-toolkit">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-            Analytics Toolkit
+            Toolkit
           </button>
           <button class="finder-sb-item" data-tab="credentials">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             Credentials
+          </button>
+          <button class="finder-sb-item" data-tab="writing">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            Writing
           </button>
         </div>
       </div>
@@ -525,9 +675,9 @@
                data-title="Scam Shield AI"
                data-role="Product Designer"
                data-year="2025"
-               data-tools="UX/UI, Strategy, AWS"
+               data-tools="React, Tailwind CSS, Figma, Google Gemini API"
                data-motivation="Online scams are getting harder to detect, especially for vulnerable populations. I designed a tool that uses AI to flag suspicious content in real time, with trust and accessibility at the center of every design decision."
-               data-desc="Designed and prototyped an AI-powered scam detection tool, from user research through high-fidelity mockups, with a focus on trust, accessibility, and clear decision support."
+               data-desc="Privacy-first AI scam detection web app with dual analysis modes — instant local pattern matching and Google Gemini-powered deep analysis. Built to protect elderly users from text-based fraud."
                data-link="pages/scam-shield-ai.html"
                data-metric="AI-powered">
             <div class="folder-icon folder-slate">
@@ -563,24 +713,25 @@
             <span class="folder-name">PRD Generator</span>
           </div>
 
-          <div class="finder-folder" data-category="uxui" data-project="gradcareer"
-               data-title="GradCareer Navigator"
-               data-role="Product Designer & Researcher"
-               data-year="2024"
-               data-tools="Figma, User Research, Information Architecture"
-               data-desc="Student career planning platform mapping majors to skills, internships, and career pathways. Designed information architecture to reduce decision anxiety through clearer guidance."
-               data-link="pages/gradcareer.html"
-               data-metric="Research synthesis">
+          <div class="finder-folder" data-category="product" data-project="food-recipe-generator"
+               data-title="Food Recipe Generator"
+               data-role="Product Designer & Developer"
+               data-year="2025"
+               data-tools="Python, Google Vision API, Spoonacular API"
+               data-desc="AI-powered recipe recommendation system with personalized dietary filtering. Integrated Spoonacular API and Google Vision API for image-based ingredient detection. Built data pipeline for recipe customization."
+               data-link="pages/recipe-generator.html"
+               data-motivation="Quack-In-Queue"
+               data-metric="API integration">
             <div class="folder-icon folder-mint">
               <svg class="folder-svg" viewBox="0 0 88 72" fill="none">
                 <path d="M0 12C0 8.68629 2.68629 6 6 6H28L34 0H82C85.3137 0 88 2.68629 88 6V12H0Z" fill="currentColor" opacity="0.7"/>
                 <rect y="10" width="88" height="56" rx="6" fill="currentColor"/>
               </svg>
               <span class="folder-badge">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 2 4-4"/></svg>
               </span>
             </div>
-            <span class="folder-name">GradCareer</span>
+            <span class="folder-name">Recipe Gen</span>
           </div>
 
           <div class="finder-folder" data-category="research" data-project="segmentation"
@@ -588,7 +739,7 @@
                data-role="Data Analyst & Researcher"
                data-year="2024"
                data-tools="Python, NumPy, Pandas, Machine Learning"
-               data-desc="Supervised learning model predicting customer spending patterns based on demographic data. Built classification system analyzing spending habits to identify behavioral segments."
+               data-desc="Supervised learning model predicting customer spending patterns based on demographic data. Built classification system analyzing spending habits (0-100 scale) to identify behavioral segments for targeted marketing strategies."
                data-link="pages/segmentation.html"
                data-metric="ML model">
             <div class="folder-icon folder-blue">
@@ -608,8 +759,8 @@
                data-role="UX Researcher & Developer"
                data-year="2024"
                data-tools="User Research, Python, HCI Principles"
-               data-desc="HCI-driven password generation tool balancing security and memorability. Applied cognitive science principles and user testing to create a more usable security flow."
-               data-link="https://docs.google.com/presentation/d/1kOIc5apdUvlklTyfkGYHZQmp0xcevWsfhz84W_PXXjo/edit"
+               data-desc="HCI-driven password generation tool balancing security and memorability. Applied cognitive science principles and user testing to create data-driven solution reducing reliance on weak password patterns."
+               data-link="pages/password-generator.html"
                data-metric="Research + prototype">
             <div class="folder-icon folder-slate">
               <svg class="folder-svg" viewBox="0 0 88 72" fill="none">
@@ -628,9 +779,9 @@
                data-role="Research Assistant"
                data-year="2024"
                data-tools="Python, Scapy, Network Analysis"
-               data-motivation="2+ years building Python data anonymization systems as a research assistant. Intrusion detection at 95% accuracy, automated pipelines that accelerated deliverables by 50%."
-               data-desc="Data anonymization and intrusion detection research under Prof. Matthew Bishop. Developed Python-based network sniffing tools using Scapy to minimize breach risk."
-               data-link="https://swatipiyer.wixsite.com/swati-iyer/portfolio-collections/my-portfolio/computer-security-research-project"
+               data-motivation="This research project on computer security focuses on minimizing data breaches by implementing data anonymization techniques. Under the supervision of Professor Matthew Bishop, the project is a collaborative effort resulting in an implementation of network sniffing code."
+               data-desc="Data anonymization and intrusion detection research under Prof. Matthew Bishop. Developed Python-based network sniffing tools using Scapy to minimize breach risk through privacy-preserving techniques."
+               data-link="pages/research.html"
                data-metric="95% detection accuracy">
             <div class="folder-icon folder-slate">
               <svg class="folder-svg" viewBox="0 0 88 72" fill="none">
@@ -644,24 +795,24 @@
             <span class="folder-name">Network Security</span>
           </div>
 
-          <div class="finder-folder" data-category="uxui" data-project="bloom"
-               data-title="Bloom Mentorship"
+          <div class="finder-folder" data-category="uxui" data-project="sonar"
+               data-title="Sonar - Music Connection App"
                data-role="Product Designer"
                data-year="2024"
-               data-tools="Figma, User Research, Product Strategy"
-               data-desc="Professional networking platform reducing social friction in designer-mentee connections through matching flows, communication design, and product strategy."
-               data-link="https://swatipiyer.wixsite.com/swati-iyer/portfolio-collections/my-portfolio/bloom"
-               data-metric="Product strategy">
+               data-tools="Figma, Rapid Prototyping, Design Sprint"
+               data-desc="Anonymous music-sharing platform designed at UC Irvine's True To You Design-A-Thon. Created unique social experience enabling cross-cultural connection through shared musical discovery and artistic expression."
+               data-link="pages/sonar.html"
+               data-metric="Design sprint">
             <div class="folder-icon folder-gold">
               <svg class="folder-svg" viewBox="0 0 88 72" fill="none">
                 <path d="M0 12C0 8.68629 2.68629 6 6 6H28L34 0H82C85.3137 0 88 2.68629 88 6V12H0Z" fill="currentColor" opacity="0.7"/>
                 <rect y="10" width="88" height="56" rx="6" fill="currentColor"/>
               </svg>
               <span class="folder-badge">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
               </span>
             </div>
-            <span class="folder-name">Bloom</span>
+            <span class="folder-name">Sonar</span>
           </div>
         </div>
 
@@ -712,31 +863,165 @@
           </div>
         </div>
 
+        <div class="finder-panel" id="panel-writing" style="display:none;">
+          <div class="finder-writing-list">
+            <a href="pages/giri-checkout.html" class="finder-writing-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              <div class="writing-info">
+                <span class="writing-title">When Users Said &ldquo;More&rdquo; and the Data Said Otherwise</span>
+                <span class="writing-meta">2025 &middot; UX Research &middot; Improving event page conversion by reconciling what users asked for with what they actually did.</span>
+              </div>
+              <span class="writing-arrow">&rarr;</span>
+            </a>
+            <a href="https://open.substack.com/pub/mullaimusings/p/the-gap-between-who-i-am-and-who?utm_campaign=post-expanded-share&utm_medium=post%20viewer" target="_blank" class="finder-writing-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              <div class="writing-info">
+                <span class="writing-title">The Gap Between Who I Am and Who I Perform</span>
+                <span class="writing-meta">Substack essay on identity, self-presentation, and internal tension</span>
+              </div>
+              <span class="writing-arrow">&rarr;</span>
+            </a>
+            <a href="https://davisdesigninteractive.medium.com/keepsake-a-ux-case-study-802642f56654" target="_blank" class="finder-writing-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              <div class="writing-info">
+                <span class="writing-title">KeepSake UX Case Study</span>
+                <span class="writing-meta">Medium feature on the family archive concept, research, and final design</span>
+              </div>
+              <span class="writing-arrow">&rarr;</span>
+            </a>
+            <a href="https://medium.com/@swatipiyer/the-let-them-theory-how-i-stopped-breaking-myself-to-please-everyone-else-44da50c2be41" target="_blank" class="finder-writing-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              <div class="writing-info">
+                <span class="writing-title">The Let Them Theory</span>
+                <span class="writing-meta">Medium article on people-pleasing, boundaries, and self-trust</span>
+              </div>
+              <span class="writing-arrow">&rarr;</span>
+            </a>
+            <a href="https://medium.com/@swatipiyer/how-i-used-asana-and-a-bit-of-automation-to-land-interviews-faster-in-my-job-search-bbcd048eb86b" target="_blank" class="finder-writing-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              <div class="writing-info">
+                <span class="writing-title">How I Used Asana and Automation to Land Interviews Faster</span>
+                <span class="writing-meta">Medium article on organizing a job search with workflows and automation</span>
+              </div>
+              <span class="writing-arrow">&rarr;</span>
+            </a>
+            <a href="https://medium.com/@swatipiyer" target="_blank" class="finder-writing-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              <div class="writing-info">
+                <span class="writing-title">Medium Blog</span>
+                <span class="writing-meta">@swatipiyer &middot; Articles on product, data, and design</span>
+              </div>
+              <span class="writing-arrow">&rarr;</span>
+            </a>
+          </div>
+        </div>
+
         <div class="finder-panel" id="panel-credentials" style="display:none;">
           <div class="credentials-preview-grid">
-            <article class="credentials-preview-card">
+            <article class="credentials-preview-card" data-tab="snapshot">
               <span class="credentials-preview-meta">01 · Snapshot</span>
               <h3>Impact Snapshot</h3>
               <p>Onboarding, conversion, experimentation, and privacy-focused product decisions across recent PM and research work.</p>
             </article>
-            <article class="credentials-preview-card">
+            <article class="credentials-preview-card" data-tab="process">
               <span class="credentials-preview-meta">02 · Process</span>
               <h3>How I Work</h3>
               <p>Research, structure, and measurable iteration to turn ambiguity into product decisions.</p>
             </article>
-            <article class="credentials-preview-card">
+            <article class="credentials-preview-card" data-tab="toolkit">
               <span class="credentials-preview-meta">03 · Toolkit</span>
-              <h3>Analytics Toolkit</h3>
+              <h3>Toolkit</h3>
               <p>Capability-based view of the SQL, KPI, dashboard, and mixed-method work behind product decisions.</p>
             </article>
-            <article class="credentials-preview-card active">
+            <article class="credentials-preview-card active" data-tab="credentials">
               <span class="credentials-preview-meta">04 · Credentials</span>
               <h3>Credentials</h3>
               <p>Formal training that complements hands-on work across product, research, analytics, and AI.</p>
             </article>
           </div>
 
-          <div class="credentials-section">
+          <!-- Snapshot Section -->
+          <div class="credentials-section" data-section="snapshot" style="display:none;">
+            <span class="credentials-eyebrow">Impact Snapshot</span>
+            <h3 class="credentials-heading">Numbers from recent work</h3>
+            <p class="credentials-copy">Key outcomes across product, research, and design roles.</p>
+            <div class="explore-snapshot-grid">
+              <div class="explore-snapshot-item">
+                <span class="explore-snapshot-label">Digo</span>
+                <p><strong>40% less</strong> manual event setup time for pilot users after MVP launch.</p>
+              </div>
+              <div class="explore-snapshot-item">
+                <span class="explore-snapshot-label">UC Davis Research</span>
+                <p><strong>50% faster</strong> research turnaround after building automated anonymization pipelines.</p>
+              </div>
+              <div class="explore-snapshot-item">
+                <span class="explore-snapshot-label">Giri</span>
+                <p>Checkout friction cut from <strong>7 steps to 3</strong>. Analytics framework tracking 8 KPIs.</p>
+              </div>
+              <div class="explore-snapshot-item">
+                <span class="explore-snapshot-label">UC Davis Research</span>
+                <p><strong>95% accuracy</strong> on intrusion detection benchmark. Findings adopted into departmental security guidelines.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Process Section -->
+          <div class="credentials-section" data-section="process" style="display:none;">
+            <span class="credentials-eyebrow">How I Work</span>
+            <h3 class="credentials-heading">From ambiguity to shipped product</h3>
+            <p class="credentials-copy">My process is research-first, then structure, then build and measure.</p>
+            <div class="explore-process-flow">
+              <div class="explore-process-step">
+                <span>1</span>
+                <p>Talk to users. Interviews, surveys, watching people actually try to do the thing.</p>
+              </div>
+              <div class="explore-process-step">
+                <span>2</span>
+                <p>Map the problem. Competitive analysis, workflow mapping, identifying where friction lives.</p>
+              </div>
+              <div class="explore-process-step">
+                <span>3</span>
+                <p>Scope and prioritize. RICE scoring, PRDs with data-backed specs, cutting scope until the MVP is sharp.</p>
+              </div>
+              <div class="explore-process-step">
+                <span>4</span>
+                <p>Build and test. Sprint planning, Figma prototypes, iterative testing with real users.</p>
+              </div>
+              <div class="explore-process-step">
+                <span>5</span>
+                <p>Measure and iterate. KPI dashboards, usage analytics, then back to step 1.</p>
+              </div>
+            </div>
+            <p class="explore-support-line">Tools that support this: Figma, Notion, Python, SQL, QuickSight, A/B testing frameworks</p>
+          </div>
+
+          <!-- Toolkit Section -->
+          <div class="credentials-section" data-section="toolkit" style="display:none;">
+            <span class="credentials-eyebrow">Toolkit</span>
+            <h3 class="credentials-heading">What I actually use day to day</h3>
+            <p class="credentials-copy">Grouped by what the tools help me do, not just what they are.</p>
+            <div class="explore-toolkit-grid">
+              <div class="explore-toolkit-card">
+                <h4>Data and Analytics</h4>
+                <p>Python, SQL, Pandas, NumPy, QuickSight, Alteryx, Excel. Pipeline automation, A/B testing, KPI dashboards.</p>
+              </div>
+              <div class="explore-toolkit-card">
+                <h4>AI and ML</h4>
+                <p>ML pipelines, NLP, intrusion detection, data anonymization, LLM API integration.</p>
+              </div>
+              <div class="explore-toolkit-card">
+                <h4>Product and Research</h4>
+                <p>User interviews, competitive analysis, RICE prioritization, PRD writing, Agile/Scrum, stakeholder management.</p>
+              </div>
+              <div class="explore-toolkit-card">
+                <h4>Engineering</h4>
+                <p>TypeScript, Go, Java, C/C++, JavaScript, React, Angular, Git, Figma, Notion.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Credentials Section -->
+          <div class="credentials-section" data-section="credentials">
             <span class="credentials-eyebrow">Credentials</span>
             <h3 class="credentials-heading">Formal training that supports the hands-on work</h3>
             <p class="credentials-copy">Formal training that complements my hands-on work across product, research, analytics, and AI.</p>
@@ -779,7 +1064,7 @@
   <!-- ═══════════════════════════
        SELECTED WORK
        ═══════════════════════════ -->
-  <div class="section-break" id="work">
+  <div class="section-break" id="work" data-role-section="work">
     <div class="section-header anim-left">
       <span class="section-num">02</span>
       <h2 class="section-title">Selected Work</h2>
@@ -787,7 +1072,7 @@
   </div>
 
   <!-- ═══ SHOWCASE 1: KeepSake ═══ -->
-  <section class="showcase-section showcase-keepsake showcase-color-1">
+  <section class="showcase-section showcase-keepsake showcase-color-1" data-role-section="work">
     <div class="showcase-wave showcase-wave-top" aria-hidden="true">
       <svg viewBox="0 0 1440 200" preserveAspectRatio="none">
         <path d="M0,18 C246,-4 432,22 636,78 C836,132 1018,120 1194,98 C1310,84 1378,80 1440,86 L1440,0 L0,0 Z" fill="var(--bg)"/>
@@ -802,10 +1087,10 @@
       </div>
       <div class="showcase-visual">
         <div class="showcase-img-wrap">
-          <img src="assets/keepsake.webp" alt="KeepSake app screens and family archive interface" class="showcase-real-image showcase-keepsake-main-image">
+          <img src="assets/work/keepsake/keepsake.webp" alt="KeepSake app screens and family archive interface" class="showcase-real-image showcase-keepsake-main-image">
         </div>
         <div class="showcase-img-wrap showcase-img-secondary">
-          <img src="assets/keepsake2.webp" alt="KeepSake personas and user-needs slide" class="showcase-real-image showcase-keepsake-personas-image">
+          <img src="assets/work/keepsake/keepsake2.webp" alt="KeepSake personas and user-needs slide" class="showcase-real-image showcase-keepsake-personas-image">
         </div>
       </div>
     </div>
@@ -817,7 +1102,7 @@
   </section>
 
   <!-- ═══ SHOWCASE 2: Digo ═══ -->
-  <section class="showcase-section showcase-color-2">
+  <section class="showcase-section showcase-color-2" data-role-section="work">
     <div class="showcase-inner showcase-reverse anim visible">
       <div class="showcase-text">
         <span class="showcase-date">2026</span>
@@ -827,10 +1112,10 @@
       </div>
       <div class="showcase-visual">
         <div class="showcase-img-wrap">
-          <img src="assets/digo2.png" alt="Digo event listing interface with upcoming AI events" class="showcase-real-image showcase-digo-main-image">
+          <img src="assets/work/digo/digo2.png" alt="Digo event listing interface with upcoming AI events" class="showcase-real-image showcase-digo-main-image">
         </div>
         <div class="showcase-img-wrap showcase-img-secondary">
-          <img src="assets/digo1.png" alt="Digo event detail and organizer dashboard view" class="showcase-real-image showcase-digo-secondary-image">
+          <img src="assets/work/digo/digo1.png" alt="Digo event detail and organizer dashboard view" class="showcase-real-image showcase-digo-secondary-image">
         </div>
       </div>
     </div>
@@ -841,57 +1126,21 @@
     </div>
   </section>
 
-  <!-- ═══ SHOWCASE 3: Event Page Conversion ═══ -->
-  <section class="showcase-section showcase-color-3">
-    <div class="showcase-inner anim visible">
-      <div class="showcase-text">
-        <span class="showcase-date">2025</span>
-        <h2 class="showcase-title">When Users Said<br>&ldquo;More&rdquo; and the Data Said Otherwise</h2>
-        <p class="showcase-desc">Improving event page conversion by reconciling what users asked for with what they actually did.</p>
-        <a href="pages/giri-checkout.html" class="showcase-cta">Read case study &rarr;</a>
-      </div>
-      <!--
-      <div class="showcase-visual">
-        <div class="showcase-img-wrap">
-          <div class="showcase-placeholder">
-            <span class="showcase-placeholder-label">Funnel analysis</span>
-          </div>
-        </div>
-        <div class="showcase-img-wrap showcase-img-secondary">
-          <div class="showcase-placeholder">
-            <span class="showcase-placeholder-label">Experiment results</span>
-          </div>
-        </div>
-      </div>
-      -->
-    </div>
-    <div class="showcase-wave showcase-wave-bottom" aria-hidden="true">
-      <svg viewBox="0 0 1440 200" preserveAspectRatio="none">
-        <path d="M0,100 C300,170 600,30 900,120 C1100,170 1300,80 1440,110 L1440,200 L0,200 Z" fill="var(--bg)"/>
-      </svg>
-    </div>
-  </section>
-
-  <!--
-  ═══ SHOWCASE 4: Research ═══
-  <section class="showcase-section showcase-color-4">
+  <!-- ═══ SHOWCASE 3: Pulse ═══ -->
+  <section class="showcase-section showcase-color-3" data-role-section="work">
     <div class="showcase-inner showcase-reverse anim visible">
       <div class="showcase-text">
-        <span class="showcase-date">2023-2025</span>
-        <h2 class="showcase-title">Network Traffic &amp; Privacy</h2>
-        <p class="showcase-desc">Built and automated Python and SQL pipelines in Databricks for network data anonymization, then benchmarked intrusion detection systems and translated findings into reports and presentations.</p>
-        <a href="pages/research.html" class="showcase-cta">Read case study &rarr;</a>
+        <span class="showcase-date">2026</span>
+        <h2 class="showcase-title">Pulse</h2>
+        <p class="showcase-desc">Designing and building an AI analytics copilot that helps product teams at startups ask questions of their data in plain English, catch anomalies automatically, and get weekly digests that read like PM standup notes.</p>
+        <a href="pages/pulse.html" class="showcase-cta">Read case study &rarr;</a>
       </div>
       <div class="showcase-visual">
         <div class="showcase-img-wrap">
-          <div class="showcase-placeholder">
-            <span class="showcase-placeholder-label">Network analysis</span>
-          </div>
+          <img src="assets/screenshots/pulse1.png" alt="Pulse analytics dashboard" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">
         </div>
         <div class="showcase-img-wrap showcase-img-secondary">
-          <div class="showcase-placeholder">
-            <span class="showcase-placeholder-label">Detection benchmarks</span>
-          </div>
+          <img src="assets/screenshots/pulse2.png" alt="Pulse query interface" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">
         </div>
       </div>
     </div>
@@ -901,19 +1150,18 @@
       </svg>
     </div>
   </section>
-  -->
 
   <!-- ═══════════════════════════
        EXPERIENCE
        ═══════════════════════════ -->
-  <div class="section-break" id="experience">
+  <div class="section-break" id="experience" data-role-section="experience">
     <div class="section-header anim-left">
       <span class="section-num">03</span>
       <h2 class="section-title">Experience</h2>
     </div>
   </div>
 
-  <div class="timeline">
+  <div class="timeline" data-role-section="experience">
 
     <article class="tl-item anim anim-d1">
       <div class="tl-date">
@@ -1037,14 +1285,14 @@
   <!-- ═══════════════════════════
        EDUCATION
        ═══════════════════════════ -->
-  <div class="section-break" id="education">
+  <div class="section-break" id="education" data-role-section="education">
     <div class="section-header anim-left">
       <span class="section-num">04</span>
       <h2 class="section-title">Education</h2>
     </div>
   </div>
 
-  <div class="edu-section">
+  <div class="edu-section" data-role-section="education">
     <div class="edu-entry anim">
       <div class="edu-top">
         <div class="edu-logo">
@@ -1069,10 +1317,10 @@
   <!-- ═══════════════════════════
        CONNECT
        ═══════════════════════════ -->
-  <div class="connect-section anim">
+  <div class="connect-section anim" data-role-section="connect">
 
     <div class="connect-top">
-      <h2 class="connect-heading">Always down for a coffee chat.</h2>
+      <h2 class="connect-heading">Always down for a chat.</h2>
 
       <p class="connect-subcopy">
         Open to PM and analytics roles. Or just want to talk about something you’re building? Let’s chat.
@@ -1092,7 +1340,7 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
           Get in touch
         </a>
-        <a href="assets/SwatiIyer_Resume.pdf" class="connect-resume-btn" target="_blank">
+        <a href="assets/docs/SwatiIyer_Resume.pdf" class="connect-resume-btn" target="_blank">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
           Resume
         </a>
@@ -1118,6 +1366,12 @@
       </div>
     </div>
 
+  </div>
+
+  <!-- ═══ ROLE BADGE (floating) ═══ -->
+  <div class="role-badge" id="role-badge" style="display:none;">
+    <span class="role-badge-label" id="role-badge-label"></span>
+    <button class="role-badge-switch" id="role-badge-switch">switch</button>
   </div>
 
 </div>
@@ -1213,7 +1467,7 @@
       btn.classList.add('active');
 
       const tab = btn.dataset.tab;
-      const labels = { projects: 'Projects', 'analytics-toolkit': 'Analytics Toolkit', credentials: 'Credentials' };
+      const labels = { projects: 'Projects', 'analytics-toolkit': 'Toolkit', credentials: 'Credentials', writing: 'Writing' };
       const pathRoot = document.querySelector('.path-root');
       if (pathRoot) pathRoot.textContent = labels[tab] || 'Projects';
 
@@ -1243,7 +1497,8 @@
 
         const counts = {
           'analytics-toolkit': document.querySelectorAll('#panel-analytics-toolkit .finder-tool-group').length,
-          credentials: document.querySelectorAll('#panel-credentials .credentials-preview-card').length
+          credentials: document.querySelectorAll('#panel-credentials .credentials-preview-card').length,
+          writing: document.querySelectorAll('#panel-writing .finder-writing-card').length
         };
         const c = counts[tab] || 0;
         if (countEl) countEl.textContent = c + ' item' + (c !== 1 ? 's' : '');
@@ -1467,19 +1722,86 @@
     });
   })();
 
-  // ═══ TERMINAL BOOT SCREEN ═══
+  // ═══ TERMINAL BOOT SCREEN + ROLE SYSTEM ═══
   (function terminalBoot() {
     const bootEl = document.getElementById('terminal-boot');
     const textEl = document.getElementById('terminal-text');
-    const launchForm = document.getElementById('terminal-launch');
-    const launchInput = document.getElementById('terminal-launch-input');
-    const launchDisplay = document.getElementById('terminal-launch-display');
+    const rolesEl = document.getElementById('terminal-roles');
+    const greetingEl = document.getElementById('terminal-greeting');
     const skipBtn = document.getElementById('terminal-skip');
-    if (!bootEl || !textEl || !launchForm || !launchInput || !launchDisplay) return;
-    const introSeenKey = 'swati-portfolio-intro-seen';
+    const badge = document.getElementById('role-badge');
+    const badgeLabel = document.getElementById('role-badge-label');
+    const badgeSwitch = document.getElementById('role-badge-switch');
+    if (!bootEl || !textEl || !rolesEl) return;
 
+    const introSeenKey = 'swati-portfolio-intro-seen';
+    const roleKey = 'swati-portfolio-role';
+
+    const greetings = {
+      recruiter: '> alright, let me show you around.',
+      pm: '> cool, welcome to my world.',
+      browse: '> the floor is yours...'
+    };
+
+    const roleLabels = {
+      recruiter: 'viewing as: here to hire',
+      pm: 'viewing as: in the field',
+      browse: 'viewing as: just vibing'
+    };
+
+    // Section order per role (elements with data-role-section)
+    const sectionOrder = {
+      recruiter: ['hero', 'about', 'explore', 'experience', 'work', 'education', 'connect'],
+      pm:        ['hero', 'about', 'work', 'explore', 'experience', 'education', 'connect'],
+      browse:    ['hero', 'about', 'explore', 'work', 'experience', 'education', 'connect']
+    };
+
+    function applyRole(role) {
+      // Remove old role classes
+      document.body.classList.remove('role-recruiter', 'role-pm', 'role-browse');
+      document.body.classList.add('role-' + role);
+      window.sessionStorage.setItem(roleKey, role);
+
+      // Reorder sections
+      const pageWrap = document.querySelector('.page-wrap');
+      if (!pageWrap) return;
+      const order = sectionOrder[role] || sectionOrder.browse;
+      const elements = Array.from(pageWrap.querySelectorAll('[data-role-section]'));
+
+      // Group elements by their section name
+      const groups = {};
+      elements.forEach(el => {
+        const sec = el.dataset.roleSection;
+        if (!groups[sec]) groups[sec] = [];
+        groups[sec].push(el);
+      });
+
+      // Build ordered list
+      const ordered = [];
+      order.forEach(sec => {
+        if (groups[sec]) {
+          groups[sec].forEach(el => ordered.push(el));
+        }
+      });
+
+      // Re-append in order
+      ordered.forEach(el => {
+        pageWrap.appendChild(el);
+      });
+
+      // Show badge
+      if (badge && badgeLabel) {
+        badgeLabel.textContent = roleLabels[role] || '';
+        badge.style.display = '';
+        setTimeout(() => badge.classList.add('visible'), 50);
+      }
+    }
+
+    // If already seen, skip boot but apply saved role
     if (window.sessionStorage.getItem(introSeenKey) === 'true') {
       bootEl.classList.add('gone');
+      const savedRole = window.sessionStorage.getItem(roleKey) || 'browse';
+      applyRole(savedRole);
       return;
     }
 
@@ -1492,8 +1814,7 @@
       '> too many chrome tabs ........ OK',
       '',
       '  ███ READY ███',
-      '',
-      '> ready to step inside?'
+      ''
     ];
 
     let lineIdx = 0;
@@ -1501,56 +1822,60 @@
     let currentText = '';
     let speed = 18;
     let done = false;
-    let launchPlaceholder = 'type yes or press enter';
 
-    function syncLaunchDisplay() {
-      launchDisplay.textContent = launchInput.value || launchPlaceholder;
-    }
-
-    function finishBoot() {
+    function finishBoot(role) {
       if (done) return;
       done = true;
       window.sessionStorage.setItem(introSeenKey, 'true');
+      applyRole(role);
+
+      // Show greeting
+      if (greetingEl) {
+        greetingEl.textContent = greetings[role] || '';
+        greetingEl.classList.add('visible');
+      }
+
       setTimeout(() => {
         bootEl.classList.add('fade-out');
-        setTimeout(() => {
-          bootEl.classList.add('gone');
-        }, 700);
-      }, 400);
+        setTimeout(() => bootEl.classList.add('gone'), 700);
+      }, 900);
     }
 
-    skipBtn.addEventListener('click', finishBoot);
-    launchForm.addEventListener('click', () => launchInput.focus());
-    launchInput.addEventListener('input', syncLaunchDisplay);
-    launchForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const value = launchInput.value.trim().toLowerCase();
-      if (!value || value === 'yes' || value === 'y') {
-        finishBoot();
-      }
+    // Skip button defaults to "browse"
+    skipBtn.addEventListener('click', () => finishBoot('browse'));
+
+    // Role button clicks (event delegation for reliability)
+    bootEl.addEventListener('click', (e) => {
+      const btn = e.target.closest('.terminal-role-btn');
+      if (btn && btn.dataset.role) finishBoot(btn.dataset.role);
     });
+
+    // Keyboard shortcuts (1, 2, 3)
+    function onKeydown(e) {
+      if (done) return;
+      if (!rolesEl.classList.contains('visible')) return;
+      const map = { '1': 'recruiter', '2': 'pm', '3': 'browse' };
+      if (map[e.key]) {
+        e.preventDefault();
+        finishBoot(map[e.key]);
+        document.removeEventListener('keydown', onKeydown);
+      }
+    }
+    document.addEventListener('keydown', onKeydown);
 
     function typeNext() {
       if (done) return;
       if (lineIdx >= lines.length) {
         textEl.textContent = currentText.trimEnd();
-        if (window.innerWidth < 768) {
-          launchPlaceholder = 'tap and type yes or press go';
-          launchInput.setAttribute('aria-label', 'Tap and type yes or press go to continue');
-        }
-        syncLaunchDisplay();
-        launchForm.classList.add('visible');
-        setTimeout(() => launchInput.focus(), 120);
+        rolesEl.classList.add('visible');
         return;
       }
-
       const line = lines[lineIdx];
       if (charIdx < line.length) {
         currentText += line[charIdx];
         textEl.innerHTML = currentText + '<span class="t-cursor"></span>';
         charIdx++;
-        const ch = line[charIdx - 1];
-        const s = ch === '.' ? 8 : speed;
+        const s = line[charIdx - 1] === '.' ? 8 : speed;
         setTimeout(typeNext, s);
       } else {
         currentText += '\n';
@@ -1561,6 +1886,83 @@
     }
 
     setTimeout(typeNext, 500);
+  })();
+
+  // ═══ ROLE SWITCHER ═══
+  (function roleSwitcher() {
+    const badgeSwitch = document.getElementById('role-badge-switch');
+    if (!badgeSwitch) return;
+
+    badgeSwitch.addEventListener('click', () => {
+      // Create overlay
+      const overlay = document.createElement('div');
+      overlay.className = 'role-switcher-overlay';
+      overlay.innerHTML = `
+        <div class="terminal-roles visible" style="opacity:1;transform:none;pointer-events:auto;">
+          <div class="terminal-roles-prompt">&gt; switch view:</div>
+          <button class="terminal-role-btn" data-role="recruiter">
+            <span class="terminal-role-num">[1]</span> here to hire
+          </button>
+          <button class="terminal-role-btn" data-role="pm">
+            <span class="terminal-role-num">[2]</span> in the field
+          </button>
+          <button class="terminal-role-btn" data-role="browse">
+            <span class="terminal-role-num">[3]</span> just vibing
+          </button>
+        </div>
+        <button class="role-switcher-close">cancel (esc)</button>
+      `;
+      document.body.appendChild(overlay);
+      requestAnimationFrame(() => overlay.classList.add('visible'));
+
+      function close() {
+        overlay.classList.remove('visible');
+        setTimeout(() => overlay.remove(), 300);
+        document.removeEventListener('keydown', onKey);
+      }
+
+      function pickRole(role) {
+        // Remove old role classes, apply new
+        document.body.classList.remove('role-recruiter', 'role-pm', 'role-browse');
+        document.body.classList.add('role-' + role);
+        window.sessionStorage.setItem('swati-portfolio-role', role);
+
+        // Reorder
+        const pageWrap = document.querySelector('.page-wrap');
+        const badge = document.getElementById('role-badge');
+        const badgeLabel = document.getElementById('role-badge-label');
+        const roleLabels = { recruiter: 'viewing as: here to hire', pm: 'viewing as: in the field', browse: 'viewing as: just vibing' };
+        if (badgeLabel) badgeLabel.textContent = roleLabels[role] || '';
+
+        const order = {
+          recruiter: ['hero', 'about', 'explore', 'experience', 'work', 'education', 'connect'],
+          pm:        ['hero', 'about', 'work', 'explore', 'experience', 'education', 'connect'],
+          browse:    ['hero', 'about', 'explore', 'work', 'experience', 'education', 'connect']
+        };
+        const elements = Array.from(pageWrap.querySelectorAll('[data-role-section]'));
+        const groups = {};
+        elements.forEach(el => { const s = el.dataset.roleSection; if (!groups[s]) groups[s] = []; groups[s].push(el); });
+        const ordered = [];
+        (order[role] || order.browse).forEach(s => { if (groups[s]) groups[s].forEach(el => ordered.push(el)); });
+        ordered.forEach(el => pageWrap.appendChild(el));
+
+        close();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      overlay.querySelectorAll('.terminal-role-btn').forEach(btn => {
+        btn.addEventListener('click', () => pickRole(btn.dataset.role));
+      });
+
+      overlay.querySelector('.role-switcher-close').addEventListener('click', close);
+
+      function onKey(e) {
+        if (e.key === 'Escape') close();
+        const map = { '1': 'recruiter', '2': 'pm', '3': 'browse' };
+        if (map[e.key]) { e.preventDefault(); pickRole(map[e.key]); }
+      }
+      document.addEventListener('keydown', onKey);
+    });
   })();
 
   // ═══ CUSTOM CURSOR DOT ═══
@@ -1595,6 +1997,23 @@
       });
       card.addEventListener('mouseleave', () => {
         card.style.transform = '';
+      });
+    });
+  })();
+
+  /* ── Credentials tab switching ── */
+  (() => {
+    const cards = document.querySelectorAll('#panel-credentials .credentials-preview-card[data-tab]');
+    const sections = document.querySelectorAll('#panel-credentials .credentials-section[data-section]');
+    cards.forEach(card => {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', () => {
+        const tab = card.dataset.tab;
+        cards.forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        sections.forEach(s => {
+          s.style.display = s.dataset.section === tab ? '' : 'none';
+        });
       });
     });
   })();

@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask Pulse - Analytics Copilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            background-color: #fafaf8;
+            color: #1a1a1a;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 56px;
+            background-color: #f5f5f3;
+            border-right: 1px solid #e8e8e6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px 0;
+            gap: 24px;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            overflow-y: auto;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background-color: #e8e8e6;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .nav {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .nav-item {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #888;
+            transition: all 0.2s ease;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .nav-item:hover {
+            color: #1a1a1a;
+            background-color: #e8e8e6;
+        }
+
+        .nav-item.active {
+            color: #0d9488;
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            right: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 20px;
+            background-color: #0d9488;
+            border-radius: 1.5px;
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .demo-badge {
+            margin-top: auto;
+            font-size: 10px;
+            font-weight: 500;
+            color: #999;
+            text-align: center;
+            padding: 8px 4px;
+            line-height: 1.2;
+            width: 48px;
+        }
+
+        /* Main content */
+        .main {
+            flex: 1;
+            margin-left: 56px;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #fafaf8;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 40px;
+            border-bottom: 1px solid #e8e8e6;
+            background-color: #fafaf8;
+        }
+
+        .top-bar-left {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a1a1a;
+            letter-spacing: -0.3px;
+        }
+
+        .demo-pill {
+            background-color: #f1f0ee;
+            color: #666;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 32px 40px;
+        }
+
+        .header {
+            margin-bottom: 32px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+            letter-spacing: -0.3px;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: #888;
+            font-weight: 400;
+        }
+
+        /* Chat area */
+        .chat-area {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+            margin-bottom: 40px;
+        }
+
+        .message-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .user-message {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .user-bubble {
+            background-color: #0d9488;
+            color: #ffffff;
+            padding: 11px 16px;
+            border-radius: 14px;
+            max-width: 520px;
+            font-size: 14px;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        .pulse-response {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 700px;
+        }
+
+        .pulse-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .pulse-avatar {
+            width: 24px;
+            height: 24px;
+            background-color: #e8e8e6;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 600;
+            color: #0d9488;
+        }
+
+        .pulse-card {
+            background-color: #ffffff;
+            border: 1px solid #e8e8e6;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .pulse-text {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 16px;
+            font-weight: 400;
+        }
+
+        .chart-container {
+            margin-bottom: 16px;
+            margin-top: 12px;
+        }
+
+        .sql-section {
+            margin-top: 12px;
+            border-top: 1px solid #e8e8e6;
+            padding-top: 12px;
+        }
+
+        .sql-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            color: #0d9488;
+            user-select: none;
+            transition: color 0.2s ease;
+            font-weight: 500;
+        }
+
+        .sql-toggle:hover {
+            color: #0a7f78;
+        }
+
+        .sql-toggle-icon {
+            width: 16px;
+            height: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease;
+            font-size: 12px;
+        }
+
+        .sql-toggle.expanded .sql-toggle-icon {
+            transform: rotate(90deg);
+        }
+
+        .sql-code {
+            display: none;
+            background-color: #f1f0ee;
+            border-radius: 6px;
+            padding: 12px;
+            margin-top: 10px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px;
+            color: #555;
+            line-height: 1.5;
+            overflow-x: auto;
+            font-weight: 400;
+        }
+
+        .sql-code.expanded {
+            display: block;
+        }
+
+        /* Input area */
+        .input-area {
+            border-top: 1px solid #e8e8e6;
+            padding: 20px 40px;
+            background-color: #fafaf8;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .input-field {
+            flex: 1;
+            background-color: #ffffff;
+            border: 1px solid #d4d4d2;
+            border-radius: 8px;
+            padding: 11px 14px;
+            font-size: 14px;
+            color: #1a1a1a;
+            font-family: 'IBM Plex Sans', sans-serif;
+            transition: all 0.2s ease;
+            font-weight: 400;
+        }
+
+        .input-field::placeholder {
+            color: #aaa;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #0d9488;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.1);
+        }
+
+        .send-button {
+            background-color: #0d9488;
+            border: none;
+            border-radius: 8px;
+            width: 38px;
+            height: 38px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            color: #ffffff;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .send-button:hover {
+            background-color: #0a7f78;
+        }
+
+        .send-button:active {
+            transform: scale(0.95);
+        }
+
+        .suggestions {
+            font-size: 12px;
+            color: #999;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        .suggestions strong {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .suggestion-chip {
+            display: inline-block;
+            background-color: #f1f0ee;
+            color: #666;
+            padding: 5px 10px;
+            border-radius: 14px;
+            margin: 0 4px 4px 0;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .suggestion-chip:hover {
+            background-color: #e8e8e6;
+            color: #333;
+        }
+
+        /* SVG Charts */
+        .chart-svg {
+            width: 100%;
+            height: 200px;
+        }
+
+        .grid-line {
+            stroke: #e8e8e6;
+            stroke-width: 1;
+        }
+
+        .axis-line {
+            stroke: #d4d4d2;
+            stroke-width: 1.5;
+        }
+
+        .axis-label {
+            font-size: 11px;
+            fill: #999;
+            text-anchor: middle;
+            font-family: 'IBM Plex Mono', monospace;
+            font-weight: 400;
+        }
+
+        .chart-line {
+            stroke: #0d9488;
+            stroke-width: 2.5;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .chart-gradient-fill {
+            opacity: 0.12;
+        }
+
+        .anomaly-dot {
+            fill: #dc2626;
+            r: 3.5;
+        }
+
+        .bar {
+            rx: 3;
+        }
+
+        .bar-weekday {
+            fill: #0d9488;
+        }
+
+        .bar-weekend {
+            fill: #d4d4d2;
+        }
+
+        .bar-label {
+            font-size: 11px;
+            fill: #666;
+            text-anchor: middle;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 500;
+        }
+
+        .bar-value {
+            font-size: 11px;
+            fill: #555;
+            text-anchor: middle;
+            font-family: 'IBM Plex Mono', monospace;
+            font-weight: 500;
+        }
+
+        /* Scrollbar styling */
+        .content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .content::-webkit-scrollbar-thumb {
+            background: #d4d4d2;
+            border-radius: 4px;
+        }
+
+        .content::-webkit-scrollbar-thumb:hover {
+            background: #c4c4c2;
+        }
+
+        @media (max-width: 1200px) {
+            .content {
+                padding: 24px 32px;
+            }
+
+            .input-area {
+                padding: 16px 32px;
+            }
+
+            .top-bar {
+                padding: 16px 32px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 16px 20px;
+            }
+
+            .input-area {
+                padding: 12px 20px;
+            }
+
+            .top-bar {
+                padding: 12px 20px;
+            }
+
+            .user-bubble {
+                max-width: 70%;
+            }
+
+            .pulse-response {
+                max-width: 100%;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">P</div>
+
+            <div class="nav">
+                <a href="dashboard.html" class="nav-item" title="Dashboard">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                </a>
+
+                <a href="query.html" class="nav-item active" title="Ask Pulse">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </a>
+
+                <a href="#" class="nav-item" title="Anomalies">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                    </svg>
+                </a>
+
+                <a href="#" class="nav-item" title="Digest">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                </a>
+
+                <a href="#" class="nav-item" title="Settings">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="1"></circle>
+                        <circle cx="19" cy="12" r="1"></circle>
+                        <circle cx="5" cy="12" r="1"></circle>
+                    </svg>
+                </a>
+            </div>
+
+            <div class="demo-badge">Demo</div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main">
+            <div class="top-bar">
+                <div class="top-bar-left">Pulse</div>
+                <div class="demo-pill">Demo</div>
+            </div>
+
+            <div class="content">
+                <div class="header">
+                    <h1>Ask Pulse</h1>
+                    <p>Ask a question about your product data in plain English.</p>
+                </div>
+
+                <!-- Chat Area -->
+                <div class="chat-area">
+                    <!-- Exchange 1 -->
+                    <div class="message-group">
+                        <div class="user-message">
+                            <div class="user-bubble">What was our signup trend this month?</div>
+                        </div>
+
+                        <div class="pulse-response">
+                            <div class="pulse-header">
+                                <div class="pulse-avatar">P</div>
+                                <span>Pulse</span>
+                            </div>
+
+                            <div class="pulse-card">
+                                <div class="pulse-text">Signups averaged 187 per day this month, up 8% from last month. There was a notable dip on Apr 1 (142 signups, 34% below average) but recovery was quick. The overall trend is positive.</div>
+
+                                <div class="chart-container">
+                                    <svg class="chart-svg" viewBox="0 0 640 180" preserveAspectRatio="xMidYMid meet">
+                                        <defs>
+                                            <linearGradient id="lineGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+                                                <stop offset="0%" style="stop-color:#0d9488;stop-opacity:0.2" />
+                                                <stop offset="100%" style="stop-color:#0d9488;stop-opacity:0.01" />
+                                            </linearGradient>
+                                        </defs>
+
+                                        <!-- Grid lines -->
+                                        <line x1="50" y1="20" x2="50" y2="150" class="axis-line"></line>
+                                        <line x1="50" y1="150" x2="620" y2="150" class="axis-line"></line>
+
+                                        <!-- Horizontal grid -->
+                                        <line x1="50" y1="50" x2="620" y2="50" class="grid-line"></line>
+                                        <line x1="50" y1="80" x2="620" y2="80" class="grid-line"></line>
+                                        <line x1="50" y1="110" x2="620" y2="110" class="grid-line"></line>
+
+                                        <!-- Y-axis labels -->
+                                        <text x="38" y="155" class="axis-label">0</text>
+                                        <text x="38" y="118" class="axis-label">100</text>
+                                        <text x="38" y="88" class="axis-label">200</text>
+                                        <text x="38" y="58" class="axis-label">300</text>
+
+                                        <!-- Chart data: 30 points showing realistic daily signups -->
+                                        <!-- Line chart with smooth data -->
+                                        <polyline points="57,68 68,71 79,74 90,76 101,73 112,70 123,72 134,75 145,77 156,131 167,75 178,72 189,74 200,76 211,73 222,71 233,74 244,77 255,79 266,65 277,72 288,75 299,77 310,74 321,71 332,73 345,75 356,78 367,76 378,74" class="chart-line"></polyline>
+
+                                        <!-- Gradient fill area -->
+                                        <polygon points="57,68 68,71 79,74 90,76 101,73 112,70 123,72 134,75 145,77 156,131 167,75 178,72 189,74 200,76 211,73 222,71 233,74 244,77 255,79 266,65 277,72 288,75 299,77 310,74 321,71 332,73 345,75 356,78 367,76 378,74 378,150 57,150" fill="url(#lineGrad1)"></polygon>
+
+                                        <!-- Anomaly marker at the dip -->
+                                        <circle cx="156" cy="131" class="anomaly-dot"></circle>
+
+                                        <!-- X-axis labels -->
+                                        <text x="57" y="168" class="axis-label">Mar 5</text>
+                                        <text x="200" y="168" class="axis-label">Mar 12</text>
+                                        <text x="343" y="168" class="axis-label">Mar 19</text>
+                                    </svg>
+                                </div>
+
+                                <div class="sql-section">
+                                    <div class="sql-toggle" onclick="toggleSQL(this)">
+                                        <span class="sql-toggle-icon">&#x203A;</span>
+                                        <span>View SQL</span>
+                                    </div>
+                                    <div class="sql-code">SELECT date, value
+FROM metrics_daily
+WHERE metric_name = 'daily_signups'
+  AND date >= date('now', '-30 days')
+ORDER BY date</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Exchange 2 -->
+                    <div class="message-group">
+                        <div class="user-message">
+                            <div class="user-bubble">Break that down by weekday vs weekend</div>
+                        </div>
+
+                        <div class="pulse-response">
+                            <div class="pulse-header">
+                                <div class="pulse-avatar">P</div>
+                                <span>Pulse</span>
+                            </div>
+
+                            <div class="pulse-card">
+                                <div class="pulse-text">Weekday signups average 203 per day, while weekends average 142 per day. That's a 30% drop on weekends, which is typical for B2B products. Tuesday and Wednesday are your strongest days.</div>
+
+                                <div class="chart-container">
+                                    <svg class="chart-svg" viewBox="0 0 640 180" preserveAspectRatio="xMidYMid meet">
+                                        <!-- Grid lines -->
+                                        <line x1="50" y1="20" x2="50" y2="150" class="axis-line"></line>
+                                        <line x1="50" y1="150" x2="620" y2="150" class="axis-line"></line>
+
+                                        <!-- Horizontal grid -->
+                                        <line x1="50" y1="50" x2="620" y2="50" class="grid-line"></line>
+                                        <line x1="50" y1="80" x2="620" y2="80" class="grid-line"></line>
+                                        <line x1="50" y1="110" x2="620" y2="110" class="grid-line"></line>
+
+                                        <!-- Y-axis labels -->
+                                        <text x="38" y="155" class="axis-label">0</text>
+                                        <text x="38" y="118" class="axis-label">100</text>
+                                        <text x="38" y="88" class="axis-label">200</text>
+                                        <text x="38" y="58" class="axis-label">300</text>
+
+                                        <!-- Bar chart: Mon-Sun -->
+                                        <!-- Mon: 198 -->
+                                        <rect x="65" y="71" width="36" height="79" class="bar bar-weekday"></rect>
+                                        <!-- Tue: 215 -->
+                                        <rect x="108" y="65" width="36" height="85" class="bar bar-weekday"></rect>
+                                        <!-- Wed: 220 -->
+                                        <rect x="151" y="63" width="36" height="87" class="bar bar-weekday"></rect>
+                                        <!-- Thu: 208 -->
+                                        <rect x="194" y="68" width="36" height="82" class="bar bar-weekday"></rect>
+                                        <!-- Fri: 195 -->
+                                        <rect x="237" y="72" width="36" height="78" class="bar bar-weekday"></rect>
+                                        <!-- Sat: 148 -->
+                                        <rect x="280" y="99" width="36" height="51" class="bar bar-weekend"></rect>
+                                        <!-- Sun: 135 -->
+                                        <rect x="323" y="105" width="36" height="45" class="bar bar-weekend"></rect>
+
+                                        <!-- Bar labels (day names) -->
+                                        <text x="83" y="168" class="bar-label">Mon</text>
+                                        <text x="126" y="168" class="bar-label">Tue</text>
+                                        <text x="169" y="168" class="bar-label">Wed</text>
+                                        <text x="212" y="168" class="bar-label">Thu</text>
+                                        <text x="255" y="168" class="bar-label">Fri</text>
+                                        <text x="298" y="168" class="bar-label">Sat</text>
+                                        <text x="341" y="168" class="bar-label">Sun</text>
+
+                                        <!-- Bar values (numbers above bars) -->
+                                        <text x="83" y="60" class="bar-value">198</text>
+                                        <text x="126" y="54" class="bar-value">215</text>
+                                        <text x="169" y="52" class="bar-value">220</text>
+                                        <text x="212" y="57" class="bar-value">208</text>
+                                        <text x="255" y="61" class="bar-value">195</text>
+                                        <text x="298" y="88" class="bar-value">148</text>
+                                        <text x="341" y="94" class="bar-value">135</text>
+                                    </svg>
+                                </div>
+
+                                <div class="sql-section">
+                                    <div class="sql-toggle" onclick="toggleSQL(this)">
+                                        <span class="sql-toggle-icon">&#x203A;</span>
+                                        <span>View SQL</span>
+                                    </div>
+                                    <div class="sql-code">SELECT strftime('%w', date) as weekday, AVG(value) as avg_signups
+FROM metrics_daily
+WHERE metric_name = 'daily_signups'
+GROUP BY weekday
+ORDER BY weekday</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-area">
+                <div class="input-container">
+                    <input type="text" class="input-field" placeholder="Ask a question about your data...">
+                    <button class="send-button">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </div>
+                <div class="suggestions">
+                    <strong>Try:</strong>
+                    <span class="suggestion-chip">conversion rate</span>
+                    <span class="suggestion-chip">declining metrics</span>
+                    <span class="suggestion-chip">revenue this month</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSQL(element) {
+            const codeBlock = element.nextElementSibling;
+            element.classList.toggle('expanded');
+            codeBlock.classList.toggle('expanded');
+        }
+
+        const sendButton = document.querySelector('.send-button');
+        const inputField = document.querySelector('.input-field');
+
+        sendButton.addEventListener('click', function() {
+            if (inputField.value.trim()) {
+                console.log('Query:', inputField.value);
+                inputField.value = '';
+            }
+        });
+
+        inputField.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && inputField.value.trim()) {
+                console.log('Query:', inputField.value);
+                inputField.value = '';
+            }
+        });
+
+        window.addEventListener('load', function() {
+            const content = document.querySelector('.content');
+            content.scrollTop = content.scrollHeight;
+        });
+    </script>
+</body>
+</html>

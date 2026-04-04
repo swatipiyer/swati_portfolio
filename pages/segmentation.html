@@ -3,10 +3,274 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Record Keeper - Swati Iyer</title>
+  <title>Customer Segmentation - Swati Iyer</title>
   <link rel="stylesheet" href="../css/style.css">
-  <link rel="icon" type="image/png" href="../assets/swatiiyer-logo-tab.png">
-  <link rel="apple-touch-icon" href="../assets/swatiiyer-logo-tab.png">
+  <link rel="icon" type="image/png" href="../assets/branding/swatiiyer-logo-tab.png">
+  <link rel="apple-touch-icon" href="../assets/branding/swatiiyer-logo-tab.png">
+  <style>
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(67, 97, 238, 0.12), transparent 30%),
+        linear-gradient(180deg, #f5f6ff 0%, #f0f1ff 280px, #faf8ff 760px);
+    }
+    .sg-shell {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 132px 28px 96px;
+    }
+    .sg-hero {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 34px;
+      align-items: start;
+      margin-bottom: 52px;
+    }
+    .sg-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(67, 97, 238, 0.1);
+      color: #3c4fb8;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .sg-eyebrow::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4361ee;
+    }
+    .sg-hero h1 {
+      font-family: var(--display);
+      font-size: clamp(46px, 7vw, 82px);
+      line-height: 0.96;
+      letter-spacing: -0.05em;
+      color: #1a1a3e;
+      margin-bottom: 18px;
+    }
+    .sg-subhead {
+      max-width: 620px;
+      font-size: 18px;
+      line-height: 1.75;
+      color: #5a5c8a;
+      margin-bottom: 28px;
+    }
+    .sg-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .sg-chip {
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(67, 97, 238, 0.12);
+      font-size: 13px;
+      color: #3d4697;
+      box-shadow: 0 10px 30px rgba(67, 97, 238, 0.06);
+    }
+    .sg-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+    .sg-card {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(67, 97, 238, 0.1);
+      border-radius: 28px;
+      padding: 30px;
+      box-shadow: 0 14px 36px rgba(67, 97, 238, 0.07);
+    }
+    .sg-card h2,
+    .sg-wide h2,
+    .sg-section h2 {
+      font-family: var(--display);
+      font-size: clamp(28px, 3.3vw, 40px);
+      letter-spacing: -0.04em;
+      color: #1a1a3e;
+      margin-bottom: 14px;
+    }
+    .sg-card p,
+    .sg-wide p,
+    .sg-section p {
+      color: #5b5d8b;
+      line-height: 1.8;
+      font-size: 15.5px;
+      margin-bottom: 14px;
+    }
+    .sg-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+    .sg-stat {
+      padding: 18px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(67, 97, 238, 0.12), rgba(67, 97, 238, 0.03));
+      border: 1px solid rgba(67, 97, 238, 0.12);
+    }
+    .sg-stat strong {
+      display: block;
+      font-size: 28px;
+      line-height: 1;
+      color: #2d3b8a;
+      margin-bottom: 6px;
+    }
+    .sg-stat span {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #706d9f;
+    }
+    .sg-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 20px;
+    }
+    .sg-list-item {
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(67, 97, 238, 0.06);
+      border: 1px solid rgba(67, 97, 238, 0.12);
+    }
+    .sg-list-item strong {
+      display: block;
+      margin-bottom: 6px;
+      color: #283570;
+      font-size: 14px;
+    }
+    .sg-list-item span {
+      color: #606295;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .sg-wide {
+      margin: 24px 0;
+      padding: 34px;
+      border-radius: 32px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.84), rgba(240, 241, 255, 0.96));
+      border: 1px solid rgba(67, 97, 238, 0.1);
+      box-shadow: 0 16px 42px rgba(67, 97, 238, 0.08);
+    }
+    .sg-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .sg-pill {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: #1a1a3e;
+      color: #f0f1ff;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .sg-process {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+    .sg-step {
+      padding: 20px 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(67, 97, 238, 0.1);
+    }
+    .sg-step .step-label {
+      display: inline-block;
+      margin-bottom: 10px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #4361ee;
+    }
+    .sg-step h3 {
+      font-size: 16px;
+      color: #233258;
+      margin-bottom: 8px;
+    }
+    .sg-step p {
+      font-size: 14px;
+      line-height: 1.65;
+      color: #606295;
+      margin: 0;
+    }
+    .sg-section {
+      margin-top: 28px;
+      padding-top: 28px;
+      border-top: 1px solid rgba(67, 97, 238, 0.09);
+    }
+    .sg-two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .sg-feature-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .sg-feature-list div {
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(67, 97, 238, 0.06);
+      color: #5b5d8b;
+      line-height: 1.7;
+    }
+    .sg-feature-list strong {
+      color: #1f2652;
+    }
+    .sg-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 36px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(67, 97, 238, 0.12);
+      color: #3d4697;
+      background: rgba(255,255,255,0.7);
+      font-weight: 600;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .sg-back:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 26px rgba(67, 97, 238, 0.12);
+    }
+    @media (max-width: 900px) {
+      .sg-hero,
+      .sg-grid,
+      .sg-two-col,
+      .sg-process {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 600px) {
+      .sg-shell {
+        padding: 120px 20px 72px;
+      }
+      .sg-card,
+      .sg-wide {
+        padding: 24px 20px;
+        border-radius: 24px;
+      }
+      .sg-stat-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
   <nav class="site-nav">
@@ -20,13 +284,133 @@
     </div>
   </nav>
 
-  <div class="page-wrap" style="max-width: 860px; padding-top: 140px; padding-bottom: 80px;">
-    <div class="edu-entry anim visible">
-      <div class="work-tag" style="color:var(--blue);"><span class="tag-dot" style="background:var(--blue);"></span> Selected Project · 2025</div>
-      <h1 style="font-family:var(--display);font-size:clamp(38px,6vw,68px);line-height:0.98;margin-bottom:18px;">Record Keeper</h1>
-      <p style="font-size:18px;color:var(--text-mid);max-width:680px;margin-bottom:28px;">Placeholder page for the Record Keeper case study. Add your final narrative, visuals, process, and outcomes here.</p>
-      <div class="work-tools"><span>Excel</span><span>SQL</span><span>QuickSight</span></div>
-    </div>
-  </div>
+  <main class="sg-shell">
+    <header class="sg-hero anim visible">
+      <div>
+        <span class="sg-eyebrow">Machine Learning · Team Project</span>
+        <h1>Customer Segmentation</h1>
+        <p class="sg-subhead">A supervised learning project that classifies customer spending habits by looking at demographic data. We built and tested multiple ML models to find which one predicted best.</p>
+        <div class="sg-meta">
+          <span class="sg-chip">Role: Data analysis and model evaluation</span>
+          <span class="sg-chip">Tools: Python, scikit-learn, Streamlit and Kaggle</span>
+          <span class="sg-chip">Team: Swati Iyer, Kyle Jow, Daphne Loustalet, BaoTran Tran, Joshua Winerman</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="sg-grid">
+      <div class="sg-card anim visible">
+        <h2>Overview</h2>
+        <p>Can you predict how someone spends money just from knowing their age, gender, and income? That was the big question. We grabbed a Kaggle dataset with 200 customers and spending scores from 0 to 100, then built and compared multiple models to sort people into Low, Medium, and High spenders.</p>
+        <p>We went through the usual steps: cleaning up the data, training models, testing them out, and then wrapped it all up in a Streamlit app so people could plug in their numbers and see what category they'd land in.</p>
+        <div class="sg-stat-grid">
+          <div class="sg-stat">
+            <strong>200</strong>
+            <span>data points</span>
+          </div>
+          <div class="sg-stat">
+            <strong>5</strong>
+            <span>models compared</span>
+          </div>
+          <div class="sg-stat">
+            <strong>80%</strong>
+            <span>best accuracy</span>
+          </div>
+          <div class="sg-stat">
+            <strong>3</strong>
+            <span>spending categories</span>
+          </div>
+        </div>
+      </div>
+      <aside class="sg-card anim visible">
+        <h2>My Role</h2>
+        <div class="sg-list">
+          <div class="sg-list-item">
+            <strong>Data preprocessing</strong>
+            <span>Helped categorize raw spending scores into Low (0–33), Medium (34–66), and High (67–100) segments for classification.</span>
+          </div>
+          <div class="sg-list-item">
+            <strong>Model comparison</strong>
+            <span>Evaluated multiple approaches including SVMs, Decision Trees, and Neural Networks to identify the strongest performer.</span>
+          </div>
+          <div class="sg-list-item">
+            <strong>Visualization</strong>
+            <span>Created violin plots, scatterplots, and correlation matrices to explore relationships in the data.</span>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="sg-wide anim visible">
+      <h2>The Core Problem</h2>
+      <p>Businesses want to understand their customers, but raw data doesn't tell you much on its own. We wanted to see if basic demographic info, just gender and age and annual income, could actually predict spending behavior.</p>
+      <p>The tricky part was working with only 200 rows when most similar Kaggle datasets have 14,000+. We still needed to get results that actually meant something, not just random numbers.</p>
+      <div class="sg-pill-row">
+        <span class="sg-pill">Supervised Learning</span>
+        <span class="sg-pill">Classification</span>
+        <span class="sg-pill">Neural Networks</span>
+        <span class="sg-pill">Data Visualization</span>
+      </div>
+    </section>
+
+    <section class="sg-wide anim visible">
+      <h2>Methodology</h2>
+      <p>We followed four main steps: get the data, clean it up and normalize it, train a bunch of models, then test each one using precision, recall, accuracy, and F1-score.</p>
+      <div class="sg-process">
+        <div class="sg-step">
+          <span class="sg-step-label">Step 1</span>
+          <h3>Data</h3>
+          <p>Sourced a Kaggle dataset with gender, age, annual income, and spending score (0–100) for 200 customers.</p>
+        </div>
+        <div class="sg-step">
+          <span class="sg-step-label">Step 2</span>
+          <h3>Preprocessing</h3>
+          <p>Categorized spending scores into Low/Medium/High buckets and normalized features using Min-Max scaling.</p>
+        </div>
+        <div class="sg-step">
+          <span class="sg-step-label">Step 3</span>
+          <h3>Training</h3>
+          <p>Tested Logistic Regression, multiple SVMs (Linear, RBF), Decision Trees, and a Neural Network with 80:20 train/test split.</p>
+        </div>
+        <div class="sg-step">
+          <span class="sg-step-label">Step 4</span>
+          <h3>Evaluation</h3>
+          <p>Compared models using precision, recall, accuracy, and F1-score. Tuned the Neural Network with hyperparameter search.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sg-section anim visible">
+      <h2>Results</h2>
+      <div class="sg-two-col">
+        <div class="sg-card">
+          <h2>Model Comparison</h2>
+          <div class="sg-feature-list">
+            <div><strong>SVM (Linear Kernel)</strong><br>Got about 62% accuracy, but it wasn't great with the small dataset and categories that overlapped.</div>
+            <div><strong>Decision Tree & Logistic Regression</strong><br>Both did okay, similar to each other, with moderate accuracy on both.</div>
+            <div><strong>Neural Network</strong><br>Once we tuned the hyperparameters, it hit 80% accuracy. That was the winner.</div>
+          </div>
+        </div>
+        <div class="sg-card">
+          <h2>Neural Network Architecture</h2>
+          <div class="sg-feature-list">
+            <div><strong>Network structure</strong><br>4-layer dense network: input → 39 nodes → 45 nodes → 33 nodes → 3 output classes</div>
+            <div><strong>Hyperparameter tuning</strong><br>Tested node counts in steps of 3, learning rates of 0.01, 0.001, and 0.0001</div>
+            <div><strong>Performance</strong><br>Final model significantly outperformed all other approaches on this dataset.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sg-section anim visible">
+      <h2>Discussion</h2>
+      <p>The biggest issue was that we only had 200 data points. Models tend to overfit with that little data, so the results are more like a proof that it can work rather than something you'd actually deploy. But the neural network did pretty well, which shows that with the right setup and tuning, you can still find patterns even in small datasets.</p>
+      <p>If we did this again, I'd grab a way bigger dataset, try unsupervised methods like K-Means to compare, and spend more time on feature engineering.</p>
+    </section>
+
+    <section class="sg-section anim visible">
+      <a href="../index.html#work" class="sg-back">Back to selected work &rarr;</a>
+    </section>
+  </main>
 </body>
 </html>
