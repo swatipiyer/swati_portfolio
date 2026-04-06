@@ -549,8 +549,9 @@
           <div class="t-out">PM · Analyst · Researcher</div>
           <div>&nbsp;</div>
           <div><span class="t-dim">~ </span><span class="t-prompt">$</span> <span class="t-cmd">ls skills/</span></div>
+          <div><span class="t-dir">roadmapping/</span> <span class="t-dir">prioritization/</span></div>
           <div><span class="t-dir">research/</span> <span class="t-dir">analytics/</span></div>
-          <div><span class="t-dir">python/</span> <span class="t-dir">sql/</span></div>
+          <div><span class="t-dir">a-b-testing/</span> <span class="t-dir">python/</span> <span class="t-dir">sql/</span></div>
           <div>&nbsp;</div>
           <div><span class="t-dim">~ </span><span class="t-prompt">$</span> <span class="t-cmd">ls work/</span></div>
           <div><span class="t-dir">onboarding/</span> <span class="t-dir">conversion/</span></div>
@@ -1192,7 +1193,7 @@
         <div class="tl-card tl-green">
           <div class="tl-card-top">
             <div class="tl-heading">
-              <span class="tl-role">Founding Product Intern</span>
+              <span class="tl-role">Product Lead, Founding Team</span>
               <h4 class="tl-company">Digo</h4>
               <span class="tl-loc">Mountain View, CA</span>
             </div>
@@ -1786,7 +1787,7 @@
       // Remove old role classes
       document.body.classList.remove('role-recruiter', 'role-pm', 'role-browse');
       document.body.classList.add('role-' + role);
-      window.sessionStorage.setItem(roleKey, role);
+      window.localStorage.setItem(roleKey, role);
 
       // Reorder sections
       const pageWrap = document.querySelector('.page-wrap');
@@ -1824,9 +1825,9 @@
     }
 
     // If already seen, skip boot but apply saved role
-    if (window.sessionStorage.getItem(introSeenKey) === 'true') {
+    if (window.localStorage.getItem(introSeenKey) === 'true') {
       bootEl.classList.add('gone');
-      const savedRole = window.sessionStorage.getItem(roleKey) || 'browse';
+      const savedRole = window.localStorage.getItem(roleKey) || 'browse';
       applyRole(savedRole);
       return;
     }
@@ -1852,7 +1853,7 @@
     function finishBoot(role) {
       if (done) return;
       done = true;
-      window.sessionStorage.setItem(introSeenKey, 'true');
+      window.localStorage.setItem(introSeenKey, 'true');
       applyRole(role);
 
       // Show greeting
@@ -1951,7 +1952,7 @@
         // Remove old role classes, apply new
         document.body.classList.remove('role-recruiter', 'role-pm', 'role-browse');
         document.body.classList.add('role-' + role);
-        window.sessionStorage.setItem('swati-portfolio-role', role);
+        window.localStorage.setItem('swati-portfolio-role', role);
 
         // Reorder
         const pageWrap = document.querySelector('.page-wrap');
