@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interview Frameworks | Swati Iyer</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" type="image/png" href="../assets/branding/swatiiyer-logo-tab.png">
+  <link rel="apple-touch-icon" href="../assets/branding/swatiiyer-logo-tab.png">
+  <style>
+    body {
+      background:
+        radial-gradient(circle at top right, rgba(74,136,181,0.10), transparent 40%),
+        radial-gradient(circle at bottom left, rgba(139,94,171,0.08), transparent 40%),
+        linear-gradient(180deg, #f5f0fc 0%, #f0eaf8 220px, #f8f5fc 100%);
+      min-height: 100vh;
+    }
+
+    .if-shell {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 110px 24px 80px;
+    }
+
+    /* ═══ TOP BAR ═══ */
+    .if-topbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 36px;
+    }
+    .if-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      text-decoration: none;
+      transition: color 0.2s var(--ease);
+    }
+    .if-back:hover { color: var(--accent); }
+
+    /* ═══ HERO ═══ */
+    .if-hero { margin-bottom: 48px; max-width: 720px; }
+    .if-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(139,94,171,0.10);
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .if-eyebrow::before {
+      content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
+    }
+    .if-hero h1 {
+      font-family: var(--display);
+      font-size: clamp(34px, 5vw, 50px);
+      line-height: 1.05;
+      margin-bottom: 14px;
+      letter-spacing: -0.02em;
+    }
+    .if-hero p {
+      color: var(--text-mid);
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    /* ═══ CATEGORY HEADER ═══ */
+    .if-cat {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 40px 0 18px;
+      padding: 10px 16px;
+      background: linear-gradient(90deg, rgba(139,94,171,0.10), rgba(74,136,181,0.06));
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    }
+    .if-cat-icon { color: var(--accent); flex-shrink: 0; }
+    .if-cat h2 {
+      font-family: var(--display);
+      font-size: 22px;
+      letter-spacing: -0.01em;
+      margin: 0;
+    }
+    .if-cat:first-of-type { margin-top: 0; }
+
+    /* ═══ FRAMEWORK CARD ═══ */
+    .if-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 14px;
+      overflow: hidden;
+      transition: box-shadow 0.25s var(--ease);
+    }
+    .if-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+
+    .if-card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 22px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.2s var(--ease);
+    }
+    .if-card-header:hover { background: rgba(139,94,171,0.03); }
+    .if-card-icon { color: var(--accent); flex-shrink: 0; }
+    .if-card-title {
+      flex: 1;
+      font-family: var(--display);
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .if-card-badge {
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: rgba(139,94,171,0.08);
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+    .if-card-chevron {
+      color: var(--text-mid);
+      transition: transform 0.25s var(--ease);
+      flex-shrink: 0;
+    }
+    .if-card.open .if-card-chevron { transform: rotate(90deg); }
+
+    .if-card-body {
+      display: none;
+      padding: 0 22px 22px;
+    }
+    .if-card.open .if-card-body { display: block; }
+
+    .if-card-desc {
+      font-size: 13px;
+      color: var(--text-mid);
+      line-height: 1.55;
+      margin-bottom: 18px;
+    }
+
+    /* ═══ FRAMEWORK STEPS ═══ */
+    .if-fw-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .if-step {
+      display: flex;
+      gap: 12px;
+      padding: 10px 14px;
+      margin-bottom: 6px;
+      background: rgba(139,94,171,0.04);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    }
+    .if-step-num {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 20px;
+      flex-shrink: 0;
+      padding-top: 1px;
+    }
+    .if-step-content { flex: 1; }
+    .if-step-label {
+      font-weight: 600;
+      font-size: 13px;
+      margin-bottom: 2px;
+    }
+    .if-step-detail {
+      font-size: 12px;
+      color: var(--text-mid);
+      line-height: 1.55;
+    }
+
+    /* ═══ SUB-FRAMEWORKS ═══ */
+    .if-sub-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      margin: 18px 0 8px;
+    }
+    .if-sub {
+      padding: 8px 12px;
+      margin-bottom: 4px;
+      border-radius: var(--radius-sm);
+      background: rgba(74,136,181,0.04);
+    }
+    .if-sub-name {
+      font-weight: 600;
+      font-size: 12px;
+      color: var(--blue);
+    }
+    .if-sub-detail {
+      font-size: 11px;
+      color: var(--text-mid);
+      line-height: 1.5;
+    }
+
+    /* ═══ SAMPLE QUESTIONS ═══ */
+    .if-sample-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      padding: 0;
+      background: none;
+      border: none;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      cursor: pointer;
+      user-select: none;
+    }
+    .if-sample-toggle svg { transition: transform 0.2s var(--ease); }
+    .if-sample-toggle.open svg { transform: rotate(90deg); }
+
+    .if-samples {
+      display: none;
+      margin-top: 8px;
+    }
+    .if-sample-toggle.open + .if-samples { display: block; }
+    .if-sample-q {
+      font-size: 12px;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border-light);
+      color: var(--text);
+    }
+    .if-sample-q:last-child { border-bottom: none; }
+
+    /* ═══ TIPS ═══ */
+    .if-tips {
+      margin-top: 16px;
+      padding: 14px 16px;
+      background: rgba(58,122,69,0.05);
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--green);
+    }
+    .if-tips-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 6px;
+    }
+    .if-tip {
+      font-size: 12px;
+      color: var(--text-mid);
+      line-height: 1.55;
+      padding: 2px 0;
+    }
+
+    /* ═══ RESPONSIVE ═══ */
+    @media (max-width: 700px) {
+      .if-shell { padding: 90px 16px 48px; }
+      .if-card-header { padding: 14px 16px; }
+      .if-card-body { padding: 0 16px 16px; }
+      .if-step { padding: 8px 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav class="site-nav scrolled">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">&larr; Back to Portfolio</a>
+    <div class="nav-links">
+      <a href="../index.html#work">Work</a>
+      <a href="../index.html#explore">Explore</a>
+      <a href="career-prep.html">Career Prep</a>
+      <a href="mailto:iyerswatip@gmail.com">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<main class="if-shell">
+
+  <div class="if-topbar">
+    <a href="career-prep.html" class="if-back">&larr; Back to Career Prep</a>
+  </div>
+
+  <header class="if-hero">
+    <span class="if-eyebrow">Interview Frameworks</span>
+    <h1>Every framework you need, in one place.</h1>
+    <p>Structured approaches for PM, SQL, analytics, software engineering, and Python interviews. Click any card to expand the full framework with steps, sample questions, and tips.</p>
+  </header>
+
+  <div id="if-content"></div>
+
+</main>
+
+<script>
+const IF_DATA = [
+  {
+    category: 'Product Management',
+    icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>',
+    frameworks: [
+      {
+        title: 'Product Design / Case Interview',
+        badge: 'Most Common',
+        desc: 'For questions like "Design a product for X", "Improve feature Y", or "Design a vending machine for hotel chains."',
+        steps: [
+          { num: '1', label: 'WHY', detail: 'Clarify the goal. Why are we building this? What problem are we solving? Ask 2-3 scoping questions (platform, geography, user type).' },
+          { num: '2', label: 'WHO', detail: 'Define 2-3 user segments (demographic, behavioral, or needs-based). Pick one and justify: "I\'ll focus on X because they have the sharpest pain point and largest market."' },
+          { num: '3', label: 'WHAT', detail: 'Map the user journey (5-7 steps). Identify pain points at each stage. Categorize as functional, emotional, financial, or social. Rank by severity x frequency. Pick top 2-3.' },
+          { num: '4', label: 'HOW', detail: 'Brainstorm 3-4 solutions per pain point (range from quick win to ambitious). Prioritize using Impact vs. Effort. Go deep on one: user flow, key screens, edge cases.' },
+          { num: '5', label: 'MEASURE', detail: 'North Star Metric (core value), 2-3 driver metrics (levers that influence NSM), guardrail metrics (prevent harm). Close with risks and v2 ideas.' }
+        ],
+        subs: [
+          { name: 'Impact vs. Effort Matrix', detail: 'Plot solutions on a 2x2: high impact + low effort = do first. Low impact + high effort = skip.' },
+          { name: 'NSM + Drivers + Guardrails', detail: 'NSM captures core value (e.g., weekly active users). Drivers are levers (activation, frequency). Guardrails prevent harm (churn, support tickets).' }
+        ],
+        questions: [
+          'Design a gardening app for beginners.',
+          'How would you improve Instagram Stories?',
+          'Design a feature to help remote teams bond.',
+          'Design a carpooling app for a college campus.',
+          'Build a product for elderly people to manage medications.',
+          'Design a vending machine for hotel chains.'
+        ],
+        tips: [
+          'Spend 50% of your time on WHO and WHAT. Solutions without deep user understanding are weak.',
+          'Always end with risks and what you would build in v2.',
+          'Time budget: Clarify (3 min), WHO (4 min), WHAT (8 min), HOW (12 min), MEASURE (5 min), Wrap (3 min).',
+          'Never design for "everyone." Pick a segment and go deep.'
+        ]
+      },
+      {
+        title: 'Product Strategy Interview',
+        badge: 'Market & Growth',
+        desc: 'For questions like "Should X company enter Y market?", "How would you grow Z in India?", or "Should Google build a CRM?"',
+        steps: [
+          { num: '1', label: 'CLARIFY', detail: 'Define the strategic question precisely. "Enter X market" vs. "launch X feature" are very different. Ask about scope, timeline, constraints.' },
+          { num: '2', label: 'ANALYZE', detail: 'Size the market using TAM/SAM/SOM. Is it growing, shrinking, or flat? What\'s the growth rate? Use top-down for consumer, bottom-up for B2B.' },
+          { num: '3', label: 'ASSESS', detail: 'Evaluate competitive landscape. Porter\'s Five Forces (rivalry, new entrants, substitutes, buyer power, supplier power). Identify existing moats.' },
+          { num: '4', label: 'EVALUATE', detail: 'Check strategic fit. Does this leverage core competencies? Synergies with existing products? What are the execution risks?' },
+          { num: '5', label: 'RECOMMEND', detail: 'Clear Go/No-go with trade-offs. If Go: classify using Ansoff Matrix and propose a phased execution roadmap.' }
+        ],
+        subs: [
+          { name: 'TAM / SAM / SOM', detail: 'Total Addressable Market (everyone who could use it) > Serviceable Available Market (your reach) > Serviceable Obtainable Market (realistic capture).' },
+          { name: 'Porter\'s Five Forces', detail: 'Rivalry, threat of new entrants, threat of substitutes, buyer power, supplier power. Determines industry profitability and competitive intensity.' },
+          { name: 'Ansoff Matrix', detail: 'Market Penetration (existing/existing), Market Development (existing/new), Product Development (new/existing), Diversification (new/new).' },
+          { name: 'SWOT Analysis', detail: 'Strengths (internal +), Weaknesses (internal -), Opportunities (external +), Threats (external -). Quick competitive assessment.' },
+          { name: 'Competitive Moats', detail: 'Network effects, switching costs, data advantages, brand recognition, economies of scale. Sustainable advantages that protect market position.' }
+        ],
+        questions: [
+          'Should Netflix enter gaming?',
+          'How would you grow Spotify in India?',
+          'Should Google build a CRM to compete with Salesforce?',
+          'Should Uber launch a grocery delivery service?',
+          'How should TikTok monetize beyond ads?'
+        ],
+        tips: [
+          'Never give a flat Yes or No. Always analyze trade-offs and present your reasoning.',
+          'Use the Ansoff Matrix to classify the growth strategy before diving into details.',
+          'Focus on the 2-3 most relevant Five Forces rather than trying to cover all five equally.',
+          'Always address: "What unique advantage does this company have to win here?"'
+        ]
+      },
+      {
+        title: 'Behavioral Interview (PM)',
+        badge: 'STAR+R',
+        desc: 'For questions like "Tell me about a time you led a team", "Describe a conflict with a stakeholder", or "Tell me about a failure."',
+        steps: [
+          { num: 'S', label: 'Situation', detail: 'Set context in 2-3 sentences. Project, team, timeline, stakes. (15% of answer, ~30 sec)' },
+          { num: 'T', label: 'Task', detail: 'YOUR specific responsibility. What was at stake? What were you accountable for? (10%, ~15 sec)' },
+          { num: 'A', label: 'Action', detail: 'What YOU did. Use "I" not "we." Be specific about decisions, analysis, and steps. This is the bulk of your answer. (50%, ~75 sec)' },
+          { num: 'R', label: 'Result', detail: 'Measurable outcome with numbers. "Improved retention by 15%", "Shipped 2 weeks ahead of schedule." (15%, ~25 sec)' },
+          { num: '+R', label: 'Reflection', detail: 'What you learned. What you\'d do differently. Shows growth mindset. (10%, ~15 sec)' }
+        ],
+        subs: [
+          { name: 'Leadership', detail: 'Influence without authority, rallying cross-functional teams, making hard calls. Show vision and decisiveness.' },
+          { name: 'Conflict Resolution', detail: 'Disagreements with eng/design/stakeholders. Show empathy, data-driven resolution, preserved relationships.' },
+          { name: 'Data-Driven Decision', detail: 'Using data to make hard calls. Show analytical rigor, balancing quantitative with qualitative insights.' },
+          { name: 'Failure & Learning', detail: 'Things that went wrong. Show accountability (never blame others), root cause analysis, applied lessons.' },
+          { name: 'Ambiguity', detail: 'Unclear requirements or shifting priorities. Show creating structure from chaos, comfort with uncertainty.' },
+          { name: 'Customer Obsession', detail: 'Advocating for users against business pressure. Show empathy and willingness to push back.' },
+          { name: 'Shipping Under Constraints', detail: 'Delivering with limited time/resources. Show ruthless prioritization and trade-off thinking.' }
+        ],
+        questions: [
+          'Tell me about a time you influenced a team without direct authority.',
+          'Describe a disagreement with an engineer. How did you resolve it?',
+          'Tell me about a product decision you made using data.',
+          'Describe a time something you shipped failed. What did you learn?',
+          'How did you handle a situation with unclear requirements?',
+          'Tell me about a time you advocated for the user against business pressure.',
+          'Describe shipping a product under tight time constraints.'
+        ],
+        tips: [
+          'Prepare 5-7 stories that cover all archetypes. One story can cover 2-3 themes.',
+          'Keep answers to 2-3 minutes. Practice with a timer.',
+          'Use "I" not "we" in the Action section. Interviewers need YOUR contribution.',
+          'Always end with a measurable result AND a reflection.',
+          'For "Why PM?": tell a specific story, not "I like the intersection of business and tech."'
+        ]
+      },
+      {
+        title: 'Fermi Estimation (Counting & Sizing)',
+        badge: 'Fermi',
+        desc: 'For questions like "How many gas stations in the US?", "Estimate Uber rides per day in SF", or "Size the market for pet insurance."',
+        steps: [
+          { num: '1', label: 'CLARIFY', detail: 'Define scope precisely. Geography? Time period? What counts? Ask 1-2 scoping questions to show structured thinking.' },
+          { num: '2', label: 'BREAK DOWN', detail: 'Decompose the big unknown into 3-5 smaller, estimable components. Think: Population -> % who X -> frequency -> value.' },
+          { num: '3', label: 'ESTIMATE', detail: 'Assign numbers to each component using anchors you know (US pop: 330M, avg household: 2.5 people). State every assumption out loud.' },
+          { num: '4', label: 'CALCULATE', detail: 'Multiply/add components. Round aggressively (327M -> 330M). Show your math clearly, step by step.' },
+          { num: '5', label: 'SANITY CHECK', detail: 'Does the answer feel right? Try a second approach (top-down vs. bottom-up) to cross-validate. If off by 10x, find the bad assumption.' }
+        ],
+        subs: [
+          { name: 'Top-Down Market Sizing', detail: 'Total population -> % who need this -> % who would pay -> price point -> TAM. Best for broad consumer markets.' },
+          { name: 'Bottom-Up Market Sizing', detail: 'Countable target customers -> conversion rate -> avg revenue per customer -> scale. Best for B2B and niche markets.' },
+          { name: 'Metric Drop Diagnosis', detail: '1. Clarify metric + timeframe. 2. Segment (platform, geo, user type). 3. Hypothesize 3-5 causes. 4. Investigate with data. 5. Act on root cause.' },
+          { name: 'Success Metrics Design', detail: '1. What behavior should change? 2. Primary metric (behavioral). 3. Secondary metrics. 4. Guardrails. 5. Experiment design (A/B test).' }
+        ],
+        questions: [
+          'How many piano tuners are there in Chicago?',
+          'Estimate the number of Uber rides per day in San Francisco.',
+          'How would you size the market for a pet insurance startup?',
+          'Estimate annual revenue of a single Starbucks location.',
+          'How many dentists are there in San Diego?'
+        ],
+        tips: [
+          'Structure beats precision. The interviewer cares about your approach, not the exact number.',
+          'State every assumption: "I\'m assuming 60% because..."',
+          'Round aggressively. 327M -> 330M. Don\'t waste time on arithmetic.',
+          'Always sanity check: "That\'s ~150K, which feels reasonable because..."'
+        ]
+      },
+      {
+        title: 'Volume / Capacity Estimation',
+        badge: 'Physical',
+        desc: 'For "how many X fit in Y" questions like "How many tennis balls fit in a 747?", "How many golf balls in a school bus?", or "How many marbles in a jar?"',
+        steps: [
+          { num: '1', label: 'CLARIFY ASSUMPTIONS', detail: 'Define the object dimensions and shape. State simplifying assumptions (e.g., "I\'ll model the cabin as a cylinder" or "I\'ll treat each ball as a cube for packing purposes"). Confirm scope with the interviewer: are we filling the whole airplane or just the cabin? Empty or with seats?' },
+          { num: '2', label: 'ESTIMATE TOTAL USABLE VOLUME', detail: 'Calculate the volume of the container. Break into simpler geometric shapes if needed (e.g., a bus is roughly a rectangular box). Subtract unusable space: seats, walls, cockpit, cargo hold dividers, irregularly shaped areas. State dimensions explicitly: "A 747 cabin is roughly 60m long x 6m wide x 2.5m tall."' },
+          { num: '3', label: 'ESTIMATE UNIT VOLUME', detail: 'Calculate the volume of a single item. For spheres: V = 4/3 x pi x r^3. For a tennis ball (r = 3.3cm): ~150 cm^3. Or approximate: bound the sphere in a cube (6.6cm x 6.6cm x 6.6cm = ~288 cm^3). The cube approach naturally accounts for some packing waste.' },
+          { num: '4', label: 'DIVIDE WITH PACKING EFFICIENCY', detail: 'Divide total usable volume by unit volume, then multiply by a packing efficiency factor. Random packing of spheres: ~64%. Organized packing (hexagonal close-packed): ~74%. For irregular containers with obstacles: use ~60-65%. If you used the bounding-cube method in step 3, skip the packing factor (it\'s already built in).' },
+          { num: '5', label: 'SANITY CHECK', detail: 'Does the number feel reasonable? Cross-check with a simpler reference: "A cubic meter holds about X balls, and the space is about Y cubic meters, so Z total." If the number seems wildly off, revisit your dimension estimates.' }
+        ],
+        subs: [
+          { name: 'Sphere Packing Rules', detail: 'Random packing: ~64% of space filled. Hexagonal close-packed: ~74%. For quick math, use 2/3 (66%) as a safe middle ground.' },
+          { name: 'Common Object Dimensions', detail: 'Tennis ball: ~6.6cm diameter. Golf ball: ~4.3cm diameter. Baseball: ~7.4cm diameter. Basketball: ~24cm diameter. Marble: ~1.5cm diameter.' },
+          { name: 'Container Estimation', detail: 'School bus interior: ~2.4m x 2m x 12m. Airplane cabin (747): ~6m x 2.5m x 60m. Average room: ~5m x 4m x 2.5m. Shipping container: 2.4m x 2.6m x 12m.' },
+          { name: 'Bounding Cube Shortcut', detail: 'Instead of sphere volume + packing factor, just use the cube that contains the sphere. Side = diameter. This gives a conservative estimate that\'s faster to calculate.' }
+        ],
+        questions: [
+          'How many tennis balls can fit in this room?',
+          'How many golf balls fit in a school bus?',
+          'How many ping pong balls fit in a Boeing 747?',
+          'How many marbles can you fit in a 5-gallon bucket?',
+          'How many basketballs fit in a shipping container?'
+        ],
+        tips: [
+          'Always state your shape approximations up front: "I\'ll model this as a cylinder with height H and radius R."',
+          'Draw it out if you can. Sketching the container with dimensions shows clear thinking.',
+          'The bounding-cube shortcut (cube each sphere by its diameter) is faster and good enough for interviews.',
+          'Don\'t forget to subtract unusable space. A school bus with seats has much less volume than an empty one.',
+          'If the interviewer says "empty room" vs "furnished room", that changes the answer dramatically. Always ask.'
+        ]
+      }
+    ]
+  },
+  {
+    category: 'SQL & Data Analytics',
+    icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>',
+    frameworks: [
+      {
+        title: 'SQL Query Interview',
+        badge: 'Technical',
+        desc: 'For live SQL coding questions. You\'re given a schema and asked to write queries for analytics, reporting, or data manipulation.',
+        steps: [
+          { num: '1', label: 'CLARIFY', detail: 'Understand the schema. Ask: What do the tables represent? What are the primary/foreign keys? Are there NULLs or duplicates to handle? What date range?' },
+          { num: '2', label: 'PLAN', detail: 'Before writing code, explain your approach in plain English. "I\'ll join users to orders, filter by date, group by user, and count orders."' },
+          { num: '3', label: 'BUILD', detail: 'Write the query step by step. Start with FROM and JOINs, add WHERE filters, then GROUP BY, then SELECT the output columns. Add HAVING if needed.' },
+          { num: '4', label: 'VERIFY', detail: 'Walk through a sample row mentally. Check edge cases: NULLs, duplicates, off-by-one date ranges. Do you need DISTINCT? Is the JOIN type right (INNER vs LEFT)?' },
+          { num: '5', label: 'OPTIMIZE', detail: 'Discuss performance. Would an index help? Should you use a CTE for readability? Is there a more efficient approach for large tables?' }
+        ],
+        subs: [
+          { name: 'Window Functions', detail: 'ROW_NUMBER(), RANK(), DENSE_RANK() for ranking. LAG()/LEAD() for comparing rows. SUM/AVG OVER (PARTITION BY ... ORDER BY ...) for running totals.' },
+          { name: 'Common Table Expressions (CTEs)', detail: 'WITH cte AS (SELECT ...) SELECT ... FROM cte. Use for readability, recursive queries, and breaking complex logic into steps.' },
+          { name: 'Self-Joins', detail: 'Join a table to itself. Used for: comparing rows within the same table, finding pairs, hierarchical data (manager-employee).' },
+          { name: 'Date Manipulation', detail: 'DATE_TRUNC, DATE_DIFF, INTERVAL, EXTRACT. Critical for time-series analysis, cohort analysis, and retention queries.' },
+          { name: 'CASE Statements', detail: 'Conditional logic inside SELECT or aggregations. CASE WHEN ... THEN ... ELSE ... END. Use for bucketing, flags, and pivot-like transformations.' }
+        ],
+        questions: [
+          'Find the top 5 customers by total spend in the last 90 days.',
+          'Calculate month-over-month revenue growth rate.',
+          'Find users who made a purchase within 7 days of signing up.',
+          'Calculate 7-day rolling average of daily active users.',
+          'Find products that have never been ordered.',
+          'Write a retention cohort analysis: for each signup month, what % are active 1, 2, 3 months later?'
+        ],
+        tips: [
+          'Always explain your approach BEFORE writing code. Interviewers want to see your thought process.',
+          'Use CTEs for complex queries. They are easier to read and debug.',
+          'Check for NULLs: LEFT JOIN can introduce NULLs. Use COALESCE or filter them.',
+          'Know the difference: WHERE filters rows before aggregation, HAVING filters after.',
+          'Practice window functions. They come up in 70%+ of SQL interviews.'
+        ]
+      },
+      {
+        title: 'Data Analysis / Analytics Interview',
+        badge: 'Metrics & Insights',
+        desc: 'For questions like "How would you measure X?", "What metrics matter for Y?", or "Here\'s a dataset, what insights can you find?"',
+        steps: [
+          { num: '1', label: 'CONTEXT', detail: 'Understand the business. What does the company do? Who are the users? What stage is the product (growth, mature, declining)?' },
+          { num: '2', label: 'DEFINE', detail: 'Define the metric precisely. DAU can mean different things. Spell out: what action counts, what time window, what user base?' },
+          { num: '3', label: 'DECOMPOSE', detail: 'Break the metric into a tree. Revenue = Users x Conversion x ARPU. Each branch becomes a lever you can investigate.' },
+          { num: '4', label: 'SEGMENT', detail: 'Cut the data by dimensions: platform, geography, user cohort, acquisition channel, device. Look for segments driving the trend.' },
+          { num: '5', label: 'RECOMMEND', detail: 'Translate insights into actions. "Segment A is underperforming because X. I\'d recommend we test Y." Always tie analysis to a decision.' }
+        ],
+        subs: [
+          { name: 'Metric Trees', detail: 'Decompose a top-level metric into its components. Revenue = Traffic x Conversion x AOV. Each branch is a lever to optimize.' },
+          { name: 'Cohort Analysis', detail: 'Group users by sign-up date and track behavior over time. Shows retention trends and whether product changes stick.' },
+          { name: 'A/B Testing Framework', detail: '1. Hypothesis. 2. Primary metric + guardrails. 3. Sample size calculation. 4. Run duration. 5. Statistical significance (p < 0.05). 6. Decision.' },
+          { name: 'Funnel Analysis', detail: 'Track users through sequential steps (visit -> signup -> activate -> purchase). Find the biggest drop-off point and investigate why.' },
+          { name: 'Segmentation', detail: 'Slice data by user attributes (new vs. returning, mobile vs. desktop, geography). Reveals hidden trends that averages obscure.' }
+        ],
+        questions: [
+          'How would you measure the success of a new onboarding flow?',
+          'Revenue is flat but user count is growing. What\'s happening?',
+          'Design an A/B test for a checkout redesign. What metrics would you track?',
+          'Here\'s a table of user actions. Find the most engaged user segment.',
+          'Conversion dropped 10% this week. Walk me through your investigation.',
+          'How would you build a dashboard for a subscription product?'
+        ],
+        tips: [
+          'Always ask "compared to what?" A number without context is meaningless.',
+          'Decompose before you investigate. Breaking a metric into parts narrows the search.',
+          'Watch out for Simpson\'s Paradox: a trend in aggregated data can reverse when segmented.',
+          'End every analysis with a recommendation, not just an observation.',
+          'For A/B tests: know how to calculate sample size and why you need statistical significance.'
+        ]
+      }
+    ]
+  },
+  {
+    category: 'Software Engineering',
+    icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>',
+    frameworks: [
+      {
+        title: 'System Design Interview',
+        badge: 'Architecture',
+        desc: 'For questions like "Design Twitter", "Design a URL shortener", or "Design a notification system." Tests your ability to architect scalable systems.',
+        steps: [
+          { num: '1', label: 'REQUIREMENTS', detail: 'Clarify functional requirements (what the system does) and non-functional requirements (scale, latency, availability, consistency). Ask about: users, traffic, data volume, read/write ratio.' },
+          { num: '2', label: 'ESTIMATES', detail: 'Back-of-envelope math. QPS (queries per second), storage needs, bandwidth. Shows you think about scale before designing.' },
+          { num: '3', label: 'API DESIGN', detail: 'Define the key API endpoints. REST or GraphQL? What are the inputs/outputs? This shapes the system boundaries.' },
+          { num: '4', label: 'DATA MODEL', detail: 'Design the schema. SQL vs. NoSQL? What are the entities and relationships? What needs indexing? Consider read vs. write patterns.' },
+          { num: '5', label: 'HIGH-LEVEL DESIGN', detail: 'Draw the architecture. Clients -> Load Balancer -> App Servers -> Cache -> Database. Add message queues, CDNs, and blob storage as needed.' },
+          { num: '6', label: 'DEEP DIVE', detail: 'The interviewer will pick 1-2 components to go deep on. Be ready to discuss: caching strategy, database sharding, consistency models, rate limiting, or specific algorithms.' },
+          { num: '7', label: 'TRADE-OFFS', detail: 'Discuss CAP theorem trade-offs, consistency vs. availability, cost vs. performance. Show that every design choice has a reason.' }
+        ],
+        subs: [
+          { name: 'CAP Theorem', detail: 'Consistency, Availability, Partition Tolerance: pick 2 in a distributed system. Most web apps choose AP (available + partition tolerant) with eventual consistency.' },
+          { name: 'Horizontal Scaling', detail: 'Add more servers vs. bigger servers (vertical). Use load balancers, stateless services, and shared databases or caches (Redis, Memcached).' },
+          { name: 'Database Sharding', detail: 'Split data across multiple databases by key (user_id, geography). Reduces per-server load but adds complexity for cross-shard queries.' },
+          { name: 'Caching Strategies', detail: 'Cache-aside (app checks cache first), write-through (write to cache + DB), write-behind (async DB writes). Choose based on read/write pattern.' },
+          { name: 'Message Queues', detail: 'Kafka, RabbitMQ, SQS. Decouple producers from consumers. Use for: async processing, event-driven architecture, peak load buffering.' }
+        ],
+        questions: [
+          'Design a URL shortener like bit.ly.',
+          'Design a social media feed (Twitter/Instagram).',
+          'Design a chat application like Slack.',
+          'Design a notification system that handles millions of users.',
+          'Design a rate limiter for an API.',
+          'Design a file storage service like Google Drive.'
+        ],
+        tips: [
+          'Always start with requirements and estimates. Don\'t jump to drawing boxes.',
+          'Draw the high-level diagram first, then go deep where the interviewer guides you.',
+          'Know your numbers: 1 server handles ~10K QPS, 1TB storage is cheap, network round-trip ~100ms.',
+          'Discuss trade-offs explicitly: "I chose X over Y because in this use case, Z matters more."',
+          'Practice drawing system diagrams on a whiteboard or paper. Neatness matters.'
+        ]
+      },
+      {
+        title: 'Coding Interview (SWE)',
+        badge: 'Algorithms',
+        desc: 'For live coding questions. You\'re given a problem and need to write working code, usually in 30-45 minutes.',
+        steps: [
+          { num: '1', label: 'UNDERSTAND', detail: 'Restate the problem in your own words. Ask about: input format, output format, edge cases, constraints (size of input, time/space requirements).' },
+          { num: '2', label: 'EXAMPLES', detail: 'Work through 1-2 examples by hand. Include an edge case (empty input, single element, duplicates). This builds intuition for the solution.' },
+          { num: '3', label: 'APPROACH', detail: 'Describe your approach before coding. Start with brute force, then optimize. Say: "A brute force approach would be O(n^2). I think we can do O(n) using a hash map because..."' },
+          { num: '4', label: 'CODE', detail: 'Write clean, readable code. Use meaningful variable names. Handle edge cases. Talk while you code to show your thinking.' },
+          { num: '5', label: 'TEST', detail: 'Trace through your code with your examples. Test edge cases. Fix bugs. Analyze time and space complexity.' }
+        ],
+        subs: [
+          { name: 'Two Pointers', detail: 'Use two pointers moving toward each other (sorted arrays, palindromes) or at different speeds (linked list cycle detection). O(n) time.' },
+          { name: 'Sliding Window', detail: 'Maintain a window over a sequence. Expand right pointer, shrink left when constraint is violated. For: max subarray, minimum window substring.' },
+          { name: 'Hash Maps', detail: 'O(1) lookup. Use for: two sum, frequency counting, deduplication, grouping anagrams. The "I can do this in O(n)" trick.' },
+          { name: 'BFS / DFS', detail: 'BFS (queue): shortest path, level-order traversal. DFS (stack/recursion): connected components, backtracking, tree traversal.' },
+          { name: 'Dynamic Programming', detail: 'Break into overlapping subproblems. Memoize or tabulate. Start with recursive solution, then optimize. Classic: fibonacci, coin change, longest subsequence.' },
+          { name: 'Binary Search', detail: 'O(log n) on sorted data. Use for: finding target, finding boundary (first/last occurrence), searching in rotated arrays.' }
+        ],
+        questions: [
+          'Two Sum: find two numbers that add up to a target.',
+          'Merge two sorted linked lists.',
+          'Find the longest substring without repeating characters.',
+          'Validate a binary search tree.',
+          'Implement an LRU cache.',
+          'Find all permutations of a string.'
+        ],
+        tips: [
+          'Always talk through your approach BEFORE coding. Silent coding is a red flag.',
+          'Start with brute force, then optimize. Shows progression of thinking.',
+          'Edge cases to always check: empty input, single element, all duplicates, very large input.',
+          'Know Big-O for common operations: array access O(1), hash lookup O(1), sort O(n log n), nested loops O(n^2).',
+          'If stuck, think about which data structure would make this easier: hash map? heap? stack? graph?'
+        ]
+      },
+      {
+        title: 'Behavioral Interview (SWE)',
+        badge: 'STAR',
+        desc: 'For questions about teamwork, technical leadership, dealing with failure, and working under pressure.',
+        steps: [
+          { num: 'S', label: 'Situation', detail: 'Set context. What was the project? What was the tech stack? What was the team size and your role? (2-3 sentences)' },
+          { num: 'T', label: 'Task', detail: 'What was YOUR specific responsibility? What was the technical challenge or team dynamic you faced?' },
+          { num: 'A', label: 'Action', detail: 'What YOU did. Be specific about technical decisions: "I chose Redis over Memcached because...", "I refactored the auth module to..." Use "I" not "we."' },
+          { num: 'R', label: 'Result', detail: 'Measurable outcome. Latency reduced by 40%. Test coverage went from 30% to 85%. Shipped 1 week early.' },
+          { num: '+R', label: 'Reflection', detail: 'What you learned technically or about collaboration. What you\'d do differently.' }
+        ],
+        subs: [
+          { name: 'Technical Leadership', detail: 'Led architecture decisions, mentored juniors, drove code quality. Show technical depth AND influence.' },
+          { name: 'Debugging Under Pressure', detail: 'Production incident, tight deadline. Show systematic debugging: logs, metrics, bisect, root cause, post-mortem.' },
+          { name: 'Trade-off Decisions', detail: 'Chose a simpler solution over the "perfect" one. Show pragmatism and ability to balance tech debt vs. speed.' },
+          { name: 'Collaboration with Non-Engineers', detail: 'Working with PM, design, or stakeholders. Show empathy, clear communication of technical constraints, and finding creative solutions.' }
+        ],
+        questions: [
+          'Tell me about a time you had to make a difficult technical decision.',
+          'Describe a production incident you resolved. How did you debug it?',
+          'Tell me about a time you disagreed with your tech lead.',
+          'How did you handle a project that was behind schedule?',
+          'Describe a time you improved an existing system significantly.',
+          'Tell me about mentoring a junior engineer.'
+        ],
+        tips: [
+          'Focus on YOUR technical contributions. Interviewers want engineering depth, not just project management.',
+          'Quantify results: latency numbers, error rates, coverage percentages, lines of code, deployment frequency.',
+          'For debugging stories: show systematic thinking (not "I just tried stuff until it worked").',
+          'Have at least one good failure story where you show accountability and learning.'
+        ]
+      }
+    ]
+  },
+  {
+    category: 'Python & Data Structures',
+    icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>',
+    frameworks: [
+      {
+        title: 'Python Coding Interview',
+        badge: 'Language-Specific',
+        desc: 'Python-specific patterns, built-in tools, and idioms that give you an edge in coding interviews.',
+        steps: [
+          { num: '1', label: 'UNDERSTAND', detail: 'Clarify inputs, outputs, constraints. Ask: "Can I use Python built-ins like sorted(), collections, itertools?" (usually yes).' },
+          { num: '2', label: 'PYTHONIC APPROACH', detail: 'Think about Python-specific tools: list comprehensions, dict comprehensions, defaultdict, Counter, heapq, deque. These often simplify solutions.' },
+          { num: '3', label: 'CODE CLEANLY', detail: 'Use descriptive names, type hints if asked, and Pythonic patterns (enumerate, zip, unpacking). Avoid C-style loops when a comprehension works.' },
+          { num: '4', label: 'HANDLE EDGES', detail: 'Python-specific: empty strings, None values, negative indices, integer overflow (Python handles big ints natively). Use try/except if appropriate.' },
+          { num: '5', label: 'ANALYZE', detail: 'State time and space complexity. Know Python specifics: list.append is O(1) amortized, dict lookup is O(1), sorted() is O(n log n), "in" on a list is O(n) but O(1) on a set.' }
+        ],
+        subs: [
+          { name: 'collections Module', detail: 'Counter (frequency counting), defaultdict (auto-initialize), deque (O(1) append/pop both ends), OrderedDict, namedtuple.' },
+          { name: 'itertools Module', detail: 'permutations, combinations, product (cartesian), groupby, chain, islice. Avoid manual nested loops.' },
+          { name: 'List Comprehensions', detail: '[x for x in arr if condition] replaces filter+map. Nested: [x for row in matrix for x in row]. Keep simple; if complex, use a loop.' },
+          { name: 'Dictionary Patterns', detail: 'dict.get(key, default), dict.setdefault(), {k: v for k, v in pairs}, Counter most_common(n). Merge with {**d1, **d2} or d1 | d2 (3.9+).' },
+          { name: 'Sorting & Lambda', detail: 'sorted(arr, key=lambda x: x[1]) for custom sort. Use operator.itemgetter for speed. Stable sort: equal elements keep original order.' }
+        ],
+        questions: [
+          'Given a list of strings, group anagrams together.',
+          'Implement a function to flatten a nested list of arbitrary depth.',
+          'Find the k most frequent elements in an array.',
+          'Implement a trie (prefix tree) in Python.',
+          'Given two sorted lists, find the median of the combined sorted list.',
+          'Write a function to detect if a linked list has a cycle.'
+        ],
+        tips: [
+          'Use Counter and defaultdict freely. They\'re expected in Python interviews and save time.',
+          'Know the complexity of Python built-ins: list.pop(0) is O(n), deque.popleft() is O(1).',
+          'Use enumerate(arr) instead of range(len(arr)). It\'s more Pythonic and less error-prone.',
+          'For string problems: strings are immutable in Python. Build with lists and "".join() at the end.',
+          'Use sets for O(1) membership testing instead of lists.'
+        ]
+      },
+      {
+        title: 'Data Structures & Algorithms',
+        badge: 'DSA Patterns',
+        desc: 'Core patterns that cover 90% of DSA interview questions. Know these and you can solve most problems.',
+        steps: [
+          { num: '1', label: 'IDENTIFY', detail: 'Read the problem and identify which pattern applies. Keywords: "sorted" (binary search), "substring" (sliding window), "pairs" (two pointers/hash map), "tree" (BFS/DFS).' },
+          { num: '2', label: 'TEMPLATE', detail: 'Apply the pattern template. Most patterns have a recognizable code skeleton. Adapt it to the specific problem.' },
+          { num: '3', label: 'CUSTOMIZE', detail: 'Modify the template for edge cases and problem-specific logic. What\'s the initial state? What\'s the termination condition? What do you track?' },
+          { num: '4', label: 'VERIFY', detail: 'Trace through examples. Test edge cases. Confirm complexity matches expectations.' }
+        ],
+        subs: [
+          { name: 'Arrays & Hashing', detail: 'Two sum, group anagrams, top K frequent. Use hash maps for O(1) lookup. Frequency counting with Counter.' },
+          { name: 'Two Pointers', detail: 'Sorted array pair sum, container with most water, remove duplicates. Two pointers moving inward or same direction.' },
+          { name: 'Sliding Window', detail: 'Longest substring without repeats, minimum window substring, max sum subarray of size k. Expand right, shrink left.' },
+          { name: 'Stack & Queue', detail: 'Valid parentheses, next greater element, min stack, BFS. Stack for LIFO problems, queue for FIFO/level-order.' },
+          { name: 'Binary Search', detail: 'Search in sorted/rotated array, find peak element, koko eating bananas. O(log n). Template: left, right, while left < right.' },
+          { name: 'Trees & Graphs', detail: 'DFS (preorder/inorder/postorder), BFS (level order), lowest common ancestor, graph traversal. Use recursion or explicit stack/queue.' },
+          { name: 'Dynamic Programming', detail: 'Climbing stairs, coin change, longest increasing subsequence, 0/1 knapsack. Identify: overlapping subproblems + optimal substructure.' },
+          { name: 'Greedy', detail: 'Activity selection, jump game, task scheduler. Make locally optimal choice at each step. Prove greedy works before using it.' },
+          { name: 'Backtracking', detail: 'Permutations, combinations, N-queens, sudoku solver. Try all options, undo (backtrack) when stuck. Template: choose, explore, unchoose.' },
+          { name: 'Heap / Priority Queue', detail: 'K largest elements, merge K sorted lists, running median. Use heapq in Python. Min-heap by default; negate values for max-heap.' }
+        ],
+        questions: [
+          'Implement binary search on a rotated sorted array.',
+          'Find the longest palindromic substring.',
+          'Serialize and deserialize a binary tree.',
+          'Find the minimum number of coins for a given amount.',
+          'Detect a cycle in a directed graph.',
+          'Find the kth largest element in an unsorted array.'
+        ],
+        tips: [
+          'If input is sorted: think binary search or two pointers.',
+          'If asking for top/least K: think heap.',
+          'If asking about substrings/subarrays: think sliding window.',
+          'If you can break the problem into subproblems: think dynamic programming.',
+          'If exploring all possibilities: think backtracking.',
+          'Practice recognizing patterns before solving. Pattern recognition is the skill that transfers.'
+        ]
+      }
+    ]
+  }
+];
+
+/* ─── RENDER ─── */
+function ifEsc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function ifRender() {
+  const container = document.getElementById('if-content');
+  let html = '';
+
+  IF_DATA.forEach(cat => {
+    html += `<div class="if-cat"><span class="if-cat-icon">${cat.icon}</span><h2>${ifEsc(cat.category)}</h2></div>`;
+
+    cat.frameworks.forEach((fw, i) => {
+      const cardId = `if-card-${cat.category.replace(/[^a-z]/gi,'')}-${i}`;
+
+      const stepsHTML = fw.steps.map(s => `
+        <div class="if-step">
+          <span class="if-step-num">${ifEsc(s.num)}</span>
+          <div class="if-step-content">
+            <div class="if-step-label">${ifEsc(s.label)}</div>
+            <div class="if-step-detail">${ifEsc(s.detail)}</div>
+          </div>
+        </div>
+      `).join('');
+
+      const subsHTML = (fw.subs || []).length ? `
+        <div class="if-sub-label">Related Frameworks & Patterns</div>
+        ${fw.subs.map(s => `<div class="if-sub"><span class="if-sub-name">${ifEsc(s.name)}</span> <span class="if-sub-detail">- ${ifEsc(s.detail)}</span></div>`).join('')}
+      ` : '';
+
+      const questionsHTML = fw.questions.map(q => `<div class="if-sample-q">"${ifEsc(q)}"</div>`).join('');
+
+      const tipsHTML = fw.tips.map(t => `<div class="if-tip">- ${ifEsc(t)}</div>`).join('');
+
+      html += `
+        <div class="if-card" id="${cardId}">
+          <div class="if-card-header" onclick="document.getElementById('${cardId}').classList.toggle('open')">
+            <span class="if-card-icon">${cat.icon}</span>
+            <span class="if-card-title">${ifEsc(fw.title)}</span>
+            ${fw.badge ? `<span class="if-card-badge">${ifEsc(fw.badge)}</span>` : ''}
+            <svg class="if-card-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+          <div class="if-card-body">
+            <div class="if-card-desc">${ifEsc(fw.desc)}</div>
+
+            <div class="if-fw-label">Framework: ${ifEsc(fw.steps.length)} Steps</div>
+            ${stepsHTML}
+
+            ${subsHTML}
+
+            <button class="if-sample-toggle" onclick="this.classList.toggle('open')">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              Sample Questions (${fw.questions.length})
+            </button>
+            <div class="if-samples">${questionsHTML}</div>
+
+            <div class="if-tips">
+              <div class="if-tips-label">Tips</div>
+              ${tipsHTML}
+            </div>
+          </div>
+        </div>
+      `;
+    });
+  });
+
+  container.innerHTML = html;
+}
+
+document.addEventListener('DOMContentLoaded', ifRender);
+</script>
+
+</body>
+</html>

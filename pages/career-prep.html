@@ -1,0 +1,3370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career Prep Toolkit | Swati Iyer</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" type="image/png" href="../assets/branding/swatiiyer-logo-tab.png">
+  <link rel="apple-touch-icon" href="../assets/branding/swatiiyer-logo-tab.png">
+  <style>
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(139,94,171,0.10), transparent 30%),
+        linear-gradient(180deg, #f5f0fc 0%, #f0eaf8 220px, #f8f5fc 100%);
+    }
+
+    /* ═══ SHELL ═══ */
+    .cp-shell {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 132px 28px 96px;
+    }
+
+    /* ═══ HERO ═══ */
+    .cp-hero { margin-bottom: 48px; }
+    .cp-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(139,94,171,0.08);
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .cp-eyebrow::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .cp-hero h1 {
+      font-family: var(--display);
+      font-size: clamp(42px, 7vw, 72px);
+      line-height: 0.96;
+      letter-spacing: -0.05em;
+      color: var(--text);
+      margin-bottom: 18px;
+    }
+    .cp-hero-sub {
+      max-width: 640px;
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--text-mid);
+      margin-bottom: 28px;
+    }
+
+    /* ═══ HUB GRID ═══ */
+    .cp-hub { margin-bottom: 36px; }
+    .cp-hub-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    }
+    @media (max-width: 760px) { .cp-hub-grid { grid-template-columns: 1fr; } }
+
+    .cp-hub-group {
+      background: rgba(255,255,255,0.72); border: 1px solid rgba(139,94,171,0.08);
+      border-radius: 22px; padding: 24px; box-shadow: 0 8px 24px rgba(69,51,85,0.04);
+    }
+    .cp-hub-group-header {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
+    }
+    .cp-hub-group-icon {
+      width: 36px; height: 36px; border-radius: 12px; display: flex;
+      align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;
+    }
+    .cp-hub-group-icon.learn { background: rgba(72,187,120,0.12); }
+    .cp-hub-group-icon.practice { background: rgba(139,94,171,0.10); }
+    .cp-hub-group-icon.prepare { background: rgba(66,153,225,0.10); }
+    .cp-hub-group-label {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+      text-transform: uppercase; opacity: 0.5;
+    }
+    .cp-hub-group-label.learn { color: var(--green); }
+    .cp-hub-group-label.practice { color: var(--accent); }
+    .cp-hub-group-label.prepare { color: var(--blue); }
+    .cp-hub-group-title {
+      font-family: var(--display); font-size: 20px; letter-spacing: -0.03em;
+      color: var(--text);
+    }
+
+    .cp-hub-tool {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 14px; border-radius: 14px; cursor: pointer;
+      border: 1px solid transparent; transition: all 0.2s var(--ease);
+      margin-bottom: 4px;
+    }
+    .cp-hub-tool:hover {
+      background: rgba(139,94,171,0.04); border-color: rgba(139,94,171,0.12);
+      transform: translateX(4px);
+    }
+    .cp-hub-tool-dot {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+    }
+    .cp-hub-tool-dot.learn { background: var(--green); }
+    .cp-hub-tool-dot.practice { background: var(--accent); }
+    .cp-hub-tool-dot.prepare { background: var(--blue); }
+    .cp-hub-tool-name {
+      font-size: 14px; font-weight: 600; color: var(--text);
+    }
+    .cp-hub-tool-desc {
+      font-size: 12px; color: var(--text-mid); line-height: 1.4; margin-top: 2px;
+    }
+    .cp-hub-tool-arrow {
+      margin-left: auto; font-size: 14px; color: var(--text-light);
+      transition: transform 0.2s;
+    }
+    .cp-hub-tool:hover .cp-hub-tool-arrow { transform: translateX(3px); color: var(--accent); }
+
+    /* ═══ BREADCRUMB ═══ */
+    .cp-breadcrumb {
+      display: none; align-items: center; gap: 8px; margin-bottom: 24px;
+      padding: 10px 16px; border-radius: 999px; width: fit-content;
+      background: rgba(255,255,255,0.7); border: 1px solid rgba(139,94,171,0.12);
+      cursor: pointer; font-size: 13px; font-weight: 600; color: var(--text-mid);
+      transition: all 0.2s;
+    }
+    .cp-breadcrumb:hover { border-color: var(--accent); color: var(--accent); }
+    .cp-breadcrumb.visible { display: inline-flex; }
+
+    /* ═══ LEGACY TAB NAV (hidden, kept for JS compat) ═══ */
+    .cp-tabs { display: none; }
+    .cp-tab { display: none; }
+
+    /* ═══ PANELS ═══ */
+    .cp-panel { display: none; }
+    .cp-panel.active { display: block; }
+
+    /* ═══ SHARED CARD ═══ */
+    .cp-card {
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(139,94,171,0.10);
+      border-radius: 24px;
+      padding: 30px;
+      box-shadow: 0 12px 32px rgba(69,51,85,0.06);
+      margin-bottom: 20px;
+    }
+    .cp-card h2 {
+      font-family: var(--display);
+      font-size: clamp(24px, 3vw, 34px);
+      letter-spacing: -0.04em;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+    .cp-card h3 {
+      font-family: var(--display);
+      font-size: 20px;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .cp-card p {
+      color: var(--text-mid);
+      line-height: 1.75;
+      font-size: 15px;
+      margin-bottom: 14px;
+    }
+    .cp-card p:last-child { margin-bottom: 0; }
+
+    /* ═══ FORMS & INPUTS ═══ */
+    .cp-label {
+      display: block;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+      opacity: 0.7;
+    }
+    .cp-textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 16px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.8);
+      font-family: var(--sans);
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--text);
+      resize: vertical;
+      transition: border-color 0.2s;
+    }
+    .cp-textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .cp-input {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.8);
+      font-family: var(--sans);
+      font-size: 14px;
+      color: var(--text);
+      transition: border-color 0.2s;
+    }
+    .cp-input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .cp-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: 999px;
+      background: var(--text);
+      color: #fff;
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.25s var(--ease), box-shadow 0.25s;
+    }
+    .cp-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(30,21,40,0.18);
+    }
+    .cp-btn-secondary {
+      background: rgba(139,94,171,0.08);
+      color: var(--accent);
+      border: 1px solid rgba(139,94,171,0.2);
+    }
+    .cp-btn-secondary:hover {
+      background: rgba(139,94,171,0.14);
+      box-shadow: 0 8px 20px rgba(139,94,171,0.12);
+    }
+
+    /* ═══ STAR COACH ═══ */
+    .sc-view { display: none; }
+    .sc-view.active { display: block; }
+
+    /* Landing cards */
+    .sc-landing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .sc-flow-card {
+      padding: 28px 24px;
+      border-radius: 20px;
+      border: 1px solid rgba(139,94,171,0.12);
+      background: rgba(255,255,255,0.72);
+      cursor: pointer;
+      transition: all 0.3s var(--ease);
+      position: relative;
+      overflow: hidden;
+    }
+    .sc-flow-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--accent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .sc-flow-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 36px rgba(69,51,85,0.10);
+      border-color: rgba(139,94,171,0.28);
+    }
+    .sc-flow-card:hover::before { opacity: 1; }
+    .sc-flow-icon {
+      width: 48px; height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+    .sc-flow-icon svg { width: 26px; height: 26px; }
+    .sc-flow-card h3 {
+      font-family: var(--display);
+      font-size: 20px;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .sc-flow-card p {
+      font-size: 13.5px;
+      line-height: 1.65;
+      color: var(--text-mid);
+      margin: 0;
+    }
+    .sc-flow-tag {
+      display: inline-block;
+      margin-top: 14px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0.7;
+    }
+
+    /* Wizard steps */
+    .sc-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .sc-back {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      border: 1px solid var(--border-light);
+      background: rgba(255,255,255,0.7);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .sc-back:hover {
+      border-color: var(--accent);
+      background: rgba(139,94,171,0.06);
+    }
+    .sc-back svg { width: 16px; height: 16px; color: var(--text-mid); }
+    .sc-step-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0.6;
+    }
+    .sc-progress {
+      height: 3px;
+      background: var(--border-light);
+      border-radius: 2px;
+      margin-bottom: 28px;
+      overflow: hidden;
+    }
+    .sc-progress-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: width 0.4s var(--ease);
+    }
+
+    /* Role & category chips */
+    .sc-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 16px 0 24px;
+    }
+    .sc-chip {
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--border-light);
+      background: rgba(255,255,255,0.7);
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-mid);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .sc-chip:hover {
+      border-color: rgba(139,94,171,0.3);
+      background: rgba(139,94,171,0.05);
+      color: var(--accent);
+    }
+    .sc-chip.selected {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    /* Category section */
+    .sc-cat-section {
+      padding: 22px 24px;
+      border-radius: 18px;
+      background: rgba(139,94,171,0.03);
+      border: 1px solid rgba(139,94,171,0.08);
+      margin-bottom: 14px;
+    }
+    .sc-cat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+    .sc-cat-title {
+      font-family: var(--display);
+      font-size: 17px;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+    .sc-cat-count {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent);
+      opacity: 0.7;
+    }
+    .sc-cat-body {
+      display: none;
+      margin-top: 16px;
+    }
+    .sc-cat-section.open .sc-cat-body { display: block; }
+    .sc-cat-prompt {
+      font-size: 13.5px;
+      color: var(--text-mid);
+      line-height: 1.65;
+      margin-bottom: 12px;
+      font-style: italic;
+    }
+
+    /* Story cards */
+    .sc-story-card {
+      padding: 18px 20px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.8);
+      border: 1px solid rgba(139,94,171,0.1);
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .sc-story-card:hover {
+      border-color: rgba(139,94,171,0.25);
+      box-shadow: 0 6px 16px rgba(69,51,85,0.06);
+    }
+    .sc-story-card.selected {
+      border-color: var(--accent);
+      background: rgba(139,94,171,0.06);
+    }
+    .sc-story-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .sc-story-preview {
+      font-size: 12.5px;
+      color: var(--text-mid);
+      line-height: 1.5;
+    }
+
+    /* STAR craft workspace */
+    .sc-star-field {
+      padding: 20px 24px;
+      border-radius: 18px;
+      background: rgba(139,94,171,0.04);
+      border: 1px solid rgba(139,94,171,0.1);
+      margin-bottom: 16px;
+    }
+    .sc-star-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .sc-star-letter {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .sc-star-name {
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .sc-star-tip {
+      font-size: 13px;
+      color: var(--text-light);
+      line-height: 1.6;
+      margin-bottom: 10px;
+      font-style: italic;
+    }
+    .sc-validation {
+      margin-top: 8px;
+      font-size: 12px;
+      line-height: 1.5;
+      padding: 8px 12px;
+      border-radius: 8px;
+    }
+    .sc-validation.warn {
+      background: rgba(201,154,74,0.08);
+      border: 1px solid rgba(201,154,74,0.18);
+      color: #92700c;
+    }
+    .sc-validation.good {
+      background: rgba(58,122,69,0.06);
+      border: 1px solid rgba(58,122,69,0.15);
+      color: var(--green);
+    }
+
+    /* Rubric */
+    .sc-rubric {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin: 20px 0;
+    }
+    .sc-rubric-item {
+      padding: 18px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.7);
+      border: 1px solid var(--border-light);
+      text-align: center;
+    }
+    .sc-rubric-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+      display: block;
+    }
+    .sc-rubric-score {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .sc-score-dot {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: rgba(255,255,255,0.8);
+      cursor: pointer;
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .sc-score-dot:hover {
+      border-color: rgba(139,94,171,0.4);
+      color: var(--accent);
+    }
+    .sc-score-dot.filled {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .sc-rubric-desc {
+      font-size: 11px;
+      color: var(--text-light);
+      line-height: 1.4;
+    }
+
+    /* Tips box */
+    .sc-tips {
+      padding: 18px 22px;
+      border-radius: 16px;
+      background: rgba(74,136,181,0.05);
+      border: 1px solid rgba(74,136,181,0.12);
+      margin-top: 16px;
+    }
+    .sc-tips-title {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 10px;
+      display: block;
+    }
+    .sc-tips p {
+      font-size: 13px;
+      color: var(--text-mid);
+      line-height: 1.65;
+      margin-bottom: 6px;
+    }
+    .sc-tips p:last-child { margin-bottom: 0; }
+
+    /* Mock interview */
+    .sc-mock-question {
+      padding: 28px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(139,94,171,0.06), rgba(74,136,181,0.04));
+      border: 1px solid rgba(139,94,171,0.12);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .sc-mock-cat-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+      display: block;
+    }
+    .sc-mock-q-text {
+      font-family: var(--display);
+      font-size: clamp(18px, 2.5vw, 24px);
+      letter-spacing: -0.03em;
+      color: var(--text);
+      line-height: 1.35;
+    }
+    .sc-mock-timer {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text-mid);
+      margin-bottom: 16px;
+    }
+    .sc-mock-timer svg { width: 14px; height: 14px; }
+
+    /* History */
+    .sc-history-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      border-radius: 12px;
+      border: 1px solid var(--border-light);
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    .sc-history-q {
+      color: var(--text);
+      font-weight: 600;
+      flex: 1;
+      margin-right: 12px;
+    }
+    .sc-history-score {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    /* Story bank list */
+    .sc-bank-empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-light);
+      font-size: 14px;
+    }
+    .sc-bank-item {
+      padding: 18px 20px;
+      border-radius: 16px;
+      border: 1px solid rgba(139,94,171,0.1);
+      background: rgba(255,255,255,0.7);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .sc-bank-item-cat {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 4px;
+      display: block;
+    }
+    .sc-bank-item-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .sc-bank-item-preview {
+      font-size: 12.5px;
+      color: var(--text-mid);
+      line-height: 1.5;
+    }
+    .sc-bank-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .sc-bank-actions button {
+      width: 30px; height: 30px;
+      border-radius: 8px;
+      border: 1px solid var(--border-light);
+      background: rgba(255,255,255,0.8);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .sc-bank-actions button:hover {
+      border-color: var(--accent);
+      background: rgba(139,94,171,0.06);
+    }
+    .sc-bank-actions svg { width: 14px; height: 14px; color: var(--text-mid); }
+
+    /* Upload zone */
+    .sc-upload-zone {
+      margin-bottom: 0;
+    }
+    .sc-upload-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 32px 24px;
+      border: 2px dashed rgba(139,94,171,0.2);
+      border-radius: 18px;
+      background: rgba(139,94,171,0.02);
+      cursor: pointer;
+      transition: all 0.25s var(--ease);
+    }
+    .sc-upload-inner:hover {
+      border-color: rgba(139,94,171,0.4);
+      background: rgba(139,94,171,0.05);
+    }
+    .sc-upload-inner.dragover {
+      border-color: var(--accent);
+      background: rgba(139,94,171,0.08);
+    }
+    .sc-upload-text {
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .sc-upload-hint {
+      font-size: 12px;
+      color: var(--text-light);
+    }
+    .sc-upload-status {
+      margin-top: 10px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .sc-upload-status.success {
+      background: rgba(58,122,69,0.06);
+      border: 1px solid rgba(58,122,69,0.15);
+      color: var(--green);
+    }
+    .sc-upload-status.error {
+      background: rgba(220,38,38,0.06);
+      border: 1px solid rgba(220,38,38,0.15);
+      color: #991b1b;
+    }
+    .sc-upload-status.loading {
+      background: rgba(139,94,171,0.06);
+      border: 1px solid rgba(139,94,171,0.15);
+      color: var(--accent);
+    }
+
+    /* TMAY word counter */
+    .sc-wc {
+      font-family: var(--mono);
+      font-size: 12px;
+      text-align: right;
+      margin-top: 6px;
+      transition: color 0.2s;
+    }
+    .sc-wc.under { color: var(--text-light); }
+    .sc-wc.good { color: var(--green); }
+    .sc-wc.over { color: #991b1b; }
+
+    /* TMAY delivery tips */
+    .sc-delivery-card {
+      padding: 22px 24px;
+      border-radius: 18px;
+      border: 1px solid rgba(139,94,171,0.1);
+      background: rgba(139,94,171,0.03);
+      margin-bottom: 14px;
+    }
+    .sc-delivery-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+      display: block;
+    }
+    .sc-delivery-card p {
+      font-size: 14px;
+      color: var(--text-mid);
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    @media (max-width: 760px) {
+      .sc-landing-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .sc-rubric { grid-template-columns: 1fr; }
+    }
+
+    /* ═══ CAREER DECIDER ═══ */
+    .cd-quiz-card {
+      padding: 24px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(139,94,171,0.1);
+      margin-bottom: 16px;
+    }
+    .cd-quiz-q {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+    .cd-quiz-num {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent);
+      opacity: 0.6;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .cd-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .cd-option {
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border-light);
+      background: rgba(255,255,255,0.7);
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--text-mid);
+      transition: all 0.2s;
+      text-align: left;
+      font-family: var(--sans);
+    }
+    .cd-option:hover {
+      border-color: rgba(139,94,171,0.3);
+      background: rgba(139,94,171,0.04);
+    }
+    .cd-option.selected {
+      border-color: var(--accent);
+      background: rgba(139,94,171,0.08);
+      color: var(--text);
+      font-weight: 600;
+    }
+    .cd-progress {
+      height: 4px;
+      background: var(--border-light);
+      border-radius: 2px;
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+    .cd-progress-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: width 0.4s var(--ease);
+    }
+    .cd-result {
+      display: none;
+    }
+    .cd-result-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .cd-result-label {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text);
+      min-width: 120px;
+    }
+    .cd-result-track {
+      flex: 1;
+      height: 24px;
+      background: var(--border-light);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .cd-result-fill {
+      height: 100%;
+      border-radius: 12px;
+      transition: width 0.8s var(--bounce);
+    }
+    .cd-result-pct {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text-mid);
+      min-width: 40px;
+    }
+    .cd-compare {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .cd-compare-col {
+      padding: 22px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(139,94,171,0.1);
+    }
+    .cd-compare-col h4 {
+      font-family: var(--display);
+      font-size: 18px;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+    .cd-compare-col ul {
+      list-style: none;
+      padding: 0;
+    }
+    .cd-compare-col li {
+      font-size: 13px;
+      color: var(--text-mid);
+      line-height: 1.6;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .cd-compare-col li:last-child { border: none; }
+    .cd-compare-col li strong { color: var(--text); display: block; font-size: 12px; margin-bottom: 2px; }
+
+    /* ═══ SQL COURSE ═══ */
+    .sql-levels {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .sql-level-btn {
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--border-light);
+      background: rgba(255,255,255,0.6);
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-mid);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .sql-level-btn:hover {
+      border-color: rgba(74,136,181,0.3);
+      color: var(--blue);
+    }
+    .sql-level-btn.active {
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue);
+    }
+    .sql-topic {
+      margin-bottom: 20px;
+      border-radius: 20px;
+      border: 1px solid rgba(74,136,181,0.1);
+      overflow: hidden;
+    }
+    .sql-topic-header {
+      padding: 18px 22px;
+      background: rgba(74,136,181,0.05);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.2s;
+    }
+    .sql-topic-header:hover { background: rgba(74,136,181,0.09); }
+    .sql-topic-title {
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--text);
+    }
+    .sql-topic-arrow {
+      font-size: 18px;
+      color: var(--text-light);
+      transition: transform 0.3s;
+    }
+    .sql-topic.open .sql-topic-arrow { transform: rotate(180deg); }
+    .sql-topic-body {
+      display: none;
+      padding: 22px;
+      background: rgba(255,255,255,0.7);
+    }
+    .sql-topic.open .sql-topic-body { display: block; }
+    .sql-explain {
+      font-size: 14.5px;
+      line-height: 1.75;
+      color: var(--text-mid);
+      margin-bottom: 16px;
+    }
+    .sql-code {
+      background: #1a1520;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 16px;
+      overflow-x: auto;
+    }
+    .sql-code pre {
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.7;
+      color: #e2c4f7;
+    }
+    .sql-code .kw { color: #c4a7e7; font-weight: 600; }
+    .sql-code .fn { color: #f6c177; }
+    .sql-code .str { color: #a6da95; }
+    .sql-code .cm { color: #6e6a7e; font-style: italic; }
+    .sql-practice {
+      background: rgba(74,136,181,0.05);
+      border: 1px solid rgba(74,136,181,0.12);
+      border-radius: 16px;
+      padding: 20px;
+    }
+    .sql-practice-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 10px;
+      display: block;
+    }
+    .sql-practice-q {
+      font-size: 14px;
+      color: var(--text);
+      font-weight: 600;
+      margin-bottom: 12px;
+      line-height: 1.55;
+    }
+    .sql-editor {
+      width: 100%;
+      min-height: 80px;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(74,136,181,0.2);
+      background: #1a1520;
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.6;
+      color: #e2c4f7;
+      resize: vertical;
+      margin-bottom: 12px;
+    }
+    .sql-editor:focus { outline: none; border-color: var(--blue); }
+    .sql-feedback {
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.5;
+      display: none;
+      margin-top: 10px;
+    }
+    .sql-feedback.correct {
+      background: rgba(58,122,69,0.08);
+      border: 1px solid rgba(58,122,69,0.2);
+      color: var(--green);
+      display: block;
+    }
+    .sql-feedback.wrong {
+      background: rgba(220,38,38,0.06);
+      border: 1px solid rgba(220,38,38,0.15);
+      color: #991b1b;
+      display: block;
+    }
+
+    /* ═══ SQL LAUNCH CARD ═══ */
+    .sql-launch {
+      margin-top: 28px;
+    }
+    .sql-launch-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .sql-launch-feat {
+      padding: 22px 20px;
+      background: linear-gradient(180deg, rgba(139,94,171,0.06), rgba(74,136,181,0.04));
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+    }
+    .sql-launch-feat:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+      border-color: var(--accent);
+    }
+    .sql-launch-feat-icon {
+      font-size: 26px;
+      margin-bottom: 10px;
+    }
+    .sql-launch-feat-title {
+      font-family: var(--display);
+      font-size: 17px;
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+    .sql-launch-feat-body {
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--text-mid);
+    }
+    .sql-launch-btn {
+      font-family: var(--mono);
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    @media (max-width: 720px) {
+      .sql-launch-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ═══ RESUME CHECKLIST ═══ */
+    .rc-category {
+      margin-bottom: 24px;
+    }
+    .rc-category-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0.6;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .rc-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      margin-bottom: 6px;
+      transition: background 0.2s;
+    }
+    .rc-item:hover { background: rgba(139,94,171,0.03); }
+    .rc-check {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      border: 2px solid var(--border);
+      cursor: pointer;
+      flex-shrink: 0;
+      margin-top: 1px;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.8);
+    }
+    .rc-check.checked {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .rc-check.checked::after {
+      content: '✓';
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .rc-item.done .rc-text { opacity: 0.5; text-decoration: line-through; }
+    .rc-text {
+      font-size: 14px;
+      color: var(--text-mid);
+      line-height: 1.55;
+    }
+    .rc-counter {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    /* ═══ BEHAVIORAL Q BANK ═══ */
+    .bq-category {
+      margin-bottom: 24px;
+    }
+    .bq-cat-header {
+      font-family: var(--display);
+      font-size: 20px;
+      color: var(--text);
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .bq-item {
+      border-radius: 14px;
+      border: 1px solid var(--border-light);
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+    .bq-question {
+      padding: 14px 18px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      transition: background 0.2s;
+    }
+    .bq-question:hover { background: rgba(139,94,171,0.03); }
+    .bq-arrow {
+      font-size: 16px;
+      color: var(--text-light);
+      transition: transform 0.3s;
+    }
+    .bq-item.open .bq-arrow { transform: rotate(180deg); }
+    .bq-tip {
+      display: none;
+      padding: 14px 18px;
+      background: rgba(139,94,171,0.03);
+      font-size: 13.5px;
+      color: var(--text-mid);
+      line-height: 1.7;
+    }
+    .bq-item.open .bq-tip { display: block; }
+
+    /* ═══ PRODUCT SENSE ═══ */
+    .ps-prompt {
+      padding: 22px;
+      border-radius: 18px;
+      background: rgba(201,154,74,0.05);
+      border: 1px solid rgba(201,154,74,0.12);
+      margin-bottom: 14px;
+    }
+    .ps-prompt-type {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--yellow);
+      margin-bottom: 8px;
+      display: block;
+    }
+    .ps-prompt-q {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+    .ps-framework {
+      font-size: 13px;
+      color: var(--text-mid);
+      line-height: 1.65;
+    }
+    .ps-framework strong { color: var(--text); }
+
+    /* ═══ BACK LINK ═══ */
+    .cp-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 48px;
+      padding: 12px 20px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.8);
+      border: 1px solid rgba(139,94,171,0.18);
+      color: var(--text-mid);
+      font-size: 14px;
+      font-weight: 600;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s;
+    }
+    .cp-back:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(139,94,171,0.12);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ═══ RESPONSIVE ═══ */
+    @media (max-width: 900px) {
+      .cd-compare { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .cp-shell { padding: 120px 20px 72px; }
+      .cp-card { padding: 22px 20px; border-radius: 20px; }
+      .cp-tabs { gap: 6px; }
+      .cp-tab { padding: 8px 14px; font-size: 12px; }
+      .sql-levels { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">&larr; Back to Portfolio</a>
+    <div class="nav-links">
+      <a href="../index.html#work">Work</a>
+      <a href="../index.html#explore">Explore</a>
+      <a href="mailto:iyerswatip@gmail.com">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<main class="cp-shell">
+
+  <!-- ═══ HERO ═══ -->
+  <div class="cp-hero">
+    <span class="cp-eyebrow">Interview Prep</span>
+    <h1>Career Prep Toolkit</h1>
+    <p class="cp-hero-sub">Everything I wish I had in one place when I started prepping. STAR responses, SQL drills, behavioral questions, product sense, and a career quiz to figure out where you actually fit.</p>
+  </div>
+
+  <!-- ═══ BREADCRUMB (appears when inside a tool) ═══ -->
+  <div class="cp-breadcrumb" id="cp-breadcrumb" onclick="cpBackToHub()">
+    &larr; All Tools
+  </div>
+
+  <!-- ═══ HUB GRID ═══ -->
+  <div class="cp-hub" id="cp-hub">
+    <div class="cp-hub-grid">
+
+      <!-- LEARN -->
+      <div class="cp-hub-group">
+        <div class="cp-hub-group-header">
+          <div class="cp-hub-group-icon learn">&#128218;</div>
+          <div>
+            <div class="cp-hub-group-label learn">Learn</div>
+            <div class="cp-hub-group-title">Build Skills</div>
+          </div>
+        </div>
+        <div class="cp-hub-tool" onclick="cpOpenTool('sql')">
+          <span class="cp-hub-tool-dot learn"></span>
+          <div><div class="cp-hub-tool-name">SQL Trainer</div><div class="cp-hub-tool-desc">13 units, 120+ exercises, interview sim</div></div>
+          <span class="cp-hub-tool-arrow">&rsaquo;</span>
+        </div>
+        <div class="cp-hub-tool" onclick="cpOpenTool('python')">
+          <span class="cp-hub-tool-dot learn"></span>
+          <div><div class="cp-hub-tool-name">Python DSA</div><div class="cp-hub-tool-desc">5 units, coding patterns, real execution</div></div>
+          <span class="cp-hub-tool-arrow">&rsaquo;</span>
+        </div>
+        <div class="cp-hub-tool" onclick="window.location.href='pm-trainer.html'">
+          <span class="cp-hub-tool-dot learn"></span>
+          <div><div class="cp-hub-tool-name">PM Trainer</div><div class="cp-hub-tool-desc">12 units with interview prep frameworks, 53 terms, scenarios, interview sim</div></div>
+          <span class="cp-hub-tool-arrow">&rsaquo;</span>
+        </div>
+      </div>
+
+      <!-- PRACTICE -->
+      <div class="cp-hub-group">
+        <div class="cp-hub-group-header">
+          <div class="cp-hub-group-icon practice">&#127919;</div>
+          <div>
+            <div class="cp-hub-group-label practice">Practice</div>
+            <div class="cp-hub-group-title">Rehearse Interviews</div>
+          </div>
+        </div>
+        <div class="cp-hub-tool" onclick="cpOpenTool('star')">
+          <span class="cp-hub-tool-dot practice"></span>
+          <div><div class="cp-hub-tool-name">STAR Coach</div><div class="cp-hub-tool-desc">Story bank, mock interviews, TMAY builder</div></div>
+          <span class="cp-hub-tool-arrow">&rsaquo;</span>
+        </div>
+        <div class="cp-hub-tool" onclick="cpOpenTool('behavioral')">
+          <span class="cp-hub-tool-dot practice"></span>
+          <div><div class="cp-hub-tool-name">Behavioral Qs</div><div class="cp-hub-tool-desc">18 questions with strategy tips</div></div>
+          <span class="cp-hub-tool-arrow">&rsaquo;</span>
+        </div>
+        <div class="cp-hub-tool" onclick="cpOpenTool('product')">
+          <span class="cp-hub-tool-dot practice"></span>
+          <div><div class="cp-hub-tool-name">Product Sense</div><div class="cp-hub-tool-desc">Design, estimation, strategy prompts</div></div>
+          <span class="cp-hub-tool-arrow">&rsaquo;</span>
+        </div>
+      </div>
+
+      <!-- PREPARE -->
+      <div class="cp-hub-group">
+        <div class="cp-hub-group-header">
+          <div class="cp-hub-group-icon prepare">&#128221;</div>
+          <div>
+            <div class="cp-hub-group-label prepare">Prepare</div>
+            <div class="cp-hub-group-title">Get Ready</div>
+          </div>
+        </div>
+        <div class="cp-hub-tool" onclick="window.location.href='resume-scanner.html'">
+          <span class="cp-hub-tool-dot prepare"></span>
+          <div><div class="cp-hub-tool-name">Resume Scanner</div><div class="cp-hub-tool-desc">AI-powered match scoring, keyword analysis, tailored resume generator</div></div>
+          <span class="cp-hub-tool-arrow">&rsaquo;</span>
+        </div>
+        <div class="cp-hub-tool" onclick="cpOpenTool('career')">
+          <span class="cp-hub-tool-dot prepare"></span>
+          <div><div class="cp-hub-tool-name">Career Decider</div><div class="cp-hub-tool-desc">Quiz: PM vs. Analytics vs. UX Research</div></div>
+          <span class="cp-hub-tool-arrow">&rsaquo;</span>
+        </div>
+        <div class="cp-hub-tool" onclick="window.location.href='interview-prep.html'">
+          <span class="cp-hub-tool-dot prepare"></span>
+          <div><div class="cp-hub-tool-name">Interview Prep Kit</div><div class="cp-hub-tool-desc">Generate prep kit from resume + JD</div></div>
+          <span class="cp-hub-tool-arrow">&rsaquo;</span>
+        </div>
+        <div class="cp-hub-tool" onclick="window.location.href='interview-frameworks.html'">
+          <span class="cp-hub-tool-dot prepare"></span>
+          <div><div class="cp-hub-tool-name">Interview Frameworks</div><div class="cp-hub-tool-desc">Step-by-step frameworks for PM, SQL, SWE, Python, and more</div></div>
+          <span class="cp-hub-tool-arrow">&rsaquo;</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ LEGACY TABS (hidden, kept for panel ID compat) ═══ -->
+  <div class="cp-tabs">
+    <button class="cp-tab" data-panel="star">STAR Coach</button>
+    <button class="cp-tab" data-panel="career">Career Decider</button>
+    <button class="cp-tab" data-panel="sql">SQL Practice</button>
+    <button class="cp-tab" data-panel="python">Python DSA</button>
+    <button class="cp-tab" data-panel="resume">Resume Checklist</button>
+    <button class="cp-tab" data-panel="behavioral">Behavioral Qs</button>
+    <button class="cp-tab" data-panel="product">Product Sense</button>
+  </div>
+
+  <!-- ════════════════════════════════════
+       1. STAR BEHAVIORAL COACH
+       ════════════════════════════════════ -->
+  <div class="cp-panel" id="panel-star">
+
+    <!-- ── LANDING ── -->
+    <div class="sc-view active" id="sc-landing">
+      <div class="cp-card">
+        <h2>STAR Interview Coach</h2>
+        <p>Build a bank of real stories, craft your "tell me about yourself," and practice under pressure. Three tools, one goal: walk into that interview knowing your material cold.</p>
+
+        <div class="sc-landing-grid">
+          <div class="sc-flow-card" onclick="scStartFlow('a')">
+            <div class="sc-flow-icon" style="background: rgba(139,94,171,0.08);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            </div>
+            <h3>Build Story Bank</h3>
+            <p>Brainstorm stories across 5 behavioral categories, then craft them into tight STAR narratives.</p>
+            <span class="sc-flow-tag">5 categories &middot; guided crafting</span>
+          </div>
+
+          <div class="sc-flow-card" onclick="scStartFlow('b')">
+            <div class="sc-flow-icon" style="background: rgba(74,136,181,0.08);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <h3>Mock Interview</h3>
+            <p>Random behavioral question, cold. Write your response, then score yourself on the rubric.</p>
+            <span class="sc-flow-tag">50 questions &middot; self-scoring</span>
+          </div>
+
+          <div class="sc-flow-card" onclick="scStartFlow('c')">
+            <div class="sc-flow-icon" style="background: rgba(58,122,69,0.08);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <h3>Tell Me About Yourself</h3>
+            <p>Build your 2-minute intro story with guided prompts and the "Stupid Simple Structure."</p>
+            <span class="sc-flow-tag">3 steps &middot; delivery coaching</span>
+          </div>
+        </div>
+
+        <!-- Full prep tool link -->
+        <div style="margin-top: 24px; padding: 20px 24px; border-radius: 18px; background: linear-gradient(135deg, rgba(139,94,171,0.06), rgba(74,136,181,0.04)); border: 1px solid rgba(139,94,171,0.12);">
+          <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+            <div>
+              <p style="font-size:14px; font-weight:700; color:var(--text); margin-bottom:4px;">Need the full prep package?</p>
+              <p style="font-size:13px; color:var(--text-mid); margin:0;">Company research worksheets, skill-fit matrices, AI prompt generators, checklists, and more.</p>
+            </div>
+            <a href="interview-prep.html" class="cp-btn" style="text-decoration:none; white-space:nowrap;">Interview Prep Engine &rarr;</a>
+          </div>
+        </div>
+
+        <!-- Saved stories quick view -->
+        <div id="sc-bank-preview" style="margin-top: 28px; display: none;">
+          <h3>Your Story Bank</h3>
+          <div id="sc-bank-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── FLOW A: STORY BANK ── -->
+
+    <!-- A1: Role Select -->
+    <div class="sc-view" id="sc-a1">
+      <div class="cp-card">
+        <div class="sc-header">
+          <button class="sc-back" onclick="scNav('sc-landing')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <span class="sc-step-label">Step 1 of 5</span>
+        </div>
+        <div class="sc-progress"><div class="sc-progress-fill" style="width:20%"></div></div>
+        <h2>What role are you prepping for?</h2>
+        <p>This shapes the kinds of stories you'll want to have ready and the language you'll use to tell them.</p>
+        <div class="sc-chips" id="sc-role-chips">
+          <button class="sc-chip" data-role="pm">Product Manager</button>
+          <button class="sc-chip" data-role="analytics">Data / Analytics</button>
+          <button class="sc-chip" data-role="ux">UX Research</button>
+          <button class="sc-chip" data-role="eng">Engineering</button>
+          <button class="sc-chip" data-role="general">General / Other</button>
+        </div>
+        <button class="cp-btn" id="sc-a1-next" onclick="scA1Next()" style="opacity:0.4; pointer-events:none;">Continue</button>
+      </div>
+    </div>
+
+    <!-- A2: Experience Input -->
+    <div class="sc-view" id="sc-a2">
+      <div class="cp-card">
+        <div class="sc-header">
+          <button class="sc-back" onclick="scNav('sc-a1')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <span class="sc-step-label">Step 2 of 5</span>
+        </div>
+        <div class="sc-progress"><div class="sc-progress-fill" style="width:40%"></div></div>
+        <h2>Brain dump your experience</h2>
+        <p>Paste your resume, list your jobs, or just free-write about projects you've worked on. The messier the better. We'll mine it for stories next.</p>
+
+        <div class="sc-upload-zone" id="sc-upload-zone">
+          <input type="file" id="sc-resume-file" accept=".pdf,.docx,.doc,.txt" style="display:none;" onchange="scHandleResume(event)">
+          <div class="sc-upload-inner" onclick="document.getElementById('sc-resume-file').click()">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <span class="sc-upload-text">Upload resume (PDF, DOCX, or TXT)</span>
+            <span class="sc-upload-hint">or drag and drop</span>
+          </div>
+          <div class="sc-upload-status" id="sc-upload-status" style="display:none;"></div>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:16px; margin:16px 0;">
+          <div style="flex:1; height:1px; background:var(--border-light);"></div>
+          <span style="font-family:var(--mono); font-size:11px; color:var(--text-light); text-transform:uppercase; letter-spacing:0.1em;">or type it out</span>
+          <div style="flex:1; height:1px; background:var(--border-light);"></div>
+        </div>
+
+        <textarea class="cp-textarea" id="sc-experience" style="min-height:180px;" placeholder="e.g. PM intern at Acme Corp summer 2024. Worked on the mobile app onboarding redesign. Before that, I was a research assistant analyzing survey data for a prof's paper on user trust. I also ran the data science club and organized a hackathon with 200+ attendees..."></textarea>
+        <div style="margin-top: 16px;">
+          <button class="cp-btn" onclick="scA2Next()">Continue to Story Mining</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- A3: Category Brainstorm -->
+    <div class="sc-view" id="sc-a3">
+      <div class="cp-card">
+        <div class="sc-header">
+          <button class="sc-back" onclick="scNav('sc-a2')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <span class="sc-step-label">Step 3 of 5</span>
+        </div>
+        <div class="sc-progress"><div class="sc-progress-fill" style="width:60%"></div></div>
+        <h2>Mine your stories</h2>
+        <p>For each category below, think about which experiences from your brain dump fit. Add a short title for each story you can think of. You don't need to fill every category right now.</p>
+        <div id="sc-categories"></div>
+
+        <div style="margin-top: 24px; padding: 22px; border-radius: 18px; background: linear-gradient(135deg, rgba(139,94,171,0.06), rgba(74,136,181,0.04)); border: 1px solid rgba(139,94,171,0.12);">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <span style="font-family:var(--display); font-size:17px; color:var(--text); letter-spacing:-0.02em;">Need help? Generate with AI</span>
+          </div>
+          <p style="font-size:13.5px; color:var(--text-mid); line-height:1.65; margin-bottom:14px;">Can't think of which stories fit where? This generates a prompt you can paste into ChatGPT or Claude. It'll analyze your experience and suggest stories for each behavioral category.</p>
+          <button class="cp-btn cp-btn-secondary" onclick="scGenerateAIPrompt()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Generate AI Prompt
+          </button>
+        </div>
+
+        <div id="sc-ai-prompt-output" style="display:none; margin-top:16px;">
+          <div style="background: var(--bg-dark); border-radius: 18px; padding: 22px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+              <span style="font-family:var(--mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent);">Copy this into ChatGPT or Claude</span>
+              <button class="cp-btn cp-btn-secondary" style="padding:6px 14px; font-size:12px;" onclick="scCopyAIPrompt()">Copy</button>
+            </div>
+            <pre id="sc-ai-prompt-text" style="font-family: var(--mono); font-size: 12px; line-height: 1.7; color: #e2c4f7; white-space: pre-wrap; word-wrap: break-word;"></pre>
+          </div>
+        </div>
+
+        <div style="margin-top: 20px;">
+          <button class="cp-btn" onclick="scA3Next()">Continue to Crafting</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- A4: STAR Crafting -->
+    <div class="sc-view" id="sc-a4">
+      <div class="cp-card">
+        <div class="sc-header">
+          <button class="sc-back" onclick="scNav('sc-a3')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <span class="sc-step-label">Step 4 of 5</span>
+        </div>
+        <div class="sc-progress"><div class="sc-progress-fill" style="width:80%"></div></div>
+        <h2>Craft your STAR narrative</h2>
+        <p>Pick a story from your bank and flesh it out. Remember: show don't tell, use "I" not "we," be specific about your actions, and quantify results.</p>
+
+        <div style="margin-bottom: 20px;">
+          <label class="cp-label">Select a story to craft</label>
+          <select class="cp-input" id="sc-story-select" onchange="scLoadStoryForCraft()">
+            <option value="">Choose a story...</option>
+          </select>
+        </div>
+
+        <div id="sc-craft-area" style="display:none;">
+          <div class="sc-star-field">
+            <div class="sc-star-label"><span class="sc-star-letter">S</span><span class="sc-star-name">Situation</span></div>
+            <p class="sc-star-tip">Set the scene in 2-3 sentences. Where, when, what was the context? No filler.</p>
+            <textarea class="cp-textarea" id="sc-craft-s" placeholder="Where were you? What was happening? What was the project or problem?"></textarea>
+            <div class="sc-validation" id="sc-val-s"></div>
+          </div>
+
+          <div class="sc-star-field">
+            <div class="sc-star-label"><span class="sc-star-letter">T</span><span class="sc-star-name">Task</span></div>
+            <p class="sc-star-tip">What was YOUR specific responsibility? What were you expected to deliver?</p>
+            <textarea class="cp-textarea" id="sc-craft-t" placeholder="What was your role in this? What did you own?"></textarea>
+            <div class="sc-validation" id="sc-val-t"></div>
+          </div>
+
+          <div class="sc-star-field">
+            <div class="sc-star-label"><span class="sc-star-letter">A</span><span class="sc-star-name">Action</span></div>
+            <p class="sc-star-tip">This is the meat. What did YOU do step by step? Use "I" not "we." Be concrete about methods, tools, decisions.</p>
+            <textarea class="cp-textarea" id="sc-craft-a" style="min-height:140px;" placeholder="I pulled data from... I conducted interviews with... I identified that... I proposed... I built..."></textarea>
+            <div class="sc-validation" id="sc-val-a"></div>
+          </div>
+
+          <div class="sc-star-field">
+            <div class="sc-star-label"><span class="sc-star-letter">R</span><span class="sc-star-name">Result</span></div>
+            <p class="sc-star-tip">Quantify the outcome. Numbers, percentages, before/after. What changed? What did you learn?</p>
+            <textarea class="cp-textarea" id="sc-craft-r" placeholder="Retention improved from X% to Y%. Revenue increased by $Z. The team adopted my framework for..."></textarea>
+            <div class="sc-validation" id="sc-val-r"></div>
+          </div>
+
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="cp-btn" onclick="scSaveCraft()">Save to Story Bank</button>
+            <button class="cp-btn cp-btn-secondary" onclick="scValidateCraft()">Check My Response</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- A5: Practice & Score -->
+    <div class="sc-view" id="sc-a5">
+      <div class="cp-card">
+        <div class="sc-header">
+          <button class="sc-back" onclick="scNav('sc-a4')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <span class="sc-step-label">Step 5 of 5</span>
+        </div>
+        <div class="sc-progress"><div class="sc-progress-fill" style="width:100%"></div></div>
+        <h2>Practice delivery</h2>
+        <p>Read through your crafted story below, then score yourself on the rubric. Be honest. The goal is to identify what to sharpen before the real thing.</p>
+
+        <div id="sc-practice-story" style="background: var(--bg-dark); border-radius: 18px; padding: 24px; margin-bottom: 24px;">
+          <pre style="font-family: var(--mono); font-size: 13px; line-height: 1.7; color: #e2c4f7; white-space: pre-wrap;" id="sc-practice-text"></pre>
+        </div>
+
+        <h3>Self-score rubric</h3>
+        <div class="sc-rubric" id="sc-practice-rubric">
+          <div class="sc-rubric-item">
+            <span class="sc-rubric-label">Structure</span>
+            <div class="sc-rubric-score" data-dim="structure">
+              <span class="sc-score-dot" data-val="1">1</span>
+              <span class="sc-score-dot" data-val="2">2</span>
+              <span class="sc-score-dot" data-val="3">3</span>
+              <span class="sc-score-dot" data-val="4">4</span>
+              <span class="sc-score-dot" data-val="5">5</span>
+            </div>
+            <span class="sc-rubric-desc">Clear S-T-A-R flow, no rambling</span>
+          </div>
+          <div class="sc-rubric-item">
+            <span class="sc-rubric-label">Specificity</span>
+            <div class="sc-rubric-score" data-dim="specificity">
+              <span class="sc-score-dot" data-val="1">1</span>
+              <span class="sc-score-dot" data-val="2">2</span>
+              <span class="sc-score-dot" data-val="3">3</span>
+              <span class="sc-score-dot" data-val="4">4</span>
+              <span class="sc-score-dot" data-val="5">5</span>
+            </div>
+            <span class="sc-rubric-desc">Concrete details, numbers, methods</span>
+          </div>
+          <div class="sc-rubric-item">
+            <span class="sc-rubric-label">Authenticity</span>
+            <div class="sc-rubric-score" data-dim="authenticity">
+              <span class="sc-score-dot" data-val="1">1</span>
+              <span class="sc-score-dot" data-val="2">2</span>
+              <span class="sc-score-dot" data-val="3">3</span>
+              <span class="sc-score-dot" data-val="4">4</span>
+              <span class="sc-score-dot" data-val="5">5</span>
+            </div>
+            <span class="sc-rubric-desc">Sounds like you, not a template</span>
+          </div>
+        </div>
+
+        <div class="sc-tips" id="sc-practice-tips" style="display:none;"></div>
+
+        <div style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
+          <button class="cp-btn" onclick="scShowPracticeTips()">Get Feedback</button>
+          <button class="cp-btn cp-btn-secondary" onclick="scNav('sc-a4')">Back to Edit</button>
+          <button class="cp-btn cp-btn-secondary" onclick="scNav('sc-landing')">Done</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── FLOW B: MOCK INTERVIEW ── -->
+
+    <!-- B1: Category Select -->
+    <div class="sc-view" id="sc-b1">
+      <div class="cp-card">
+        <div class="sc-header">
+          <button class="sc-back" onclick="scNav('sc-landing')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <span class="sc-step-label">Mock Interview</span>
+        </div>
+        <h2>Pick a category</h2>
+        <p>Choose a behavioral category to practice, or hit random for the full cold-question experience.</p>
+        <div class="sc-chips" id="sc-mock-cats">
+          <button class="sc-chip" data-cat="random">Random</button>
+          <button class="sc-chip" data-cat="leadership">Leadership</button>
+          <button class="sc-chip" data-cat="resilience">Resilience</button>
+          <button class="sc-chip" data-cat="teamwork">Teamwork</button>
+          <button class="sc-chip" data-cat="influencing">Influencing</button>
+          <button class="sc-chip" data-cat="ethics">Ethical Judgment</button>
+        </div>
+        <button class="cp-btn" id="sc-b1-next" onclick="scB1Next()" style="opacity:0.4; pointer-events:none;">Start Mock</button>
+
+        <!-- History -->
+        <div id="sc-mock-history" style="margin-top: 28px; display: none;">
+          <h3>Recent Attempts</h3>
+          <div id="sc-mock-history-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- B2: Question + Response -->
+    <div class="sc-view" id="sc-b2">
+      <div class="cp-card">
+        <div class="sc-header">
+          <button class="sc-back" onclick="scNav('sc-b1')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <span class="sc-step-label">Mock Interview</span>
+        </div>
+
+        <div class="sc-mock-timer" id="sc-mock-timer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span id="sc-mock-time">5:00</span>
+        </div>
+
+        <div class="sc-mock-question">
+          <span class="sc-mock-cat-label" id="sc-mock-cat-display"></span>
+          <div class="sc-mock-q-text" id="sc-mock-q-text"></div>
+        </div>
+
+        <label class="cp-label">Your response</label>
+        <textarea class="cp-textarea" id="sc-mock-response" style="min-height: 200px;" placeholder="Write your STAR response here. Don't overthink it. The point is to practice pulling a story quickly and structuring it on the fly."></textarea>
+
+        <div style="margin-top: 16px;">
+          <button class="cp-btn" onclick="scB2Submit()">Submit &amp; Score</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- B3: Score + Tips -->
+    <div class="sc-view" id="sc-b3">
+      <div class="cp-card">
+        <div class="sc-header">
+          <button class="sc-back" onclick="scNav('sc-b1')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <span class="sc-step-label">Score Your Response</span>
+        </div>
+
+        <h2>How did that feel?</h2>
+        <p>Be honest with yourself. Score each dimension 1-5, then see tips based on your self-assessment.</p>
+
+        <div style="background: var(--bg-dark); border-radius: 18px; padding: 20px; margin-bottom: 24px;">
+          <pre style="font-family: var(--mono); font-size: 12px; line-height: 1.7; color: #e2c4f7; white-space: pre-wrap;" id="sc-b3-response-preview"></pre>
+        </div>
+
+        <div class="sc-rubric" id="sc-mock-rubric">
+          <div class="sc-rubric-item">
+            <span class="sc-rubric-label">Structure</span>
+            <div class="sc-rubric-score" data-dim="structure">
+              <span class="sc-score-dot" data-val="1">1</span>
+              <span class="sc-score-dot" data-val="2">2</span>
+              <span class="sc-score-dot" data-val="3">3</span>
+              <span class="sc-score-dot" data-val="4">4</span>
+              <span class="sc-score-dot" data-val="5">5</span>
+            </div>
+            <span class="sc-rubric-desc">Did you hit S, T, A, R clearly?</span>
+          </div>
+          <div class="sc-rubric-item">
+            <span class="sc-rubric-label">Specificity</span>
+            <div class="sc-rubric-score" data-dim="specificity">
+              <span class="sc-score-dot" data-val="1">1</span>
+              <span class="sc-score-dot" data-val="2">2</span>
+              <span class="sc-score-dot" data-val="3">3</span>
+              <span class="sc-score-dot" data-val="4">4</span>
+              <span class="sc-score-dot" data-val="5">5</span>
+            </div>
+            <span class="sc-rubric-desc">Real details, not vague claims?</span>
+          </div>
+          <div class="sc-rubric-item">
+            <span class="sc-rubric-label">Authenticity</span>
+            <div class="sc-rubric-score" data-dim="authenticity">
+              <span class="sc-score-dot" data-val="1">1</span>
+              <span class="sc-score-dot" data-val="2">2</span>
+              <span class="sc-score-dot" data-val="3">3</span>
+              <span class="sc-score-dot" data-val="4">4</span>
+              <span class="sc-score-dot" data-val="5">5</span>
+            </div>
+            <span class="sc-rubric-desc">Sounds like you, not rehearsed?</span>
+          </div>
+        </div>
+
+        <div class="sc-tips" id="sc-mock-tips" style="display:none;"></div>
+
+        <div style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
+          <button class="cp-btn" onclick="scMockShowTips()">Get Feedback</button>
+          <button class="cp-btn cp-btn-secondary" onclick="scMockRetry()">Try Another Question</button>
+          <button class="cp-btn cp-btn-secondary" onclick="scNav('sc-landing')">Done</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── FLOW C: TELL ME ABOUT YOURSELF ── -->
+
+    <!-- C1: Gather Raw Material -->
+    <div class="sc-view" id="sc-c1">
+      <div class="cp-card">
+        <div class="sc-header">
+          <button class="sc-back" onclick="scNav('sc-landing')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <span class="sc-step-label">Step 1 of 3 &middot; Raw Material</span>
+        </div>
+        <div class="sc-progress"><div class="sc-progress-fill" style="width:33%"></div></div>
+        <h2>Give me the raw material</h2>
+        <p>Don't polish yet. Just get the pieces down. We'll shape it together in the next step.</p>
+
+        <div class="sc-star-field">
+          <div class="sc-star-label">
+            <span class="sc-star-letter" style="background:var(--green);">1</span>
+            <span class="sc-star-name">Target role / company</span>
+          </div>
+          <p class="sc-star-tip">What role or company are you prepping this for?</p>
+          <input class="cp-input" id="sc-tmay-role" placeholder="e.g. Associate PM at Stripe, or 'PM roles in fintech generally'">
+        </div>
+
+        <div class="sc-star-field">
+          <div class="sc-star-label">
+            <span class="sc-star-letter" style="background:var(--green);">2</span>
+            <span class="sc-star-name">Your origin story</span>
+          </div>
+          <p class="sc-star-tip">Where are you from? What drew you to this field in the first place?</p>
+          <textarea class="cp-textarea" id="sc-tmay-origin" style="min-height:80px;" placeholder="e.g. I grew up in a small town where the local businesses all ran on paper. That disconnect between what tech could do and what people actually had access to stuck with me..."></textarea>
+        </div>
+
+        <div class="sc-star-field">
+          <div class="sc-star-label">
+            <span class="sc-star-letter" style="background:var(--green);">3</span>
+            <span class="sc-star-name">Education</span>
+          </div>
+          <p class="sc-star-tip">Degree, school, anything worth highlighting. What was the pivot point? What did this experience unlock for you?</p>
+          <textarea class="cp-textarea" id="sc-tmay-edu" style="min-height:80px;" placeholder="e.g. I studied Cognitive Science and Design at UC Davis with a CS minor. The cog sci side taught me how people think, the design side taught me how to build for them, and the CS gave me enough technical depth to actually talk to engineers..."></textarea>
+        </div>
+
+        <div class="sc-star-field">
+          <div class="sc-star-label">
+            <span class="sc-star-letter" style="background:var(--green);">4</span>
+            <span class="sc-star-name">Experience 1 (+ pivot point)</span>
+          </div>
+          <p class="sc-star-tip">First key experience. What did this unlock for you or change about your direction? What's the "and that's when I realized..." moment?</p>
+          <textarea class="cp-textarea" id="sc-tmay-exp1" style="min-height:100px;" placeholder="e.g. My first real PM experience was founding Digo, an AI event management tool. I went from zero to MVP with real users. That's when I realized I didn't just want to analyze products — I wanted to build them..."></textarea>
+        </div>
+
+        <div class="sc-star-field">
+          <div class="sc-star-label">
+            <span class="sc-star-letter" style="background:var(--green);">5</span>
+            <span class="sc-star-name">Experience 2 (+ pivot point)</span>
+          </div>
+          <p class="sc-star-tip">Second formative experience. Different from the first. What did this one teach you that the first didn't?</p>
+          <textarea class="cp-textarea" id="sc-tmay-exp2" style="min-height:100px;" placeholder="e.g. Then at Giri, I got deep into the analytics side — scroll depth, funnel data, mobile vs desktop. That taught me that intuition is never enough; you need the data to find the real problem..."></textarea>
+        </div>
+
+        <div class="sc-star-field">
+          <div class="sc-star-label">
+            <span class="sc-star-letter" style="background:var(--green);">6</span>
+            <span class="sc-star-name">Today + why THIS opportunity</span>
+          </div>
+          <p class="sc-star-tip">What are you doing now, and why are you genuinely excited about this specific role or company? Make it specific enough that it couldn't work for any other job.</p>
+          <textarea class="cp-textarea" id="sc-tmay-today" style="min-height:80px;" placeholder="e.g. Right now I'm building Pulse, an AI analytics copilot, because I keep seeing the same problem: PMs drowning in dashboards. What excites me about [company] is..."></textarea>
+        </div>
+
+        <button class="cp-btn" onclick="scC1Next()">Build My Story</button>
+      </div>
+    </div>
+
+    <!-- C2: Build the Story -->
+    <div class="sc-view" id="sc-c2">
+      <div class="cp-card">
+        <div class="sc-header">
+          <button class="sc-back" onclick="scNav('sc-c1')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <span class="sc-step-label">Step 2 of 3 &middot; Shape It</span>
+        </div>
+        <div class="sc-progress"><div class="sc-progress-fill" style="width:66%"></div></div>
+        <h2>Your 2-minute story</h2>
+        <p>Here's your story assembled using the "Stupid Simple Structure": Origin, Education (pivot), Experience 1 (pivot), Experience 2 (pivot), Today, Why I'm Excited. Edit it until it flows like a conversation, not a resume readout.</p>
+
+        <textarea class="cp-textarea" id="sc-tmay-draft" style="min-height:260px; font-size:15px; line-height:1.8;"></textarea>
+        <div class="sc-wc under" id="sc-tmay-wc">0 words (~0 seconds)</div>
+
+        <div id="sc-tmay-flags" style="margin-top:16px;"></div>
+
+        <div style="display:flex; gap:10px; margin-top:16px; flex-wrap:wrap;">
+          <button class="cp-btn" onclick="scTmayValidate()">Check My Story</button>
+          <button class="cp-btn cp-btn-secondary" onclick="scTmaySave()">Save Draft</button>
+          <button class="cp-btn cp-btn-secondary" onclick="scTmayGenAI()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Polish with AI
+          </button>
+        </div>
+
+        <div id="sc-tmay-ai-output" style="display:none; margin-top:16px;">
+          <div style="background: var(--bg-dark); border-radius: 18px; padding: 22px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+              <span style="font-family:var(--mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent);">Copy into ChatGPT or Claude</span>
+              <button class="cp-btn cp-btn-secondary" style="padding:6px 14px; font-size:12px;" onclick="scTmayCopyAI()">Copy</button>
+            </div>
+            <pre id="sc-tmay-ai-text" style="font-family: var(--mono); font-size: 12px; line-height: 1.7; color: #e2c4f7; white-space: pre-wrap; word-wrap: break-word;"></pre>
+          </div>
+        </div>
+
+        <div style="margin-top:20px;">
+          <button class="cp-btn" onclick="scC2Next()">Continue to Delivery Tips</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- C3: Delivery Coaching -->
+    <div class="sc-view" id="sc-c3">
+      <div class="cp-card">
+        <div class="sc-header">
+          <button class="sc-back" onclick="scNav('sc-c2')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <span class="sc-step-label">Step 3 of 3 &middot; Deliver It</span>
+        </div>
+        <div class="sc-progress"><div class="sc-progress-fill" style="width:100%"></div></div>
+        <h2>Delivery coaching</h2>
+        <p>Your story is written. Now make sure you deliver it like you mean it. These reminders are the difference between "that was fine" and "I want to work with this person."</p>
+
+        <div class="sc-delivery-card">
+          <span class="sc-delivery-label">Energy</span>
+          <p>Walk in with a full battery and give some of it away. If you dial down to match a low-energy interviewer, you both leave flat. Bring the energy first. You're not being "too much" -- you're being memorable.</p>
+        </div>
+
+        <div class="sc-delivery-card">
+          <span class="sc-delivery-label">Tone</span>
+          <p>Speak like you already work there. Confident, not auditioning. You're having a conversation with a future teammate, not reciting a monologue to a judge. Drop the "Thank you for this opportunity" energy.</p>
+        </div>
+
+        <div class="sc-delivery-card">
+          <span class="sc-delivery-label">Pacing</span>
+          <p>The biggest mistake is rushing. Slow down at the pivot points. When you say "and that's when I realized..." or "which led me to..." -- pause for half a beat. Let the through-line land.</p>
+        </div>
+
+        <div class="sc-delivery-card">
+          <span class="sc-delivery-label">The Ending</span>
+          <p>Your last sentence should be the most specific one. It should name THIS company or THIS role. The interviewer should feel like you wrote this story for them, not for 20 other companies.</p>
+        </div>
+
+        <div class="sc-delivery-card">
+          <span class="sc-delivery-label">Practice Method</span>
+          <p>Record yourself on your phone. Listen back. You'll catch every filler word, every rushed section, every spot where the energy dips. Do this 3 times and you'll walk in knowing this story cold.</p>
+        </div>
+
+        <div style="margin-top:24px; padding:22px; border-radius:18px; background:rgba(58,122,69,0.05); border:1px solid rgba(58,122,69,0.12);">
+          <h3 style="color:var(--green); margin-bottom:8px;">Your final story</h3>
+          <div style="background: var(--bg-dark); border-radius: 14px; padding: 20px;">
+            <pre style="font-family: var(--mono); font-size: 13px; line-height: 1.7; color: #e2c4f7; white-space: pre-wrap;" id="sc-tmay-final"></pre>
+          </div>
+          <div class="sc-wc" id="sc-tmay-final-wc" style="margin-top:8px;"></div>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
+          <button class="cp-btn" onclick="scTmayCopyFinal()">Copy Story</button>
+          <button class="cp-btn cp-btn-secondary" onclick="scNav('sc-c2')">Back to Edit</button>
+          <button class="cp-btn cp-btn-secondary" onclick="scNav('sc-landing')">Done</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ════════════════════════════════════
+       2. CAREER DECIDER
+       ════════════════════════════════════ -->
+  <div class="cp-panel" id="panel-career">
+    <div class="cp-card">
+      <h2>Career Decider</h2>
+      <p>Answer 8 questions and find out whether you lean PM, Analytics, or UX Research. Then compare the roles side by side.</p>
+
+      <div class="cd-progress"><div class="cd-progress-fill" id="cd-progress" style="width:0%"></div></div>
+
+      <div id="cd-quiz">
+        <!-- Questions injected by JS -->
+      </div>
+
+      <div class="cd-result" id="cd-result">
+        <h3>Your Results</h3>
+        <div id="cd-bars"></div>
+
+        <div style="margin-top:24px;">
+          <h3>Role Comparison</h3>
+          <div class="cd-compare">
+            <div class="cd-compare-col">
+              <h4>Product Manager</h4>
+              <ul>
+                <li><strong>Day to day</strong>Writing PRDs, running standups, prioritizing backlogs, talking to users and stakeholders</li>
+                <li><strong>Key skills</strong>Strategy, communication, prioritization, stakeholder management, data literacy</li>
+                <li><strong>Tools</strong>Jira, Notion, Figma, SQL, analytics dashboards</li>
+                <li><strong>Entry salary</strong>$90-130K (varies by market)</li>
+                <li><strong>Growth path</strong>APM &rarr; PM &rarr; Senior PM &rarr; Group PM &rarr; Director &rarr; VP Product</li>
+                <li><strong>Best if you</strong>Like owning outcomes, making trade-offs, and sitting at the intersection of business + tech + design</li>
+              </ul>
+            </div>
+            <div class="cd-compare-col">
+              <h4>Product Analyst</h4>
+              <ul>
+                <li><strong>Day to day</strong>Writing SQL, building dashboards, running A/B tests, defining metrics, digging into funnels</li>
+                <li><strong>Key skills</strong>SQL, Python, statistics, data visualization, experiment design, storytelling with data</li>
+                <li><strong>Tools</strong>SQL, Python, Tableau/Looker, Excel, Amplitude, dbt</li>
+                <li><strong>Entry salary</strong>$85-120K (varies by market)</li>
+                <li><strong>Growth path</strong>Analyst &rarr; Senior Analyst &rarr; Lead &rarr; Analytics Manager &rarr; Head of Analytics</li>
+                <li><strong>Best if you</strong>Love finding patterns in data, care about measurement rigor, and want your work to directly shape product decisions</li>
+              </ul>
+            </div>
+            <div class="cd-compare-col">
+              <h4>UX Researcher</h4>
+              <ul>
+                <li><strong>Day to day</strong>Planning studies, running interviews, usability tests, surveys, synthesizing findings, presenting to teams</li>
+                <li><strong>Key skills</strong>Research design, interviewing, qualitative analysis, survey design, synthesis, storytelling</li>
+                <li><strong>Tools</strong>UserTesting, Dovetail, Figma, Miro, survey tools, spreadsheets</li>
+                <li><strong>Entry salary</strong>$80-115K (varies by market)</li>
+                <li><strong>Growth path</strong>Jr Researcher &rarr; Researcher &rarr; Senior &rarr; Staff &rarr; Research Manager &rarr; Head of Research</li>
+                <li><strong>Best if you</strong>Are naturally curious about people, enjoy deep listening, and want to be the voice of the user in every product decision</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       3. SQL PRACTICE
+       ════════════════════════════════════ -->
+  <div class="cp-panel" id="panel-sql">
+    <div class="cp-card">
+      <h2>SQL Practice</h2>
+      <p>The full SQL course lives in its own learning tool — Duolingo-style lesson path, real queries running against a real (in-browser) database, XP and streaks to keep momentum.</p>
+
+      <div class="sql-launch">
+        <div class="sql-launch-grid">
+          <div class="sql-launch-feat">
+            <div class="sql-launch-feat-icon">⚡</div>
+            <div class="sql-launch-feat-title">Real query execution</div>
+            <div class="sql-launch-feat-body">Every "write a query" exercise actually runs against a seeded SQLite database — not keyword matching. Your result set is compared row-by-row to the expected output.</div>
+          </div>
+          <div class="sql-launch-feat">
+            <div class="sql-launch-feat-icon">🛤️</div>
+            <div class="sql-launch-feat-title">Sequential lesson path</div>
+            <div class="sql-launch-feat-body">13 units, 40+ lessons, 120+ exercises. Basics → joins → window functions → query optimization → real-world analytics → interview challenges. Each lesson unlocks the next.</div>
+          </div>
+          <div class="sql-launch-feat">
+            <div class="sql-launch-feat-icon">🎯</div>
+            <div class="sql-launch-feat-title">Mixed exercise types</div>
+            <div class="sql-launch-feat-body">Concept intros, multiple choice, fill-the-blank, arrange the clauses, and write-the-query. Hearts, XP, and a daily streak — saved locally.</div>
+          </div>
+        </div>
+        <a class="cp-btn sql-launch-btn" href="sql-trainer.html">Open SQL Trainer &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       3b. PYTHON DSA
+       ════════════════════════════════════ -->
+  <div class="cp-panel" id="panel-python">
+    <div class="cp-card">
+      <h2>Python DSA</h2>
+      <p>Data structures, algorithms, and the patterns that show up in every coding interview. Real Python execution with test case validation.</p>
+      <div class="sql-launch-card" style="border-color: var(--green);">
+        <div class="sql-launch-header" style="border-left-color: var(--green);">
+          <span class="sql-launch-badge" style="background: rgba(58,122,69,0.10); color: var(--green);">Interactive</span>
+          <h3 class="sql-launch-title">Python Interview Trainer</h3>
+          <p style="color:var(--text-mid); font-size:14px;">Duolingo-style learning path covering the most common coding interview patterns. 5 units, 16 lessons, real code execution via Pyodide.</p>
+        </div>
+        <div class="sql-launch-feats">
+          <div class="sql-launch-feat">
+            <div class="sql-launch-feat-icon">📦</div>
+            <div class="sql-launch-feat-title">5 units</div>
+            <div class="sql-launch-feat-body">Arrays & Hashmaps, Strings & Sliding Window, Stacks & Queues, Trees & Graphs, Dynamic Programming, Sorting & Searching.</div>
+          </div>
+          <div class="sql-launch-feat">
+            <div class="sql-launch-feat-icon">🧪</div>
+            <div class="sql-launch-feat-title">Real execution</div>
+            <div class="sql-launch-feat-body">Your code runs in a real Python interpreter (Pyodide WASM). Test cases validate output automatically.</div>
+          </div>
+          <div class="sql-launch-feat">
+            <div class="sql-launch-feat-icon">⏱️</div>
+            <div class="sql-launch-feat-title">Interview sim mode</div>
+            <div class="sql-launch-feat-body">30-minute timed simulation with random problems. Pressure scoring, performance history, and difficulty selection.</div>
+          </div>
+        </div>
+        <a class="cp-btn sql-launch-btn" href="python-trainer.html" style="background: var(--green); box-shadow: 0 3px 0 #2d5e36;">Open Python Trainer &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       4. RESUME CHECKLIST
+       ════════════════════════════════════ -->
+  <div class="cp-panel" id="panel-resume">
+    <div class="cp-card">
+      <h2>Resume Checklist</h2>
+      <p>The stuff that actually matters when someone spends 15 seconds scanning your resume. Check off items as you go.</p>
+      <div class="rc-counter" id="rc-counter">0 / 20 completed</div>
+
+      <div class="rc-category">
+        <span class="rc-category-label">Format &amp; Structure</span>
+        <div class="rc-item"><div class="rc-check" onclick="toggleCheck(this)"></div><span class="rc-text">One page (two if you have 5+ years of experience)</span></div>
+        <div class="rc-item"><div class="rc-check" onclick="toggleCheck(this)"></div><span class="rc-text">Consistent formatting throughout: same font sizes, bullet styles, date alignment</span></div>
+        <div class="rc-item"><div class="rc-check" onclick="toggleCheck(this)"></div><span class="rc-text">Clear section headers: Summary, Experience, Education, Skills, Projects</span></div>
+        <div class="rc-item"><div class="rc-check" onclick="toggleCheck(this)"></div><span class="rc-text">Readable font (11-12pt body), enough white space, no walls of text</span></div>
+      </div>
+
+      <div class="rc-category">
+        <span class="rc-category-label">Content Quality</span>
+        <div class="rc-item"><div class="rc-check" onclick="toggleCheck(this)"></div><span class="rc-text">Summary is 2-3 sentences max, specific to the role you're targeting</span></div>
+        <div class="rc-item"><div class="rc-check" onclick="toggleCheck(this)"></div><span class="rc-text">Every bullet starts with a strong action verb (built, analyzed, shipped, led, designed)</span></div>
+        <div class="rc-item"><div class="rc-check" onclick="toggleCheck(this)"></div><span class="rc-text">Bullets follow "did X by doing Y, resulting in Z" structure where possible</span></div>
+        <div class="rc-item"><div class="rc-check" onclick="toggleCheck(this)"></div><span class="rc-text">Numbers and metrics in at least half your bullets (%, $, users, time saved)</span></div>
+        <div class="rc-item"><div class="rc-check" onclick="toggleCheck(this)"></div><span class="rc-text">No generic filler ("team player", "self-starter", "passionate about technology")</span></div>
+        <div class="rc-item"><div class="rc-check" onclick="toggleCheck(this)"></div><span class="rc-text">Each role has 2-4 bullets, not 6+</span></div>
+      </div>
+
+      <div class="rc-category">
+        <span class="rc-category-label">Tailoring</span>
+        <div class="rc-item"><div class="rc-check" onclick="toggleCheck(this)"></div><span class="rc-text">Skills section matches the job description keywords (PM: roadmaps, PRDs, A/B testing; Analytics: SQL, dashboards, KPIs)</span></div>
+        <div class="rc-item"><div class="rc-check" onclick="toggleCheck(this)"></div><span class="rc-text">Most relevant experience is listed first, not necessarily most recent</span></div>
+        <div class="rc-item"><div class="rc-check" onclick="toggleCheck(this)"></div><span class="rc-text">Projects section highlights work relevant to the target role</span></div>
+        <div class="rc-item"><div class="rc-check" onclick="toggleCheck(this)"></div><span class="rc-text">Title/summary repositioned for each application (PM resume vs. analyst resume vs. research resume)</span></div>
+      </div>
+
+      <div class="rc-category">
+        <span class="rc-category-label">Common Mistakes</span>
+        <div class="rc-item"><div class="rc-check" onclick="toggleCheck(this)"></div><span class="rc-text">No typos or grammatical errors (seriously, read it out loud)</span></div>
+        <div class="rc-item"><div class="rc-check" onclick="toggleCheck(this)"></div><span class="rc-text">No orphan lines or awkward page breaks</span></div>
+        <div class="rc-item"><div class="rc-check" onclick="toggleCheck(this)"></div><span class="rc-text">All links work (LinkedIn, GitHub, portfolio)</span></div>
+        <div class="rc-item"><div class="rc-check" onclick="toggleCheck(this)"></div><span class="rc-text">PDF filename is professional (FirstLast_Resume.pdf, not "resume final v3 copy.pdf")</span></div>
+        <div class="rc-item"><div class="rc-check" onclick="toggleCheck(this)"></div><span class="rc-text">Contact info is current and complete (email, LinkedIn, phone, location)</span></div>
+        <div class="rc-item"><div class="rc-check" onclick="toggleCheck(this)"></div><span class="rc-text">No references section or "references available upon request"</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       5. BEHAVIORAL QUESTION BANK
+       ════════════════════════════════════ -->
+  <div class="cp-panel" id="panel-behavioral">
+    <div class="cp-card">
+      <h2>Behavioral Question Bank</h2>
+      <p>Common questions organized by theme. Click any question to see tips on how to approach it.</p>
+
+      <div class="bq-category">
+        <h3 class="bq-cat-header">Leadership &amp; Initiative</h3>
+        <div class="bq-item"><div class="bq-question">Tell me about a time you took ownership of something outside your role.<span class="bq-arrow">&#9662;</span></div><div class="bq-tip">Focus on WHY you stepped up (gap you noticed, problem nobody was solving). Show initiative without badmouthing the team. End with what changed because you acted.</div></div>
+        <div class="bq-item"><div class="bq-question">Describe a time you had to lead without formal authority.<span class="bq-arrow">&#9662;</span></div><div class="bq-tip">Great for PM roles. Show how you influenced through data, relationships, or framing rather than title. Emphasize the outcome and how others responded.</div></div>
+        <div class="bq-item"><div class="bq-question">Tell me about a project you initiated on your own.<span class="bq-arrow">&#9662;</span></div><div class="bq-tip">Show you can identify problems worth solving. Walk through how you built the case, got buy-in, and executed. Interviewers want to see you can go from zero to one.</div></div>
+      </div>
+
+      <div class="bq-category">
+        <h3 class="bq-cat-header">Conflict &amp; Disagreement</h3>
+        <div class="bq-item"><div class="bq-question">Tell me about a time you disagreed with a teammate or manager.<span class="bq-arrow">&#9662;</span></div><div class="bq-tip">Never make the other person the villain. Show you listened first, then made your case with evidence. If you were wrong, say so. If you were right, show how you handled it with respect.</div></div>
+        <div class="bq-item"><div class="bq-question">How do you handle pushback on your ideas?<span class="bq-arrow">&#9662;</span></div><div class="bq-tip">Good answer = you seek to understand the pushback before defending. Show that you can separate ego from the idea. Bonus: mention a time pushback made your idea better.</div></div>
+        <div class="bq-item"><div class="bq-question">Describe a situation where you had to work with a difficult stakeholder.<span class="bq-arrow">&#9662;</span></div><div class="bq-tip">Frame "difficult" as misaligned incentives, not personal problems. Show empathy for their position, then explain how you found common ground or a workable compromise.</div></div>
+      </div>
+
+      <div class="bq-category">
+        <h3 class="bq-cat-header">Failure &amp; Learning</h3>
+        <div class="bq-item"><div class="bq-question">Tell me about a time you failed.<span class="bq-arrow">&#9662;</span></div><div class="bq-tip">Pick a real failure, not a humble brag. Show self-awareness about what went wrong and be specific about what you changed afterward. The learning matters more than the failure.</div></div>
+        <div class="bq-item"><div class="bq-question">Describe a project that didn't go as planned.<span class="bq-arrow">&#9662;</span></div><div class="bq-tip">Focus on how you adapted. Did you re-scope, re-prioritize, communicate early about delays? Show you can handle ambiguity and pivot without losing the thread.</div></div>
+        <div class="bq-item"><div class="bq-question">What's a mistake you made that taught you something important?<span class="bq-arrow">&#9662;</span></div><div class="bq-tip">Be genuine. The best answers show a shift in how you think or work, not just "I learned to double-check my work." Systemic changes > surface fixes.</div></div>
+      </div>
+
+      <div class="bq-category">
+        <h3 class="bq-cat-header">Data &amp; Metrics</h3>
+        <div class="bq-item"><div class="bq-question">Tell me about a time you used data to influence a decision.<span class="bq-arrow">&#9662;</span></div><div class="bq-tip">Walk through your process: what question you were answering, what data you pulled, how you analyzed it, and how you presented it. The "influence" part is key, not just the analysis.</div></div>
+        <div class="bq-item"><div class="bq-question">How do you decide what to measure?<span class="bq-arrow">&#9662;</span></div><div class="bq-tip">Show you think about leading vs. lagging indicators, that you tie metrics to user outcomes, and that you're aware of vanity metrics. Use a real example.</div></div>
+        <div class="bq-item"><div class="bq-question">Describe a time the data surprised you.<span class="bq-arrow">&#9662;</span></div><div class="bq-tip">Great opportunity to show intellectual honesty. Did you dig deeper or accept the surface result? Show curiosity and rigor. The best answers end with a non-obvious insight.</div></div>
+      </div>
+
+      <div class="bq-category">
+        <h3 class="bq-cat-header">Collaboration &amp; Teamwork</h3>
+        <div class="bq-item"><div class="bq-question">Tell me about a time you worked across functions.<span class="bq-arrow">&#9662;</span></div><div class="bq-tip">Highlight the challenge of aligning different perspectives (eng wants feasibility, design wants polish, business wants speed). Show how you bridged those gaps.</div></div>
+        <div class="bq-item"><div class="bq-question">How do you get buy-in from engineers or designers?<span class="bq-arrow">&#9662;</span></div><div class="bq-tip">Answer: by understanding what they care about. Engineers want clear specs and context for why. Designers want user problems, not solutions. Show you adapt your pitch.</div></div>
+        <div class="bq-item"><div class="bq-question">Describe your approach to giving feedback.<span class="bq-arrow">&#9662;</span></div><div class="bq-tip">Be specific and direct but kind. Show that you give feedback regularly (not just in reviews), that you focus on behavior not character, and that you ask for feedback too.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       6. PRODUCT SENSE PRACTICE
+       ════════════════════════════════════ -->
+  <div class="cp-panel" id="panel-product">
+    <div class="cp-card">
+      <h2>Product Sense Practice</h2>
+      <p>Practice prompts for the three main product interview categories. Each one includes a framework to get you started.</p>
+
+      <h3 style="margin-top:24px; margin-bottom:16px;">Product Design</h3>
+      <div class="ps-prompt">
+        <span class="ps-prompt-type">Design</span>
+        <div class="ps-prompt-q">Design a feature for Spotify that helps users discover music through friends.</div>
+        <div class="ps-framework"><strong>Framework:</strong> Start with user segments (who benefits most?). Define the core problem (discovery is overwhelming). Brainstorm 3 solutions, pick one using prioritization criteria (impact, effort, alignment). Walk through the user flow. Define success metrics.</div>
+      </div>
+      <div class="ps-prompt">
+        <span class="ps-prompt-type">Design</span>
+        <div class="ps-prompt-q">How would you improve the checkout experience on Amazon for first-time buyers?</div>
+        <div class="ps-framework"><strong>Framework:</strong> Clarify scope (mobile? desktop? specific market?). Map the current flow and identify pain points. Prioritize by drop-off data if available. Propose 2-3 changes with rationale. Define metrics: conversion rate, time to complete, support tickets.</div>
+      </div>
+      <div class="ps-prompt">
+        <span class="ps-prompt-type">Design</span>
+        <div class="ps-prompt-q">Design a product that helps college students find study groups.</div>
+        <div class="ps-framework"><strong>Framework:</strong> Define the user persona (freshman vs. senior, STEM vs. humanities). Identify the core problem through user needs. Consider existing solutions (Discord, GroupMe). Propose a differentiated approach. Walk through key screens. Think about cold start and network effects.</div>
+      </div>
+
+      <h3 style="margin-top:28px; margin-bottom:16px;">Estimation</h3>
+      <div class="ps-prompt">
+        <span class="ps-prompt-type">Estimation</span>
+        <div class="ps-prompt-q">How many Uber rides happen in San Francisco on a Friday night?</div>
+        <div class="ps-framework"><strong>Framework:</strong> Start with SF population (~870K). Estimate % going out on Friday (~15%). Of those, % using rideshare (~40%). Average rides per person (1.5 round trip). Sense-check: does ~78K rides feel right? Compare to known data points.</div>
+      </div>
+      <div class="ps-prompt">
+        <span class="ps-prompt-type">Estimation</span>
+        <div class="ps-prompt-q">Estimate the annual revenue of a single Starbucks location.</div>
+        <div class="ps-framework"><strong>Framework:</strong> Hours open (~14/day). Estimate customers per hour by time (morning rush: 80, midday: 30, afternoon: 40, evening: 20). Average transaction ($5.50). Multiply out daily, then yearly. Account for weekday vs. weekend differences.</div>
+      </div>
+
+      <h3 style="margin-top:28px; margin-bottom:16px;">Strategy &amp; Metrics</h3>
+      <div class="ps-prompt">
+        <span class="ps-prompt-type">Strategy</span>
+        <div class="ps-prompt-q">Instagram Reels engagement is down 10% month over month. What do you do?</div>
+        <div class="ps-framework"><strong>Framework:</strong> Don't jump to solutions. First clarify: is this across all users or a segment? Is it seasonal? Did a competitor launch something? Segment by geography, new vs. returning, content type. Form hypotheses, prioritize investigation, then propose experiments.</div>
+      </div>
+      <div class="ps-prompt">
+        <span class="ps-prompt-type">Strategy</span>
+        <div class="ps-prompt-q">You're the PM for Google Maps. How do you decide what to build next quarter?</div>
+        <div class="ps-framework"><strong>Framework:</strong> Start with the team's north star metric. Audit current performance against goals. Gather inputs: user research, support tickets, competitive landscape, eng capacity. Use a prioritization framework (RICE or ICE). Present a theme-based roadmap, not a feature list.</div>
+      </div>
+      <div class="ps-prompt">
+        <span class="ps-prompt-type">Metrics</span>
+        <div class="ps-prompt-q">How would you measure the success of LinkedIn's "People You May Know" feature?</div>
+        <div class="ps-framework"><strong>Framework:</strong> Define the goal (growing user networks). Primary metric: connection request rate from PYMK. Secondary: acceptance rate, profile views from PYMK, weekly connections added. Guardrails: spam reports, block rate, irrelevant suggestion feedback. Consider leading vs. lagging indicators.</div>
+      </div>
+    </div>
+  </div>
+
+  <a href="../index.html" class="cp-back">&larr; Back to portfolio</a>
+
+</main>
+
+<script>
+/* ═══ HUB NAVIGATION ═══ */
+function cpOpenTool(panelId) {
+  document.getElementById('cp-hub').style.display = 'none';
+  document.getElementById('cp-breadcrumb').classList.add('visible');
+  document.querySelectorAll('.cp-panel').forEach(p => p.classList.remove('active'));
+  const panel = document.getElementById('panel-' + panelId);
+  if (panel) panel.classList.add('active');
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function cpBackToHub() {
+  document.querySelectorAll('.cp-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('cp-hub').style.display = 'block';
+  document.getElementById('cp-breadcrumb').classList.remove('visible');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+/* Legacy tab compat (in case anything else calls it) */
+document.querySelectorAll('.cp-tab').forEach(tab => {
+  tab.addEventListener('click', () => cpOpenTool(tab.dataset.panel));
+});
+
+/* ═══ STAR COACH ═══ */
+
+/* ── Question Bank ── */
+const SC_QUESTIONS = {
+  leadership: [
+    "Tell me about a time you had to lead a project with no formal authority.",
+    "Describe a situation where you had to make a difficult decision with incomplete information.",
+    "Tell me about a time you identified a problem no one else saw and drove the solution.",
+    "Describe when you had to set priorities across competing demands from multiple stakeholders.",
+    "Tell me about a time you mentored someone or helped a teammate grow.",
+    "Describe a situation where you had to rally a demotivated team.",
+    "Tell me about a time you took ownership of something outside your job description.",
+    "Describe when you had to make an unpopular decision and stand behind it.",
+    "Tell me about a time you had to delegate effectively under time pressure.",
+    "Describe a situation where you set a vision and got buy-in from others."
+  ],
+  resilience: [
+    "Tell me about a time you failed at something and what you learned.",
+    "Describe a situation where you received harsh feedback. How did you respond?",
+    "Tell me about a time a project completely changed direction and you had to adapt.",
+    "Describe when you had to keep pushing through a long, frustrating process.",
+    "Tell me about a time you made a mistake that affected others. What did you do?",
+    "Describe a situation where you had to start over from scratch.",
+    "Tell me about a time you were overwhelmed with work. How did you handle it?",
+    "Describe when you dealt with ambiguity and had no clear path forward.",
+    "Tell me about a time your initial approach didn't work and you had to pivot.",
+    "Describe a situation where you turned a setback into an opportunity."
+  ],
+  teamwork: [
+    "Tell me about a time you worked with a difficult teammate.",
+    "Describe a situation where you had to collaborate across teams or departments.",
+    "Tell me about a time you had to give constructive feedback to a peer.",
+    "Describe when you stepped back and let someone else lead.",
+    "Tell me about a time a team disagreement led to a better outcome.",
+    "Describe a situation where you had to build trust quickly with new teammates.",
+    "Tell me about a time you helped resolve a conflict between team members.",
+    "Describe when you had to work with someone whose style was very different from yours.",
+    "Tell me about a time you sacrificed your own preference for the team's benefit.",
+    "Describe a situation where remote or async collaboration was challenging."
+  ],
+  influencing: [
+    "Tell me about a time you convinced someone to change their mind.",
+    "Describe a situation where you had to sell an idea to skeptical stakeholders.",
+    "Tell me about a time you used data to influence a decision.",
+    "Describe when you had to negotiate a compromise between two opposing viewpoints.",
+    "Tell me about a time you had to push back on a senior person's idea.",
+    "Describe a situation where you got buy-in without having direct authority.",
+    "Tell me about a time you changed your mind based on someone else's argument.",
+    "Describe when you had to communicate a complex idea to a non-technical audience.",
+    "Tell me about a time you had to advocate for the user against business pressure.",
+    "Describe a situation where you built consensus among people who disagreed."
+  ],
+  ethics: [
+    "Tell me about a time you had to choose between what was easy and what was right.",
+    "Describe a situation where you raised a concern about something unethical.",
+    "Tell me about a time you had to balance user privacy with business goals.",
+    "Describe when you pushed back on a feature that could harm users.",
+    "Tell me about a time you had to be transparent about bad news.",
+    "Describe a situation where you stood up for someone who wasn't in the room.",
+    "Tell me about a time you dealt with a gray area where the right thing wasn't obvious.",
+    "Describe when you had to choose between speed and quality, and why.",
+    "Tell me about a time you saw something wrong and spoke up despite the risk.",
+    "Describe a situation where you had to own up to a mistake publicly."
+  ]
+};
+
+const SC_CATEGORIES = [
+  { id: 'leadership', name: 'Leadership', prompt: 'Think about times you took charge, made decisions, drove outcomes, or guided others. Even without a formal title.' },
+  { id: 'resilience', name: 'Resilience', prompt: 'Think about failures, setbacks, harsh feedback, pivots, or times things went wrong and you had to recover.' },
+  { id: 'teamwork', name: 'Teamwork', prompt: 'Think about collaboration, conflicts, difficult teammates, cross-functional work, or times you put the team first.' },
+  { id: 'influencing', name: 'Influencing', prompt: 'Think about persuading stakeholders, using data to make a case, negotiating, or getting buy-in without authority.' },
+  { id: 'ethics', name: 'Ethical Judgment', prompt: 'Think about tough calls, gray areas, standing up for users, transparency, or times you chose the harder right over the easier wrong.' }
+];
+
+/* ── State ── */
+let scRole = '';
+let scExperience = '';
+let scStories = {}; // { catId: [{ title, s, t, a, r, scores }] }
+let scCurrentCraft = null; // { catId, storyIdx }
+let scMockCat = '';
+let scMockCurrentQ = null;
+let scMockTimer = null;
+let scMockTimeLeft = 300;
+
+function scLoadState() {
+  try {
+    const saved = localStorage.getItem('sc-state');
+    if (saved) {
+      const d = JSON.parse(saved);
+      scRole = d.role || '';
+      scExperience = d.experience || '';
+      scStories = d.stories || {};
+    }
+  } catch(e) {}
+}
+
+function scSaveState() {
+  try {
+    localStorage.setItem('sc-state', JSON.stringify({
+      role: scRole,
+      experience: scExperience,
+      stories: scStories
+    }));
+  } catch(e) {}
+}
+
+function scGetMockHistory() {
+  try {
+    return JSON.parse(localStorage.getItem('sc-mock-history') || '[]');
+  } catch(e) { return []; }
+}
+
+function scSaveMockHistory(entry) {
+  const h = scGetMockHistory();
+  h.unshift(entry);
+  if (h.length > 20) h.length = 20;
+  try { localStorage.setItem('sc-mock-history', JSON.stringify(h)); } catch(e) {}
+}
+
+/* ── Navigation ── */
+function scNav(viewId) {
+  document.querySelectorAll('#panel-star .sc-view').forEach(v => v.classList.remove('active'));
+  document.getElementById(viewId).classList.add('active');
+  if (viewId === 'sc-landing') scRenderBankPreview();
+  if (viewId === 'sc-b1') scRenderMockHistory();
+  if (scMockTimer && viewId !== 'sc-b2') {
+    clearInterval(scMockTimer);
+    scMockTimer = null;
+  }
+}
+
+function scStartFlow(flow) {
+  if (flow === 'a') {
+    scNav('sc-a1');
+    if (scRole) {
+      document.querySelectorAll('#sc-role-chips .sc-chip').forEach(c => {
+        c.classList.toggle('selected', c.dataset.role === scRole);
+      });
+      const btn = document.getElementById('sc-a1-next');
+      btn.style.opacity = '1';
+      btn.style.pointerEvents = 'auto';
+    }
+  } else if (flow === 'b') {
+    scNav('sc-b1');
+    scRenderMockHistory();
+  } else if (flow === 'c') {
+    scTmayLoadState();
+    scNav('sc-c1');
+  }
+}
+
+/* ── Chip selection helper ── */
+function scInitChips(containerId, dataAttr, callback) {
+  document.querySelectorAll(`#${containerId} .sc-chip`).forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll(`#${containerId} .sc-chip`).forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+      callback(chip.dataset[dataAttr]);
+    });
+  });
+}
+
+/* ── Flow A: Step 1 - Role ── */
+scInitChips('sc-role-chips', 'role', (role) => {
+  scRole = role;
+  const btn = document.getElementById('sc-a1-next');
+  btn.style.opacity = '1';
+  btn.style.pointerEvents = 'auto';
+});
+
+function scA1Next() {
+  if (!scRole) return;
+  scSaveState();
+  // Pre-fill experience if exists
+  if (scExperience) document.getElementById('sc-experience').value = scExperience;
+  scNav('sc-a2');
+}
+
+/* ── Flow A: Step 2 - Experience ── */
+function scA2Next() {
+  scExperience = document.getElementById('sc-experience').value.trim();
+  scSaveState();
+  scRenderCategories();
+  scNav('sc-a3');
+}
+
+/* ── Flow A: Step 3 - Category brainstorm ── */
+function scRenderCategories() {
+  const container = document.getElementById('sc-categories');
+  container.innerHTML = '';
+  SC_CATEGORIES.forEach(cat => {
+    const stories = scStories[cat.id] || [];
+    const section = document.createElement('div');
+    section.className = 'sc-cat-section';
+    section.innerHTML = `
+      <div class="sc-cat-header" onclick="this.parentElement.classList.toggle('open')">
+        <span class="sc-cat-title">${cat.name}</span>
+        <span class="sc-cat-count">${stories.length} ${stories.length === 1 ? 'story' : 'stories'}</span>
+      </div>
+      <div class="sc-cat-body">
+        <p class="sc-cat-prompt">${cat.prompt}</p>
+        <div class="sc-cat-stories" id="sc-cat-stories-${cat.id}"></div>
+        <div style="display:flex; gap:8px; margin-top:12px;">
+          <input class="cp-input" id="sc-new-story-${cat.id}" placeholder="New story title (e.g. 'Hackathon pivot')" style="flex:1;">
+          <button class="cp-btn cp-btn-secondary" onclick="scAddStory('${cat.id}')" style="white-space:nowrap;">Add</button>
+        </div>
+      </div>
+    `;
+    container.appendChild(section);
+    scRenderCatStories(cat.id);
+  });
+}
+
+function scRenderCatStories(catId) {
+  const container = document.getElementById(`sc-cat-stories-${catId}`);
+  if (!container) return;
+  const stories = scStories[catId] || [];
+  container.innerHTML = stories.map((s, i) => `
+    <div class="sc-story-card" style="display:flex; align-items:center; justify-content:space-between;">
+      <div>
+        <div class="sc-story-title">${s.title}</div>
+        ${s.s ? '<div class="sc-story-preview">' + s.s.substring(0, 80) + (s.s.length > 80 ? '...' : '') + '</div>' : '<div class="sc-story-preview" style="color:var(--text-light);">Not yet crafted</div>'}
+      </div>
+      <button class="sc-back" onclick="event.stopPropagation(); scDeleteStory('${catId}', ${i})" title="Remove" style="flex-shrink:0;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+  `).join('');
+}
+
+function scAddStory(catId) {
+  const input = document.getElementById(`sc-new-story-${catId}`);
+  const title = input.value.trim();
+  if (!title) return;
+  if (!scStories[catId]) scStories[catId] = [];
+  scStories[catId].push({ title, s: '', t: '', a: '', r: '', scores: null });
+  input.value = '';
+  scSaveState();
+  scRenderCatStories(catId);
+  // Update count
+  const section = document.getElementById(`sc-cat-stories-${catId}`).closest('.sc-cat-section');
+  section.querySelector('.sc-cat-count').textContent = `${scStories[catId].length} ${scStories[catId].length === 1 ? 'story' : 'stories'}`;
+}
+
+function scDeleteStory(catId, idx) {
+  if (!scStories[catId]) return;
+  scStories[catId].splice(idx, 1);
+  scSaveState();
+  scRenderCatStories(catId);
+  const section = document.getElementById(`sc-cat-stories-${catId}`).closest('.sc-cat-section');
+  const count = (scStories[catId] || []).length;
+  section.querySelector('.sc-cat-count').textContent = `${count} ${count === 1 ? 'story' : 'stories'}`;
+}
+
+/* ── Flow A: Step 4 - STAR Crafting ── */
+function scA3Next() {
+  scSaveState();
+  scPopulateStorySelect();
+  scNav('sc-a4');
+}
+
+function scPopulateStorySelect() {
+  const sel = document.getElementById('sc-story-select');
+  sel.innerHTML = '<option value="">Choose a story...</option>';
+  SC_CATEGORIES.forEach(cat => {
+    const stories = scStories[cat.id] || [];
+    stories.forEach((s, i) => {
+      const opt = document.createElement('option');
+      opt.value = `${cat.id}:${i}`;
+      opt.textContent = `[${cat.name}] ${s.title}`;
+      sel.appendChild(opt);
+    });
+  });
+}
+
+function scLoadStoryForCraft() {
+  const val = document.getElementById('sc-story-select').value;
+  if (!val) {
+    document.getElementById('sc-craft-area').style.display = 'none';
+    return;
+  }
+  const [catId, idx] = val.split(':');
+  scCurrentCraft = { catId, storyIdx: parseInt(idx) };
+  const story = scStories[catId][parseInt(idx)];
+  document.getElementById('sc-craft-s').value = story.s || '';
+  document.getElementById('sc-craft-t').value = story.t || '';
+  document.getElementById('sc-craft-a').value = story.a || '';
+  document.getElementById('sc-craft-r').value = story.r || '';
+  document.getElementById('sc-craft-area').style.display = 'block';
+  // Clear validations
+  ['s','t','a','r'].forEach(f => {
+    document.getElementById(`sc-val-${f}`).className = 'sc-validation';
+    document.getElementById(`sc-val-${f}`).textContent = '';
+  });
+}
+
+function scValidateCraft() {
+  const fields = {
+    s: document.getElementById('sc-craft-s').value.trim(),
+    t: document.getElementById('sc-craft-t').value.trim(),
+    a: document.getElementById('sc-craft-a').value.trim(),
+    r: document.getElementById('sc-craft-r').value.trim()
+  };
+
+  // Situation
+  const sVal = document.getElementById('sc-val-s');
+  if (!fields.s) {
+    sVal.className = 'sc-validation warn'; sVal.textContent = 'Missing. Set the scene in 2-3 sentences.';
+  } else if (fields.s.length < 40) {
+    sVal.className = 'sc-validation warn'; sVal.textContent = 'Pretty thin. Add more context about the setting.';
+  } else {
+    sVal.className = 'sc-validation good'; sVal.textContent = 'Looks good.';
+  }
+
+  // Task
+  const tVal = document.getElementById('sc-val-t');
+  if (!fields.t) {
+    tVal.className = 'sc-validation warn'; tVal.textContent = 'Missing. What was YOUR specific responsibility?';
+  } else if (fields.t.toLowerCase().includes('we ') && !fields.t.toLowerCase().includes('i ')) {
+    tVal.className = 'sc-validation warn'; tVal.textContent = 'Watch the "we" language. What was YOUR task specifically?';
+  } else {
+    tVal.className = 'sc-validation good'; tVal.textContent = 'Clear ownership.';
+  }
+
+  // Action
+  const aVal = document.getElementById('sc-val-a');
+  if (!fields.a) {
+    aVal.className = 'sc-validation warn'; aVal.textContent = 'Missing. This should be the longest section.';
+  } else if (fields.a.length < 80) {
+    aVal.className = 'sc-validation warn'; aVal.textContent = 'Too short. Action should be the meatiest section. Be specific about what YOU did.';
+  } else if (fields.a.split(/\bwe\b/gi).length - 1 > fields.a.split(/\bI\b/g).length - 1) {
+    aVal.className = 'sc-validation warn'; aVal.textContent = 'Too many "we"s. Focus on what YOU did. Use "I" more.';
+  } else {
+    aVal.className = 'sc-validation good'; aVal.textContent = 'Strong action section.';
+  }
+
+  // Result
+  const rVal = document.getElementById('sc-val-r');
+  if (!fields.r) {
+    rVal.className = 'sc-validation warn'; rVal.textContent = 'Missing. Quantify the outcome.';
+  } else if (!/\d/.test(fields.r)) {
+    rVal.className = 'sc-validation warn'; rVal.textContent = 'No numbers detected. Try to add metrics, percentages, or before/after data.';
+  } else {
+    rVal.className = 'sc-validation good'; rVal.textContent = 'Good use of metrics.';
+  }
+}
+
+function scSaveCraft() {
+  if (!scCurrentCraft) return;
+  const { catId, storyIdx } = scCurrentCraft;
+  const story = scStories[catId][storyIdx];
+  story.s = document.getElementById('sc-craft-s').value.trim();
+  story.t = document.getElementById('sc-craft-t').value.trim();
+  story.a = document.getElementById('sc-craft-a').value.trim();
+  story.r = document.getElementById('sc-craft-r').value.trim();
+  scSaveState();
+
+  // Show saved confirmation
+  const btn = event.target;
+  const orig = btn.textContent;
+  btn.textContent = 'Saved!';
+  setTimeout(() => btn.textContent = orig, 1500);
+
+  // Offer practice
+  if (story.s && story.t && story.a && story.r) {
+    scLoadPractice();
+    scNav('sc-a5');
+  }
+}
+
+/* ── Flow A: Step 5 - Practice & Score ── */
+function scLoadPractice() {
+  if (!scCurrentCraft) return;
+  const { catId, storyIdx } = scCurrentCraft;
+  const story = scStories[catId][storyIdx];
+  const text = `SITUATION:\n${story.s}\n\nTASK:\n${story.t}\n\nACTION:\n${story.a}\n\nRESULT:\n${story.r}`;
+  document.getElementById('sc-practice-text').textContent = text;
+
+  // Reset rubric
+  document.querySelectorAll('#sc-practice-rubric .sc-score-dot').forEach(d => d.classList.remove('filled'));
+  document.getElementById('sc-practice-tips').style.display = 'none';
+}
+
+function scShowPracticeTips() {
+  const scores = scGetRubricScores('sc-practice-rubric');
+  if (!scores.structure && !scores.specificity && !scores.authenticity) return;
+
+  const tips = [];
+  if (scores.structure <= 2) tips.push('Your structure needs work. Make sure each STAR section is distinct. The Situation sets context, Task defines your role, Action is the detailed "how," and Result quantifies impact.');
+  if (scores.structure === 3) tips.push('Structure is decent but could be sharper. Make sure you\'re not blending Situation and Task together, and that Action doesn\'t leak into Result.');
+  if (scores.specificity <= 2) tips.push('Get more specific. Replace vague phrases like "improved things" with concrete details: tools used, number of people interviewed, exact metrics moved.');
+  if (scores.specificity === 3) tips.push('Specificity is okay. Push yourself: can you add one more data point to the Result? One more concrete method to the Action?');
+  if (scores.authenticity <= 2) tips.push('This reads too polished or generic. Use the words you\'d actually say out loud. If it sounds like a template, rewrite it in your real voice.');
+  if (scores.authenticity === 3) tips.push('Authenticity is middling. Read it out loud. Does it sound like something you\'d say in conversation? If not, loosen it up.');
+
+  if (scores.structure >= 4 && scores.specificity >= 4 && scores.authenticity >= 4) {
+    tips.push('This is strong across the board. You\'re ready to deliver this one confidently.');
+  }
+
+  const tipsEl = document.getElementById('sc-practice-tips');
+  tipsEl.innerHTML = `<span class="sc-tips-title">Feedback</span>` + tips.map(t => `<p>${t}</p>`).join('');
+  tipsEl.style.display = 'block';
+
+  // Save scores to story
+  if (scCurrentCraft) {
+    const { catId, storyIdx } = scCurrentCraft;
+    scStories[catId][storyIdx].scores = scores;
+    scSaveState();
+  }
+}
+
+/* ── Flow B: Mock Interview ── */
+scInitChips('sc-mock-cats', 'cat', (cat) => {
+  scMockCat = cat;
+  const btn = document.getElementById('sc-b1-next');
+  btn.style.opacity = '1';
+  btn.style.pointerEvents = 'auto';
+});
+
+function scB1Next() {
+  if (!scMockCat) return;
+  // Pick random question
+  let cat = scMockCat;
+  if (cat === 'random') {
+    const cats = Object.keys(SC_QUESTIONS);
+    cat = cats[Math.floor(Math.random() * cats.length)];
+  }
+  const qs = SC_QUESTIONS[cat];
+  const q = qs[Math.floor(Math.random() * qs.length)];
+  scMockCurrentQ = { cat, question: q };
+
+  // Display
+  const catNames = { leadership: 'Leadership', resilience: 'Resilience', teamwork: 'Teamwork', influencing: 'Influencing', ethics: 'Ethical Judgment' };
+  document.getElementById('sc-mock-cat-display').textContent = catNames[cat] || cat;
+  document.getElementById('sc-mock-q-text').textContent = q;
+  document.getElementById('sc-mock-response').value = '';
+
+  // Reset rubric
+  document.querySelectorAll('#sc-mock-rubric .sc-score-dot').forEach(d => d.classList.remove('filled'));
+  document.getElementById('sc-mock-tips').style.display = 'none';
+
+  // Start timer
+  scMockTimeLeft = 300; // 5 minutes
+  document.getElementById('sc-mock-time').textContent = '5:00';
+  if (scMockTimer) clearInterval(scMockTimer);
+  scMockTimer = setInterval(() => {
+    scMockTimeLeft--;
+    if (scMockTimeLeft <= 0) {
+      clearInterval(scMockTimer);
+      scMockTimer = null;
+      scMockTimeLeft = 0;
+    }
+    const m = Math.floor(scMockTimeLeft / 60);
+    const s = scMockTimeLeft % 60;
+    document.getElementById('sc-mock-time').textContent = `${m}:${s.toString().padStart(2, '0')}`;
+  }, 1000);
+
+  scNav('sc-b2');
+}
+
+function scB2Submit() {
+  if (scMockTimer) { clearInterval(scMockTimer); scMockTimer = null; }
+  const response = document.getElementById('sc-mock-response').value.trim();
+  document.getElementById('sc-b3-response-preview').textContent = response || '(empty response)';
+  scNav('sc-b3');
+}
+
+function scMockShowTips() {
+  const scores = scGetRubricScores('sc-mock-rubric');
+  if (!scores.structure && !scores.specificity && !scores.authenticity) return;
+
+  const tips = [];
+  if (scores.structure <= 2) tips.push('Your STAR structure was hard to follow. Next time, try mentally labeling each section as you write: "Okay, that\'s my Situation. Now the Task..." It keeps you from rambling.');
+  if (scores.structure === 3) tips.push('Structure was okay but could be tighter. Did you clearly separate the Situation from the Task? Is the Result its own section, not buried in Action?');
+  if (scores.structure >= 4) tips.push('Clean structure. You clearly know how to frame a STAR response.');
+
+  if (scores.specificity <= 2) tips.push('Way too vague. An interviewer hearing "I worked on improving things" learns nothing. What exactly did you do? What tool? How many users? What was the delta?');
+  if (scores.specificity === 3) tips.push('Decent specifics but push harder. One more concrete detail in your Action and one real number in your Result would level this up.');
+  if (scores.specificity >= 4) tips.push('Great specificity. The concrete details make this believable and memorable.');
+
+  if (scores.authenticity <= 2) tips.push('This sounds rehearsed or generic. The interviewer wants to hear YOUR voice. What surprised you? What was hard? What would you do differently?');
+  if (scores.authenticity === 3) tips.push('Getting there on authenticity. Try adding one moment of honest reflection. What was messy? What almost went wrong?');
+  if (scores.authenticity >= 4) tips.push('This sounds real. That\'s exactly the kind of response that sticks with interviewers.');
+
+  const avg = ((scores.structure || 0) + (scores.specificity || 0) + (scores.authenticity || 0)) / 3;
+  if (avg >= 4) tips.push('Strong response overall. Keep this story in your rotation.');
+  else if (avg <= 2) tips.push('This needs more work. Try adding this story to your Story Bank and crafting it out fully.');
+
+  const tipsEl = document.getElementById('sc-mock-tips');
+  tipsEl.innerHTML = `<span class="sc-tips-title">Feedback based on your scores</span>` + tips.map(t => `<p>${t}</p>`).join('');
+  tipsEl.style.display = 'block';
+
+  // Save to history
+  if (scMockCurrentQ) {
+    scSaveMockHistory({
+      question: scMockCurrentQ.question,
+      cat: scMockCurrentQ.cat,
+      scores,
+      date: new Date().toISOString()
+    });
+  }
+}
+
+function scMockRetry() {
+  scNav('sc-b1');
+}
+
+/* ── Rubric helpers ── */
+function scGetRubricScores(containerId) {
+  const scores = {};
+  document.querySelectorAll(`#${containerId} .sc-rubric-score`).forEach(group => {
+    const dim = group.dataset.dim;
+    const filled = group.querySelectorAll('.sc-score-dot.filled');
+    scores[dim] = filled.length > 0 ? Math.max(...[...filled].map(d => parseInt(d.dataset.val))) : 0;
+  });
+  return scores;
+}
+
+// Initialize rubric click handlers
+document.querySelectorAll('.sc-rubric-score').forEach(group => {
+  group.querySelectorAll('.sc-score-dot').forEach(dot => {
+    dot.addEventListener('click', () => {
+      const val = parseInt(dot.dataset.val);
+      group.querySelectorAll('.sc-score-dot').forEach(d => {
+        d.classList.toggle('filled', parseInt(d.dataset.val) <= val);
+      });
+    });
+  });
+});
+
+/* ── Bank Preview (Landing) ── */
+function scRenderBankPreview() {
+  const preview = document.getElementById('sc-bank-preview');
+  const list = document.getElementById('sc-bank-list');
+  let total = 0;
+  let html = '';
+
+  SC_CATEGORIES.forEach(cat => {
+    const stories = scStories[cat.id] || [];
+    stories.forEach((s, i) => {
+      total++;
+      const crafted = s.s && s.t && s.a && s.r;
+      const scoreText = s.scores ? `${Math.round(((s.scores.structure||0) + (s.scores.specificity||0) + (s.scores.authenticity||0)) / 3 * 10) / 10}/5` : '';
+      html += `
+        <div class="sc-bank-item">
+          <div>
+            <span class="sc-bank-item-cat">${cat.name}</span>
+            <div class="sc-bank-item-title">${s.title}</div>
+            <div class="sc-bank-item-preview">${crafted ? s.s.substring(0, 90) + (s.s.length > 90 ? '...' : '') : 'Not yet crafted'}</div>
+          </div>
+          <div class="sc-bank-actions">
+            ${scoreText ? `<span style="font-family:var(--mono); font-size:11px; color:var(--accent); align-self:center; margin-right:4px;">${scoreText}</span>` : ''}
+            ${crafted ? `<button onclick="scEditStoryFromBank('${cat.id}', ${i})" title="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></button>` : ''}
+            <button onclick="scDeleteStoryFromBank('${cat.id}', ${i})" title="Delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+          </div>
+        </div>
+      `;
+    });
+  });
+
+  if (total > 0) {
+    list.innerHTML = html;
+    preview.style.display = 'block';
+  } else {
+    preview.style.display = 'none';
+  }
+}
+
+function scEditStoryFromBank(catId, idx) {
+  scCurrentCraft = { catId, storyIdx: idx };
+  scPopulateStorySelect();
+  document.getElementById('sc-story-select').value = `${catId}:${idx}`;
+  scLoadStoryForCraft();
+  scNav('sc-a4');
+}
+
+function scDeleteStoryFromBank(catId, idx) {
+  if (!scStories[catId]) return;
+  scStories[catId].splice(idx, 1);
+  scSaveState();
+  scRenderBankPreview();
+}
+
+/* ── Mock History ── */
+function scRenderMockHistory() {
+  const history = scGetMockHistory();
+  const container = document.getElementById('sc-mock-history');
+  const list = document.getElementById('sc-mock-history-list');
+  if (history.length === 0) {
+    container.style.display = 'none';
+    return;
+  }
+  const catNames = { leadership: 'Leadership', resilience: 'Resilience', teamwork: 'Teamwork', influencing: 'Influencing', ethics: 'Ethical Judgment' };
+  list.innerHTML = history.slice(0, 8).map(h => {
+    const avg = ((h.scores.structure||0) + (h.scores.specificity||0) + (h.scores.authenticity||0)) / 3;
+    return `
+      <div class="sc-history-item">
+        <div class="sc-history-q">${h.question.substring(0, 60)}${h.question.length > 60 ? '...' : ''}</div>
+        <span class="sc-history-score">${Math.round(avg * 10) / 10}/5</span>
+      </div>
+    `;
+  }).join('');
+  container.style.display = 'block';
+}
+
+/* ── FLOW C: Tell Me About Yourself ── */
+
+function scTmayLoadState() {
+  try {
+    const saved = localStorage.getItem('sc-tmay');
+    if (saved) {
+      const d = JSON.parse(saved);
+      if (d.role) document.getElementById('sc-tmay-role').value = d.role;
+      if (d.origin) document.getElementById('sc-tmay-origin').value = d.origin;
+      if (d.edu) document.getElementById('sc-tmay-edu').value = d.edu;
+      if (d.exp1) document.getElementById('sc-tmay-exp1').value = d.exp1;
+      if (d.exp2) document.getElementById('sc-tmay-exp2').value = d.exp2;
+      if (d.today) document.getElementById('sc-tmay-today').value = d.today;
+      if (d.draft) document.getElementById('sc-tmay-draft').value = d.draft;
+    }
+  } catch(e) {}
+}
+
+function scTmaySaveState() {
+  try {
+    localStorage.setItem('sc-tmay', JSON.stringify({
+      role: document.getElementById('sc-tmay-role').value,
+      origin: document.getElementById('sc-tmay-origin').value,
+      edu: document.getElementById('sc-tmay-edu').value,
+      exp1: document.getElementById('sc-tmay-exp1').value,
+      exp2: document.getElementById('sc-tmay-exp2').value,
+      today: document.getElementById('sc-tmay-today').value,
+      draft: document.getElementById('sc-tmay-draft').value
+    }));
+  } catch(e) {}
+}
+
+function scC1Next() {
+  const role = document.getElementById('sc-tmay-role').value.trim();
+  const origin = document.getElementById('sc-tmay-origin').value.trim();
+  const edu = document.getElementById('sc-tmay-edu').value.trim();
+  const exp1 = document.getElementById('sc-tmay-exp1').value.trim();
+  const exp2 = document.getElementById('sc-tmay-exp2').value.trim();
+  const today = document.getElementById('sc-tmay-today').value.trim();
+
+  // Check if we have enough material
+  const filled = [origin, edu, exp1, exp2, today].filter(Boolean).length;
+  if (filled < 3) {
+    alert('Fill in at least 3 sections to build a story. The more material, the better.');
+    return;
+  }
+
+  scTmaySaveState();
+
+  // Assemble draft using Stupid Simple Structure
+  const existing = document.getElementById('sc-tmay-draft').value.trim();
+  if (!existing) {
+    let draft = '';
+    if (origin) draft += origin + ' ';
+    if (edu) draft += edu + ' ';
+    if (exp1) draft += exp1 + ' ';
+    if (exp2) draft += exp2 + ' ';
+    if (today) draft += today;
+    document.getElementById('sc-tmay-draft').value = draft.trim();
+  }
+
+  scTmayUpdateWC();
+  scNav('sc-c2');
+}
+
+// Word count updater
+const tmayDraft = document.getElementById('sc-tmay-draft');
+if (tmayDraft) {
+  tmayDraft.addEventListener('input', scTmayUpdateWC);
+}
+
+function scTmayUpdateWC() {
+  const text = document.getElementById('sc-tmay-draft').value.trim();
+  const words = text ? text.split(/\s+/).length : 0;
+  const seconds = Math.round(words / 2.3); // ~140 wpm speaking rate
+  const el = document.getElementById('sc-tmay-wc');
+  el.textContent = `${words} words (~${Math.floor(seconds/60)}:${(seconds%60).toString().padStart(2,'0')} spoken)`;
+  if (words === 0) { el.className = 'sc-wc under'; }
+  else if (words < 220) { el.className = 'sc-wc under'; }
+  else if (words <= 300) { el.className = 'sc-wc good'; }
+  else { el.className = 'sc-wc over'; }
+}
+
+function scTmayValidate() {
+  const text = document.getElementById('sc-tmay-draft').value.trim();
+  if (!text) return;
+
+  const flags = [];
+  const words = text.split(/\s+/).length;
+
+  // Length check
+  if (words < 200) flags.push({ type: 'warn', msg: 'Pretty short (' + words + ' words). A solid 2-minute answer is 250-280 words. You have room to add detail.' });
+  else if (words > 320) flags.push({ type: 'warn', msg: 'Running long (' + words + ' words). Cut to 250-280. Which sentence could you drop without losing the through-line?' });
+  else flags.push({ type: 'good', msg: 'Good length (' + words + ' words). Right in the 2-minute sweet spot.' });
+
+  // Resume bullet check
+  if (/^[-•]\s/m.test(text)) flags.push({ type: 'warn', msg: 'Looks like you have bullet points in there. This needs to read as a flowing story, not a resume. Convert bullets into sentences.' });
+
+  // "Passionate" / corporate language
+  const corporate = ['passionate about', 'leveraging', 'synergies', 'value proposition', 'ecosystem', 'thought leader', 'innovative solutions'];
+  const found = corporate.filter(w => text.toLowerCase().includes(w));
+  if (found.length) flags.push({ type: 'warn', msg: 'Corporate-speak detected: "' + found.join('", "') + '". Rewrite these in plain language. How would you say this to a friend?' });
+
+  // Pivot points check
+  const pivotPhrases = ['realized', 'led me to', 'that\'s when', 'taught me', 'which is why', 'changed', 'unlocked', 'showed me'];
+  const pivotCount = pivotPhrases.filter(p => text.toLowerCase().includes(p)).length;
+  if (pivotCount < 2) flags.push({ type: 'warn', msg: 'Missing pivot points. Your story should have "and that\'s when I realized..." or "which led me to..." moments that connect each section. Right now it reads more like a timeline than a story.' });
+  else flags.push({ type: 'good', msg: 'Good pivot points. The through-line feels intentional.' });
+
+  // Specific ending check
+  const role = document.getElementById('sc-tmay-role').value.trim();
+  const lastSentences = text.split(/[.!?]/).filter(Boolean).slice(-2).join(' ').toLowerCase();
+  if (role && !lastSentences.includes(role.split(' ')[0].toLowerCase()) && !lastSentences.includes('this role') && !lastSentences.includes('this company') && !lastSentences.includes('this team')) {
+    flags.push({ type: 'warn', msg: 'Your ending doesn\'t seem specific to "' + role + '". The last sentence should make the interviewer feel like you wrote this for THEM, not for 20 companies.' });
+  }
+
+  // "I" vs "we" check
+  const iCount = (text.match(/\bI\b/g) || []).length;
+  if (iCount < 3) flags.push({ type: 'warn', msg: 'Not enough "I" statements. This is YOUR story. Make sure you\'re centering yourself, not hiding behind "we."' });
+
+  const container = document.getElementById('sc-tmay-flags');
+  container.innerHTML = flags.map(f =>
+    `<div class="sc-validation ${f.type}" style="margin-bottom:8px;">${f.msg}</div>`
+  ).join('');
+}
+
+function scTmaySave() {
+  scTmaySaveState();
+  const btn = event.target;
+  const orig = btn.textContent;
+  btn.textContent = 'Saved!';
+  setTimeout(() => btn.textContent = orig, 1500);
+}
+
+function scTmayGenAI() {
+  const draft = document.getElementById('sc-tmay-draft').value.trim();
+  const role = document.getElementById('sc-tmay-role').value.trim();
+  if (!draft) { alert('Write your story first, then use this to polish it.'); return; }
+
+  const prompt = `I'm preparing my "Tell me about yourself" answer for ${role ? role : 'PM/analytics roles'}. Below is my rough draft. Please:
+
+1. Polish it to sound natural and conversational (not corporate or AI-sounding)
+2. Keep it under 280 words (2 minutes spoken)
+3. Make sure each section flows into the next with clear pivot points ("and that's when I realized..." / "which led me to...")
+4. Make the ending specific to ${role ? role : 'the target role'} -- it should feel like I wrote this for them
+5. Keep my voice. Don't make it sound polished to the point of being generic
+6. Flag anything that reads like a resume bullet and rewrite it as a story sentence
+
+My draft:
+---
+${draft}
+---
+
+Give me the polished version, then list what you changed and why.`;
+
+  document.getElementById('sc-tmay-ai-text').textContent = prompt;
+  document.getElementById('sc-tmay-ai-output').style.display = 'block';
+  document.getElementById('sc-tmay-ai-output').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function scTmayCopyAI() {
+  const text = document.getElementById('sc-tmay-ai-text').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.target;
+    const orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = orig, 1500);
+  });
+}
+
+function scC2Next() {
+  scTmaySaveState();
+  const draft = document.getElementById('sc-tmay-draft').value.trim();
+  document.getElementById('sc-tmay-final').textContent = draft;
+  const words = draft ? draft.split(/\s+/).length : 0;
+  const seconds = Math.round(words / 2.3);
+  const wcEl = document.getElementById('sc-tmay-final-wc');
+  wcEl.textContent = `${words} words (~${Math.floor(seconds/60)}:${(seconds%60).toString().padStart(2,'0')} spoken)`;
+  wcEl.className = 'sc-wc ' + (words >= 220 && words <= 300 ? 'good' : words > 300 ? 'over' : 'under');
+  scNav('sc-c3');
+}
+
+function scTmayCopyFinal() {
+  const text = document.getElementById('sc-tmay-final').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.target;
+    const orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = orig, 1500);
+  });
+}
+
+/* ── Resume Upload ── */
+const scUploadInner = document.querySelector('.sc-upload-inner');
+if (scUploadInner) {
+  ['dragenter','dragover'].forEach(e => {
+    scUploadInner.addEventListener(e, (ev) => { ev.preventDefault(); scUploadInner.classList.add('dragover'); });
+  });
+  ['dragleave','drop'].forEach(e => {
+    scUploadInner.addEventListener(e, (ev) => { ev.preventDefault(); scUploadInner.classList.remove('dragover'); });
+  });
+  scUploadInner.addEventListener('drop', (ev) => {
+    const file = ev.dataTransfer.files[0];
+    if (file) scProcessResumeFile(file);
+  });
+}
+
+function scHandleResume(event) {
+  const file = event.target.files[0];
+  if (file) scProcessResumeFile(file);
+}
+
+function scShowUploadStatus(msg, type) {
+  const el = document.getElementById('sc-upload-status');
+  el.textContent = msg;
+  el.className = 'sc-upload-status ' + type;
+  el.style.display = 'block';
+}
+
+async function scProcessResumeFile(file) {
+  const ext = file.name.split('.').pop().toLowerCase();
+  const status = document.getElementById('sc-upload-status');
+
+  if (ext === 'txt') {
+    scShowUploadStatus('Reading text file...', 'loading');
+    const text = await file.text();
+    document.getElementById('sc-experience').value = text;
+    scShowUploadStatus('Loaded ' + file.name + ' (' + text.split(/\s+/).length + ' words)', 'success');
+  }
+  else if (ext === 'pdf') {
+    scShowUploadStatus('Loading PDF reader...', 'loading');
+    try {
+      if (!window.pdfjsLib) {
+        await scLoadScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js');
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      }
+      scShowUploadStatus('Extracting text from PDF...', 'loading');
+      const arrayBuffer = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      let fullText = '';
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const content = await page.getTextContent();
+        fullText += content.items.map(item => item.str).join(' ') + '\n\n';
+      }
+      document.getElementById('sc-experience').value = fullText.trim();
+      scShowUploadStatus('Loaded ' + file.name + ' (' + pdf.numPages + ' pages, ' + fullText.split(/\s+/).length + ' words)', 'success');
+    } catch(e) {
+      scShowUploadStatus('Could not read PDF. Try pasting your resume text instead.', 'error');
+      console.error(e);
+    }
+  }
+  else if (ext === 'docx' || ext === 'doc') {
+    scShowUploadStatus('Loading document reader...', 'loading');
+    try {
+      if (!window.mammoth) {
+        await scLoadScript('https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js');
+      }
+      scShowUploadStatus('Extracting text from document...', 'loading');
+      const arrayBuffer = await file.arrayBuffer();
+      const result = await mammoth.extractRawText({ arrayBuffer });
+      document.getElementById('sc-experience').value = result.value;
+      scShowUploadStatus('Loaded ' + file.name + ' (' + result.value.split(/\s+/).length + ' words)', 'success');
+    } catch(e) {
+      scShowUploadStatus('Could not read document. Try pasting your resume text instead.', 'error');
+      console.error(e);
+    }
+  }
+  else {
+    scShowUploadStatus('Unsupported file type. Please use PDF, DOCX, or TXT.', 'error');
+  }
+}
+
+function scLoadScript(src) {
+  return new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = src;
+    s.onload = resolve;
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+}
+
+/* ── AI Prompt Generator ── */
+function scGenerateAIPrompt() {
+  const experience = document.getElementById('sc-experience').value.trim();
+  if (!experience) {
+    alert('Go back to Step 2 and add your experience first.');
+    return;
+  }
+
+  const role = scRole || 'general';
+  const roleLabel = { pm: 'Product Manager', analytics: 'Data/Analytics', ux: 'UX Research', eng: 'Engineering', general: 'general' }[role] || role;
+
+  const prompt = `I'm preparing for behavioral interviews for ${roleLabel} roles. Below is a brain dump of my experience. I need you to analyze it and suggest specific stories I could use for each of these 5 behavioral categories:
+
+1. **Leadership** - Times I took charge, made decisions, drove outcomes, or guided others
+2. **Resilience** - Failures, setbacks, harsh feedback, pivots, or recovery moments
+3. **Teamwork** - Collaboration, conflicts, difficult teammates, cross-functional work
+4. **Influencing** - Persuading stakeholders, using data to make a case, getting buy-in
+5. **Ethical Judgment** - Tough calls, gray areas, standing up for users, transparency
+
+For each category, suggest 2-3 stories from my experience. For each story, give me:
+- A short title (3-5 words)
+- Which specific experience it comes from
+- Why it fits this category
+- A one-sentence preview of how I'd frame it
+
+Here's my experience:
+---
+${experience}
+---
+
+Be specific. Pull from what I actually wrote. If a category is weak, tell me honestly and suggest what kind of experience I could dig deeper on.`;
+
+  document.getElementById('sc-ai-prompt-text').textContent = prompt;
+  document.getElementById('sc-ai-prompt-output').style.display = 'block';
+  document.getElementById('sc-ai-prompt-output').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function scCopyAIPrompt() {
+  const text = document.getElementById('sc-ai-prompt-text').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.target;
+    const orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = orig, 1500);
+  });
+}
+
+/* ── Init ── */
+scLoadState();
+scRenderBankPreview();
+
+/* ═══ CAREER DECIDER ═══ */
+const cdQuestions = [
+  { q: "When you see a product problem, what's your first instinct?", opts: [
+    { text: "Figure out who's affected and what they need", score: { pm: 2, analytics: 0, research: 3 } },
+    { text: "Pull the data to see how big the problem actually is", score: { pm: 0, analytics: 3, research: 1 } },
+    { text: "Start thinking about what we should build to fix it", score: { pm: 3, analytics: 1, research: 0 } }
+  ]},
+  { q: "You're given a week to improve a feature. Where do you start?", opts: [
+    { text: "Talk to 5-10 users about their experience", score: { pm: 1, analytics: 0, research: 3 } },
+    { text: "Look at the funnel data and find the biggest drop-off", score: { pm: 1, analytics: 3, research: 0 } },
+    { text: "Map out the current flow and sketch alternatives", score: { pm: 3, analytics: 0, research: 1 } }
+  ]},
+  { q: "What kind of meeting energizes you most?", opts: [
+    { text: "A research readout where findings reshape the roadmap", score: { pm: 1, analytics: 0, research: 3 } },
+    { text: "A metrics review where you present a non-obvious insight", score: { pm: 0, analytics: 3, research: 1 } },
+    { text: "A strategy session where you're deciding what to build next", score: { pm: 3, analytics: 1, research: 0 } }
+  ]},
+  { q: "Which of these frustrates you the most?", opts: [
+    { text: "Shipping something without knowing if users actually want it", score: { pm: 0, analytics: 1, research: 3 } },
+    { text: "Making a decision without looking at the numbers first", score: { pm: 1, analytics: 3, research: 0 } },
+    { text: "Building features that don't move the needle on the goal", score: { pm: 3, analytics: 0, research: 1 } }
+  ]},
+  { q: "Pick the deliverable you'd be most proud of:", opts: [
+    { text: "A research report that changed how the team thinks about a problem", score: { pm: 0, analytics: 1, research: 3 } },
+    { text: "A dashboard that the whole org checks every morning", score: { pm: 1, analytics: 3, research: 0 } },
+    { text: "A shipped feature that moved a key metric", score: { pm: 3, analytics: 0, research: 1 } }
+  ]},
+  { q: "How do you prefer to communicate findings?", opts: [
+    { text: "A narrative with quotes and journey maps", score: { pm: 0, analytics: 0, research: 3 } },
+    { text: "Charts, tables, and statistical summaries", score: { pm: 0, analytics: 3, research: 0 } },
+    { text: "A one-pager with recommendations and next steps", score: { pm: 3, analytics: 1, research: 1 } }
+  ]},
+  { q: "Which skill do you most want to develop?", opts: [
+    { text: "Running better user interviews and synthesizing patterns", score: { pm: 0, analytics: 0, research: 3 } },
+    { text: "Writing more complex SQL and building predictive models", score: { pm: 0, analytics: 3, research: 0 } },
+    { text: "Prioritization frameworks and stakeholder alignment", score: { pm: 3, analytics: 0, research: 1 } }
+  ]},
+  { q: "You just joined a new team. What do you do first?", opts: [
+    { text: "Schedule 1:1s with users and customer-facing teammates", score: { pm: 1, analytics: 0, research: 3 } },
+    { text: "Get access to the data warehouse and start exploring", score: { pm: 0, analytics: 3, research: 0 } },
+    { text: "Read every PRD and strategy doc from the last 6 months", score: { pm: 3, analytics: 1, research: 0 } }
+  ]}
+];
+
+let cdCurrent = 0;
+const cdScores = { pm: 0, analytics: 0, research: 0 };
+
+function renderQuiz() {
+  const container = document.getElementById('cd-quiz');
+  if (cdCurrent >= cdQuestions.length) {
+    showResults();
+    return;
+  }
+  const q = cdQuestions[cdCurrent];
+  container.innerHTML = `
+    <div class="cd-quiz-card">
+      <span class="cd-quiz-num">Question ${cdCurrent + 1} of ${cdQuestions.length}</span>
+      <div class="cd-quiz-q">${q.q}</div>
+      <div class="cd-options">
+        ${q.opts.map((o, i) => `<button class="cd-option" onclick="selectAnswer(${i})">${o.text}</button>`).join('')}
+      </div>
+    </div>
+  `;
+  document.getElementById('cd-progress').style.width = ((cdCurrent / cdQuestions.length) * 100) + '%';
+}
+
+function selectAnswer(idx) {
+  const score = cdQuestions[cdCurrent].opts[idx].score;
+  cdScores.pm += score.pm;
+  cdScores.analytics += score.analytics;
+  cdScores.research += score.research;
+  cdCurrent++;
+  renderQuiz();
+}
+
+function showResults() {
+  document.getElementById('cd-quiz').style.display = 'none';
+  document.getElementById('cd-progress').style.width = '100%';
+  const total = cdScores.pm + cdScores.analytics + cdScores.research;
+  const pcts = {
+    pm: Math.round((cdScores.pm / total) * 100),
+    analytics: Math.round((cdScores.analytics / total) * 100),
+    research: Math.round((cdScores.research / total) * 100)
+  };
+
+  const bars = document.getElementById('cd-bars');
+  bars.innerHTML = `
+    <div class="cd-result-bar">
+      <span class="cd-result-label">Product Manager</span>
+      <div class="cd-result-track"><div class="cd-result-fill" style="width:0%;background:var(--accent);"></div></div>
+      <span class="cd-result-pct">${pcts.pm}%</span>
+    </div>
+    <div class="cd-result-bar">
+      <span class="cd-result-label">Product Analyst</span>
+      <div class="cd-result-track"><div class="cd-result-fill" style="width:0%;background:var(--blue);"></div></div>
+      <span class="cd-result-pct">${pcts.analytics}%</span>
+    </div>
+    <div class="cd-result-bar">
+      <span class="cd-result-label">UX Researcher</span>
+      <div class="cd-result-track"><div class="cd-result-fill" style="width:0%;background:var(--green);"></div></div>
+      <span class="cd-result-pct">${pcts.research}%</span>
+    </div>
+  `;
+
+  document.getElementById('cd-result').style.display = 'block';
+  setTimeout(() => {
+    bars.querySelectorAll('.cd-result-fill')[0].style.width = pcts.pm + '%';
+    bars.querySelectorAll('.cd-result-fill')[1].style.width = pcts.analytics + '%';
+    bars.querySelectorAll('.cd-result-fill')[2].style.width = pcts.research + '%';
+  }, 100);
+}
+
+renderQuiz();
+
+/* ═══ RESUME CHECKLIST ═══ */
+function toggleCheck(el) {
+  el.classList.toggle('checked');
+  el.closest('.rc-item').classList.toggle('done');
+  updateCounter();
+}
+
+function updateCounter() {
+  const total = document.querySelectorAll('.rc-check').length;
+  const checked = document.querySelectorAll('.rc-check.checked').length;
+  document.getElementById('rc-counter').textContent = `${checked} / ${total} completed`;
+}
+
+/* ═══ BEHAVIORAL Q BANK ═══ */
+document.querySelectorAll('.bq-question').forEach(q => {
+  q.addEventListener('click', () => {
+    q.closest('.bq-item').classList.toggle('open');
+  });
+});
+</script>
+
+</body>
+</html>

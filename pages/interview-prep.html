@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interview Prep Tool | Swati Iyer</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" type="image/png" href="../assets/branding/swatiiyer-logo-tab.png">
+  <link rel="apple-touch-icon" href="../assets/branding/swatiiyer-logo-tab.png">
+  <style>
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(139,94,171,0.10), transparent 30%),
+        linear-gradient(180deg, #f5f0fc 0%, #f0eaf8 220px, #f8f5fc 100%);
+    }
+
+    .ip-shell { max-width: 900px; margin: 0 auto; padding: 132px 28px 96px; }
+
+    /* Hero */
+    .ip-hero { margin-bottom: 40px; }
+    .ip-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 14px; border-radius: 999px;
+      background: rgba(139,94,171,0.08); color: var(--accent);
+      font-family: var(--mono); font-size: 11px;
+      letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 16px;
+    }
+    .ip-eyebrow::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+    .ip-hero h1 {
+      font-family: var(--display); font-size: clamp(36px, 6vw, 60px);
+      line-height: 0.96; letter-spacing: -0.05em; color: var(--text); margin-bottom: 16px;
+    }
+    .ip-hero-sub { max-width: 640px; font-size: 17px; line-height: 1.7; color: var(--text-mid); }
+
+    /* Mode toggle */
+    .ip-modes {
+      display: flex; gap: 10px; margin-bottom: 32px;
+      border-bottom: 1px solid var(--border-light); padding-bottom: 16px;
+    }
+    .ip-mode-btn {
+      padding: 10px 20px; border-radius: 999px;
+      border: 1px solid var(--border-light); background: rgba(255,255,255,0.6);
+      font-family: var(--sans); font-size: 13px; font-weight: 600;
+      color: var(--text-mid); cursor: pointer; transition: all 0.25s var(--ease);
+    }
+    .ip-mode-btn:hover { background: rgba(139,94,171,0.06); border-color: rgba(139,94,171,0.2); color: var(--accent); }
+    .ip-mode-btn.active { background: var(--text); color: #fff; border-color: var(--text); }
+
+    /* Panels */
+    .ip-panel { display: none; }
+    .ip-panel.active { display: block; }
+
+    /* Card */
+    .ip-card {
+      background: rgba(255,255,255,0.78); border: 1px solid rgba(139,94,171,0.10);
+      border-radius: 24px; padding: 30px; box-shadow: 0 12px 32px rgba(69,51,85,0.06);
+      margin-bottom: 20px;
+    }
+    .ip-card h2 {
+      font-family: var(--display); font-size: clamp(22px, 3vw, 30px);
+      letter-spacing: -0.04em; color: var(--text); margin-bottom: 12px;
+    }
+    .ip-card h3 {
+      font-family: var(--display); font-size: 18px;
+      letter-spacing: -0.02em; color: var(--text); margin-bottom: 10px;
+    }
+    .ip-card p { color: var(--text-mid); line-height: 1.75; font-size: 15px; margin-bottom: 14px; }
+    .ip-card p:last-child { margin-bottom: 0; }
+
+    /* Form elements */
+    .ip-label {
+      display: block; font-family: var(--mono); font-size: 11px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 8px; opacity: 0.7;
+    }
+    .ip-textarea {
+      width: 100%; min-height: 120px; padding: 16px; border-radius: 14px;
+      border: 1px solid var(--border); background: rgba(255,255,255,0.8);
+      font-family: var(--sans); font-size: 14px; line-height: 1.65;
+      color: var(--text); resize: vertical; transition: border-color 0.2s;
+    }
+    .ip-textarea:focus { outline: none; border-color: var(--accent); }
+    .ip-input {
+      width: 100%; padding: 12px 16px; border-radius: 12px;
+      border: 1px solid var(--border); background: rgba(255,255,255,0.8);
+      font-family: var(--sans); font-size: 14px; color: var(--text); transition: border-color 0.2s;
+    }
+    .ip-input:focus { outline: none; border-color: var(--accent); }
+    .ip-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 22px; border-radius: 999px; background: var(--text);
+      color: #fff; font-family: var(--sans); font-size: 14px; font-weight: 600;
+      border: none; cursor: pointer; transition: transform 0.25s var(--ease), box-shadow 0.25s;
+    }
+    .ip-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(30,21,40,0.18); }
+    .ip-btn-secondary {
+      background: rgba(139,94,171,0.08); color: var(--accent);
+      border: 1px solid rgba(139,94,171,0.2);
+    }
+    .ip-btn-secondary:hover { background: rgba(139,94,171,0.14); box-shadow: 0 8px 20px rgba(139,94,171,0.12); }
+
+    /* Section blocks */
+    .ip-section {
+      padding: 24px; border-radius: 20px;
+      background: rgba(139,94,171,0.03); border: 1px solid rgba(139,94,171,0.08);
+      margin-bottom: 16px;
+    }
+    .ip-section-header {
+      display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer; padding-bottom: 0;
+    }
+    .ip-section-title {
+      font-family: var(--display); font-size: 17px;
+      color: var(--text); letter-spacing: -0.02em;
+    }
+    .ip-section-arrow {
+      font-size: 18px; color: var(--text-light); transition: transform 0.3s;
+    }
+    .ip-section.open .ip-section-arrow { transform: rotate(180deg); }
+    .ip-section-body { display: none; margin-top: 16px; }
+    .ip-section.open .ip-section-body { display: block; }
+
+    /* Checklist */
+    .ip-check-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 10px 0; border-bottom: 1px solid rgba(139,94,171,0.06);
+    }
+    .ip-check-item:last-child { border: none; }
+    .ip-check {
+      width: 20px; height: 20px; border-radius: 6px;
+      border: 2px solid var(--border); cursor: pointer; flex-shrink: 0; margin-top: 1px;
+      transition: all 0.2s; display: flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.8);
+    }
+    .ip-check.checked { background: var(--accent); border-color: var(--accent); }
+    .ip-check.checked::after { content: '\2713'; color: #fff; font-size: 12px; font-weight: 700; }
+    .ip-check-text { font-size: 14px; color: var(--text-mid); line-height: 1.55; }
+    .ip-check-item.done .ip-check-text { opacity: 0.5; text-decoration: line-through; }
+
+    /* Prompt output (legacy) */
+    .ip-prompt-out {
+      background: var(--bg-dark); border-radius: 18px; padding: 22px; margin-top: 16px;
+    }
+    .ip-prompt-out pre {
+      font-family: var(--mono); font-size: 12px; line-height: 1.7;
+      color: #e2c4f7; white-space: pre-wrap; word-wrap: break-word;
+    }
+
+    /* ═══ PREP KIT GENERATOR ═══ */
+    .ip-kit-results { margin-top: 28px; }
+    .ip-kit-section {
+      background: rgba(255,255,255,0.82); border: 1px solid rgba(139,94,171,0.10);
+      border-radius: 20px; padding: 26px; margin-bottom: 16px;
+      box-shadow: 0 8px 24px rgba(69,51,85,0.05);
+    }
+    .ip-kit-section-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .ip-kit-section-head h3 {
+      font-family: var(--display); font-size: 20px; letter-spacing: -0.03em;
+      color: var(--text); margin: 0;
+    }
+    .ip-kit-copy {
+      padding: 5px 12px; border-radius: 999px; font-size: 11px; font-weight: 600;
+      font-family: var(--mono); letter-spacing: 0.04em;
+      background: rgba(139,94,171,0.08); color: var(--accent);
+      border: 1px solid rgba(139,94,171,0.15); cursor: pointer; transition: all 0.2s;
+    }
+    .ip-kit-copy:hover { background: rgba(139,94,171,0.14); }
+
+    .ip-kit-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    .ip-kit-table th {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--accent); text-align: left;
+      padding: 8px 10px; border-bottom: 2px solid rgba(139,94,171,0.12);
+    }
+    .ip-kit-table td {
+      font-size: 13.5px; color: var(--text-mid); line-height: 1.6;
+      padding: 10px; border-bottom: 1px solid rgba(139,94,171,0.06);
+      vertical-align: top;
+    }
+    .ip-kit-table tr:last-child td { border: none; }
+
+    .ip-kit-editable {
+      width: 100%; min-height: 60px; padding: 14px; border-radius: 12px;
+      border: 1px dashed rgba(139,94,171,0.18); background: rgba(255,255,255,0.5);
+      font-family: var(--sans); font-size: 13.5px; line-height: 1.65;
+      color: var(--text); resize: vertical;
+    }
+    .ip-kit-editable:focus { outline: none; border-color: var(--accent); border-style: solid; }
+
+    .ip-kit-tag {
+      display: inline-block; padding: 3px 10px; border-radius: 999px;
+      font-size: 11px; font-weight: 600; margin: 2px 4px 2px 0;
+    }
+    .ip-kit-tag-match { background: rgba(72,187,120,0.12); color: #2f855a; }
+    .ip-kit-tag-gap { background: rgba(237,137,54,0.12); color: #c05621; }
+    .ip-kit-tag-cat { background: rgba(139,94,171,0.10); color: var(--accent); }
+
+    .ip-kit-story {
+      padding: 20px; border-radius: 16px; margin-bottom: 12px;
+      background: rgba(139,94,171,0.02); border: 1px solid rgba(139,94,171,0.08);
+    }
+    .ip-kit-story-title {
+      font-family: var(--display); font-size: 16px; color: var(--text);
+      letter-spacing: -0.02em; margin-bottom: 8px;
+    }
+    .ip-kit-story-meta { font-size: 12px; color: var(--accent); margin-bottom: 10px; font-weight: 600; }
+    .ip-kit-story label {
+      display: block; font-family: var(--mono); font-size: 10px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); margin: 10px 0 4px; opacity: 0.65;
+    }
+
+    .ip-kit-script {
+      padding: 18px; border-radius: 14px; margin-bottom: 12px;
+      background: rgba(139,94,171,0.03); border: 1px solid rgba(139,94,171,0.08);
+    }
+    .ip-kit-script-title {
+      font-family: var(--display); font-size: 15px; color: var(--text);
+      letter-spacing: -0.02em; margin-bottom: 6px;
+    }
+    .ip-kit-script-time {
+      font-size: 11px; color: var(--text-light); margin-bottom: 10px;
+      font-family: var(--mono);
+    }
+
+    .ip-kit-actions {
+      display: flex; gap: 10px; align-items: center; margin-top: 24px;
+      padding-top: 20px; border-top: 1px solid rgba(139,94,171,0.10);
+    }
+
+    .ip-kit-loading {
+      text-align: center; padding: 48px 24px;
+    }
+    .ip-kit-loading-spinner {
+      width: 36px; height: 36px; border: 3px solid rgba(139,94,171,0.15);
+      border-top-color: var(--accent); border-radius: 50%;
+      animation: ipSpin 0.8s linear infinite; margin: 0 auto 16px;
+    }
+    @keyframes ipSpin { to { transform: rotate(360deg); } }
+    .ip-kit-loading-text {
+      font-size: 14px; color: var(--text-mid);
+    }
+
+    .ip-fill-me {
+      background: rgba(237,137,54,0.08); border: 1px dashed rgba(237,137,54,0.3);
+      border-radius: 4px; padding: 1px 6px; color: #c05621; font-style: italic;
+    }
+
+    @media print {
+      .site-nav, .ip-modes, .ip-hero, .ip-back, .ip-kit-copy,
+      .ip-kit-actions, .ip-btn, #panel-worksheets { display: none !important; }
+      #panel-prompts { display: block !important; }
+      .ip-shell { padding: 20px !important; max-width: 100% !important; }
+      .ip-kit-section { break-inside: avoid; box-shadow: none; border: 1px solid #ddd; }
+      .ip-kit-editable { border-style: solid; }
+    }
+
+    /* Question bank item */
+    .ip-q-item {
+      padding: 14px 18px; border-radius: 14px;
+      border: 1px solid var(--border-light); margin-bottom: 8px;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .ip-q-item:hover { background: rgba(139,94,171,0.03); }
+    .ip-q-text { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+    .ip-q-strategy { font-size: 12.5px; color: var(--text-mid); line-height: 1.5; display: none; }
+    .ip-q-item.open .ip-q-strategy { display: block; margin-top: 8px; }
+
+    /* Rule card */
+    .ip-rule {
+      display: flex; gap: 12px; padding: 14px 0;
+      border-bottom: 1px solid rgba(139,94,171,0.06);
+    }
+    .ip-rule:last-child { border: none; }
+    .ip-rule-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: rgba(139,94,171,0.08); color: var(--accent);
+      font-family: var(--mono); font-size: 12px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .ip-rule-text { font-size: 14px; color: var(--text-mid); line-height: 1.55; }
+    .ip-rule-text strong { color: var(--text); }
+
+    /* Back link */
+    .ip-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 48px; padding: 12px 20px; border-radius: 999px;
+      background: rgba(255,255,255,0.8); border: 1px solid rgba(139,94,171,0.18);
+      color: var(--text-mid); font-size: 14px; font-weight: 600;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s;
+    }
+    .ip-back:hover {
+      transform: translateY(-2px); box-shadow: 0 10px 24px rgba(139,94,171,0.12);
+      border-color: var(--accent); color: var(--accent);
+    }
+
+    @media (max-width: 600px) {
+      .ip-shell { padding: 120px 20px 72px; }
+      .ip-card { padding: 22px 20px; border-radius: 20px; }
+      .ip-modes { gap: 6px; flex-wrap: wrap; }
+      .ip-mode-btn { padding: 8px 14px; font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="career-prep.html" class="nav-brand">&larr; Career Prep</a>
+    <div class="nav-links">
+      <a href="../index.html#work">Work</a>
+      <a href="../index.html#explore">Explore</a>
+      <a href="mailto:iyerswatip@gmail.com">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<main class="ip-shell">
+
+  <div class="ip-hero">
+    <span class="ip-eyebrow">Interview Tool</span>
+    <h1>Interview Prep Engine</h1>
+    <p class="ip-hero-sub">Paste your resume and a job posting. Get structured worksheets you fill out yourself, plus a personalized prep kit generated from your actual experience.</p>
+  </div>
+
+  <div class="ip-modes">
+    <button class="ip-mode-btn active" data-panel="worksheets">Guided Worksheets</button>
+    <button class="ip-mode-btn" data-panel="prompts">Generate Prep Kit</button>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       PANEL 1: GUIDED WORKSHEETS
+       ═══════════════════════════════════════ -->
+  <div class="ip-panel active" id="panel-worksheets">
+
+    <!-- Company Research -->
+    <div class="ip-card">
+      <h2>Company Research Worksheet</h2>
+      <p>Fill this out before every interview. Having these facts ready lets you sound like you already work there.</p>
+
+      <div class="ip-section open">
+        <div class="ip-section-header" onclick="ipToggle(this)">
+          <span class="ip-section-title">Company Basics</span>
+          <span class="ip-section-arrow">&#9662;</span>
+        </div>
+        <div class="ip-section-body">
+          <label class="ip-label">Company Name</label>
+          <input class="ip-input" id="ip-company" placeholder="e.g. Stripe">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px;">
+            <div><label class="ip-label">Industry</label><input class="ip-input" id="ip-industry" placeholder="e.g. Fintech"></div>
+            <div><label class="ip-label">Stage / Size</label><input class="ip-input" id="ip-stage" placeholder="e.g. Late-stage, 8000+ employees"></div>
+          </div>
+          <div style="margin-top:12px;"><label class="ip-label">What they do (1-2 sentences)</label>
+          <textarea class="ip-textarea" id="ip-whatdo" style="min-height:60px;" placeholder="e.g. Payment infrastructure for internet businesses. Powers Shopify, Amazon, Instacart."></textarea></div>
+          <div style="margin-top:12px;"><label class="ip-label">Key Products / Services</label>
+          <textarea class="ip-textarea" id="ip-products" style="min-height:60px;" placeholder="e.g. Payments, Billing, Connect, Atlas, Radar (fraud), Terminal (in-person)"></textarea></div>
+        </div>
+      </div>
+
+      <div class="ip-section">
+        <div class="ip-section-header" onclick="ipToggle(this)">
+          <span class="ip-section-title">Recent News (last 3-6 months)</span>
+          <span class="ip-section-arrow">&#9662;</span>
+        </div>
+        <div class="ip-section-body">
+          <textarea class="ip-textarea" id="ip-news" style="min-height:100px;" placeholder="Product launches, partnerships, leadership changes, funding, strategic shifts..."></textarea>
+        </div>
+      </div>
+
+      <div class="ip-section">
+        <div class="ip-section-header" onclick="ipToggle(this)">
+          <span class="ip-section-title">Competitors & Positioning</span>
+          <span class="ip-section-arrow">&#9662;</span>
+        </div>
+        <div class="ip-section-body">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div><label class="ip-label">Key Competitors</label><textarea class="ip-textarea" style="min-height:60px;" id="ip-competitors" placeholder="e.g. Adyen, Square, PayPal"></textarea></div>
+            <div><label class="ip-label">Competitive Advantage</label><textarea class="ip-textarea" style="min-height:60px;" id="ip-advantage" placeholder="e.g. Developer-first API design, breadth of product suite"></textarea></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ip-section">
+        <div class="ip-section-header" onclick="ipToggle(this)">
+          <span class="ip-section-title">Culture & Values</span>
+          <span class="ip-section-arrow">&#9662;</span>
+        </div>
+        <div class="ip-section-body">
+          <textarea class="ip-textarea" id="ip-culture" style="min-height:80px;" placeholder="Company values, Glassdoor themes, engineering-first vs. business-first, interview style..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skill-Role Fit -->
+    <div class="ip-card">
+      <h2>Skill-Role Fit Mapper</h2>
+      <p>For each key requirement from the job posting, map your specific evidence and proof points.</p>
+      <div id="ip-fit-rows"></div>
+      <button class="ip-btn-secondary ip-btn" onclick="ipAddFitRow()" style="margin-top:12px;">+ Add Row</button>
+    </div>
+
+    <!-- Behavioral Question Bank -->
+    <div class="ip-card">
+      <h2>Behavioral Question Bank</h2>
+      <p>Click any question to see a strategy note. Use these to decide which STAR story you'll pull for each one.</p>
+      <div id="ip-q-bank"></div>
+    </div>
+
+    <!-- Communication Rules -->
+    <div class="ip-card">
+      <h2>Communication Rules</h2>
+      <p>Print this section. Read it the morning of every interview.</p>
+      <div id="ip-rules"></div>
+    </div>
+
+    <!-- Night-Before Checklist -->
+    <div class="ip-card">
+      <h2>Night-Before & Morning-Of</h2>
+      <p>Check these off as you go. Progress saves automatically.</p>
+
+      <h3 style="margin-top:16px;">Night Before</h3>
+      <div id="ip-checklist-night"></div>
+
+      <h3 style="margin-top:20px;">Morning Of</h3>
+      <div id="ip-checklist-morning"></div>
+
+      <h3 style="margin-top:20px;">During Interview</h3>
+      <div id="ip-checklist-during"></div>
+    </div>
+
+    <!-- Questions to Ask -->
+    <div class="ip-card">
+      <h2>Questions to Ask Interviewers</h2>
+      <p>Organized by who you're talking to. Check off the ones you plan to use.</p>
+
+      <div class="ip-section open">
+        <div class="ip-section-header" onclick="ipToggle(this)">
+          <span class="ip-section-title">Hiring Manager</span>
+          <span class="ip-section-arrow">&#9662;</span>
+        </div>
+        <div class="ip-section-body" id="ip-ask-hm"></div>
+      </div>
+
+      <div class="ip-section">
+        <div class="ip-section-header" onclick="ipToggle(this)">
+          <span class="ip-section-title">Technical Lead</span>
+          <span class="ip-section-arrow">&#9662;</span>
+        </div>
+        <div class="ip-section-body" id="ip-ask-tech"></div>
+      </div>
+
+      <div class="ip-section">
+        <div class="ip-section-header" onclick="ipToggle(this)">
+          <span class="ip-section-title">Peers / Other PMs</span>
+          <span class="ip-section-arrow">&#9662;</span>
+        </div>
+        <div class="ip-section-body" id="ip-ask-peer"></div>
+      </div>
+
+      <div class="ip-section">
+        <div class="ip-section-header" onclick="ipToggle(this)">
+          <span class="ip-section-title">HR / Recruiter</span>
+          <span class="ip-section-arrow">&#9662;</span>
+        </div>
+        <div class="ip-section-body" id="ip-ask-hr"></div>
+      </div>
+
+      <div style="margin-top:16px; padding:18px 22px; border-radius:16px; background:rgba(139,94,171,0.04); border:1px solid rgba(139,94,171,0.12);">
+        <p style="font-size:13px; color:var(--text); font-weight:700; margin-bottom:6px;">Re-Sell Technique</p>
+        <p style="font-size:13px; color:var(--text-mid); line-height:1.65; margin:0;">After asking "What makes someone truly exceptional in this role?", LISTEN for the qualities they name. Then immediately connect back: "That resonates. At [Company], I [specific example]." This proves fit in real time.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       PANEL 2: PREP KIT GENERATOR
+       ═══════════════════════════════════════ -->
+  <div class="ip-panel" id="panel-prompts">
+
+    <div class="ip-card">
+      <h2>Generate My Prep Kit</h2>
+      <p>Paste your resume and a job posting below. Pick the sections you want, hit generate, and you'll get a personalized interview prep kit right here, ready to edit, copy, or print.</p>
+
+      <label class="ip-label">Your Resume / Experience</label>
+      <textarea class="ip-textarea" id="ip-resume" style="min-height:160px;" placeholder="Paste your full resume text, or a brain dump of your experience, projects, and achievements..."></textarea>
+
+      <div style="margin-top:16px;">
+        <label class="ip-label">Job Posting</label>
+        <textarea class="ip-textarea" id="ip-jd" style="min-height:160px;" placeholder="Paste the full job description here. Include the company name, role title, responsibilities, and qualifications..."></textarea>
+      </div>
+
+      <div style="margin-top:20px;">
+        <label class="ip-label">What do you want in your kit?</label>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px;" id="ip-gen-options">
+          <label style="display:flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px; border:1px solid var(--border-light); cursor:pointer; font-size:13px; color:var(--text-mid); transition:all 0.2s;">
+            <input type="checkbox" checked data-section="fit" style="accent-color:var(--accent);"> Skill-Role Fit Matrix
+          </label>
+          <label style="display:flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px; border:1px solid var(--border-light); cursor:pointer; font-size:13px; color:var(--text-mid); transition:all 0.2s;">
+            <input type="checkbox" checked data-section="star" style="accent-color:var(--accent);"> STAR Story Frameworks
+          </label>
+          <label style="display:flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px; border:1px solid var(--border-light); cursor:pointer; font-size:13px; color:var(--text-mid); transition:all 0.2s;">
+            <input type="checkbox" checked data-section="scripts" style="accent-color:var(--accent);"> Interview Scripts
+          </label>
+          <label style="display:flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px; border:1px solid var(--border-light); cursor:pointer; font-size:13px; color:var(--text-mid); transition:all 0.2s;">
+            <input type="checkbox" checked data-section="qmap" style="accent-color:var(--accent);"> Question-to-Story Map
+          </label>
+          <label style="display:flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px; border:1px solid var(--border-light); cursor:pointer; font-size:13px; color:var(--text-mid); transition:all 0.2s;">
+            <input type="checkbox" data-section="company" style="accent-color:var(--accent);"> Company Research Brief
+          </label>
+          <label style="display:flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px; border:1px solid var(--border-light); cursor:pointer; font-size:13px; color:var(--text-mid); transition:all 0.2s;">
+            <input type="checkbox" data-section="product" style="accent-color:var(--accent);"> Product Sense Prep
+          </label>
+        </div>
+      </div>
+
+      <div style="margin-top:20px;">
+        <button class="ip-btn" onclick="ipGenerateKit()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Generate Prep Kit
+        </button>
+      </div>
+    </div>
+
+    <!-- Results render here -->
+    <div id="ip-kit-results" class="ip-kit-results"></div>
+  </div>
+
+  <a href="career-prep.html" class="ip-back">&larr; Back to Career Prep</a>
+
+</main>
+
+<script>
+/* ═══ TAB SWITCHING ═══ */
+document.querySelectorAll('.ip-mode-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.ip-mode-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.ip-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-' + btn.dataset.panel).classList.add('active');
+  });
+});
+
+/* ═══ ACCORDION ═══ */
+function ipToggle(header) {
+  header.closest('.ip-section').classList.toggle('open');
+}
+
+/* ═══ SKILL-ROLE FIT ═══ */
+let ipFitCount = 0;
+function ipAddFitRow() {
+  ipFitCount++;
+  const container = document.getElementById('ip-fit-rows');
+  const row = document.createElement('div');
+  row.style.cssText = 'display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:10px;';
+  row.innerHTML = `
+    <input class="ip-input" placeholder="JD Requirement" style="font-size:13px;">
+    <input class="ip-input" placeholder="Your Evidence (tools, methods)" style="font-size:13px;">
+    <input class="ip-input" placeholder="Quantified Proof (numbers)" style="font-size:13px;">
+  `;
+  container.appendChild(row);
+}
+// Start with 5 rows
+for (let i = 0; i < 5; i++) ipAddFitRow();
+
+/* ═══ BEHAVIORAL QUESTIONS ═══ */
+const IP_QUESTIONS = [
+  { q: "Tell me about yourself.", strategy: "Use your 60-second pitch. Open with your unique background, hit 2 achievements with numbers, end with why this role." },
+  { q: "Why this company? Why this role?", strategy: "Three pillars: Timing (why now is exciting), Authenticity (what genuinely compels you), Fit (why it's a mutual win)." },
+  { q: "Tell me about a time you shipped with incomplete information.", strategy: "Use a story where you scoped under ambiguity. Name the framework you used to make decisions (RICE, MoSCoW, etc.)." },
+  { q: "Tell me about a time you used data to make a decision.", strategy: "Pick a story with real metrics. Name specific tools (SQL, Python, Tableau). Show how data changed the direction." },
+  { q: "How do you handle disagreements with teammates?", strategy: "Show empathy + resolution. Don't frame it as 'I was right.' Frame it as 'we found a better answer together.'" },
+  { q: "Tell me about a time you failed.", strategy: "Use the failure script: full scenario, cross-functional impact, specific process change, evidence the fix works." },
+  { q: "What's your biggest weakness?", strategy: "Sandwich: strength proof point, honest weakness with team impact, systematic fix with evidence." },
+  { q: "Tell me about a time you showed leadership.", strategy: "Pick a story where you led without formal authority. Show initiative, decision-making, and outcome." },
+  { q: "How do you prioritize when everything feels urgent?", strategy: "Name your framework (RICE, impact/effort, user research). Give a specific example of cutting scope." },
+  { q: "What product do you admire and why?", strategy: "Pick something you actually use. Analyze it like a PM: user problem, solution, metrics, what you'd improve." },
+  { q: "Where do you see yourself in 5 years?", strategy: "Show ambition aligned with the company's trajectory. Mention building products, growing teams, or deepening expertise." },
+  { q: "What's your biggest strength?", strategy: "Name 1 strength, give 2 proof points from different projects. End with how it applies to this role specifically." },
+  { q: "Tell me about a time you influenced without authority.", strategy: "Show how you used data, user research, or strategic framing to get buy-in from stakeholders." },
+  { q: "Describe a cross-functional collaboration.", strategy: "Name the specific teams, your role, what made the collaboration challenging, and the outcome." },
+  { q: "Why should we hire you?", strategy: "Three-point: analytical foundation + execution track record + unique differentiator. Each with proof." },
+];
+
+const qBank = document.getElementById('ip-q-bank');
+IP_QUESTIONS.forEach(item => {
+  const div = document.createElement('div');
+  div.className = 'ip-q-item';
+  div.innerHTML = `<div class="ip-q-text">${item.q}</div><div class="ip-q-strategy">${item.strategy}</div>`;
+  div.addEventListener('click', () => div.classList.toggle('open'));
+  qBank.appendChild(div);
+});
+
+/* ═══ COMMUNICATION RULES ═══ */
+const IP_RULES = [
+  ["Lead with the headline:", "Start every answer with a 1-sentence result. Then tell the story."],
+  ["60-second rule:", "If you're past 60 seconds, wrap to the result. No answer over 90 seconds."],
+  ["Drop buzzwords naturally:", "\"Built a KPI dashboard using Python and SQL\" not \"analyzed the data.\""],
+  ["Always show cross-functional:", "Every answer mentions at least one other team you worked with."],
+  ["Tell the story WITH your resume:", "Your spoken answers should map to your resume so the interviewer can follow along."],
+  ["Focus on YOU:", "Don't narrate what the team did. Narrate what YOU specifically did that was different."],
+  ["End with a number:", "The last thing you say should be your most impressive metric."],
+  ["Be concise and memorable:", "Answer so they can remember what you said without writing it down."],
+  ["Pause before answering:", "2-3 seconds signals thoughtfulness, not hesitation."],
+  ["Check in after long answers:", "\"Would you like me to go deeper on any part of that?\""],
+];
+
+const rulesDiv = document.getElementById('ip-rules');
+IP_RULES.forEach(([title, desc], i) => {
+  rulesDiv.innerHTML += `<div class="ip-rule"><span class="ip-rule-num">${i+1}</span><span class="ip-rule-text"><strong>${title}</strong> ${desc}</span></div>`;
+});
+
+/* ═══ CHECKLISTS ═══ */
+function ipRenderChecklist(containerId, items, storageKey) {
+  const container = document.getElementById(containerId);
+  let checked = {};
+  try { checked = JSON.parse(localStorage.getItem(storageKey) || '{}'); } catch(e) {}
+
+  container.innerHTML = '';
+  items.forEach((text, i) => {
+    const isDone = checked[i];
+    const div = document.createElement('div');
+    div.className = 'ip-check-item' + (isDone ? ' done' : '');
+    div.innerHTML = `<span class="ip-check${isDone ? ' checked' : ''}"></span><span class="ip-check-text">${text}</span>`;
+    div.querySelector('.ip-check').addEventListener('click', () => {
+      checked[i] = !checked[i];
+      try { localStorage.setItem(storageKey, JSON.stringify(checked)); } catch(e) {}
+      ipRenderChecklist(containerId, items, storageKey);
+    });
+    container.appendChild(div);
+  });
+}
+
+ipRenderChecklist('ip-checklist-night', [
+  "Re-read your top 3 STAR stories",
+  "Practice 60-second pitch out loud 3 times",
+  "Re-read weakness and failure scripts",
+  "Review questions for each interviewer type",
+  "Write 3 key company facts in a notebook",
+  "Charge laptop/phone, test camera/mic if virtual",
+  "Decide on outfit (or clean video background)",
+  "Get 7+ hours of sleep",
+], 'ip-check-night');
+
+ipRenderChecklist('ip-checklist-morning', [
+  "Re-read the 10 Communication Rules above",
+  "Practice pitch once more, standing up",
+  "Review Skill-Role Fit Matrix (memorize top 5 proof points)",
+  "Eat a real meal and drink water",
+  "Have notebook open with questions written down",
+], 'ip-check-morning');
+
+ipRenderChecklist('ip-checklist-during', [
+  "Pause 2-3 seconds before answering",
+  "Lead with the headline, then tell the story",
+  "Use \"I\" not \"we\"",
+  "End answers with your strongest metric",
+  "Check in after long answers",
+  "Deploy Re-Sell Technique when they describe ideal candidate",
+], 'ip-check-during');
+
+/* ═══ QUESTIONS TO ASK ═══ */
+function ipRenderAskQuestions(containerId, questions) {
+  const container = document.getElementById(containerId);
+  let checked = {};
+  try { checked = JSON.parse(localStorage.getItem('ip-ask-' + containerId) || '{}'); } catch(e) {}
+  container.innerHTML = '';
+  questions.forEach((q, i) => {
+    const div = document.createElement('div');
+    div.className = 'ip-check-item' + (checked[i] ? ' done' : '');
+    div.innerHTML = `<span class="ip-check${checked[i] ? ' checked' : ''}"></span><span class="ip-check-text">${q}</span>`;
+    div.querySelector('.ip-check').addEventListener('click', () => {
+      checked[i] = !checked[i];
+      try { localStorage.setItem('ip-ask-' + containerId, JSON.stringify(checked)); } catch(e) {}
+      ipRenderAskQuestions(containerId, questions);
+    });
+    container.appendChild(div);
+  });
+}
+
+ipRenderAskQuestions('ip-ask-hm', [
+  "What does success look like for this role at the 3-month and 12-month mark?",
+  "What's the biggest product challenge the team is facing right now?",
+  "How does the team make prioritization decisions when stakeholders disagree?",
+]);
+ipRenderAskQuestions('ip-ask-tech', [
+  "What does the data infrastructure look like? How do PMs access data today?",
+  "How tightly do PMs and engineers collaborate on scoping?",
+  "What's the biggest technical constraint shaping product decisions right now?",
+]);
+ipRenderAskQuestions('ip-ask-peer', [
+  "What's something you wish you'd known before joining?",
+  "How much autonomy do PMs have over their roadmap here?",
+  "What's a recent product decision the team debated heavily?",
+]);
+ipRenderAskQuestions('ip-ask-hr', [
+  "What does the interview process look like from here?",
+  "How would you describe the team culture in three words?",
+  "What qualities would make someone truly exceptional in this role?",
+]);
+
+/* ═══════════════════════════════════════════════
+   PREP KIT GENERATOR — PARSER + CONTENT ENGINE
+   ═══════════════════════════════════════════════ */
+
+/* ─── TEXT PARSERS ─── */
+function ipParseJD(text) {
+  const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+  const jd = { company: '', role: '', requirements: [], responsibilities: [], skills: [], rawLines: lines };
+
+  // Try to find company name (look for common patterns)
+  const companyPatterns = [
+    /(?:^|\bat\s+)([A-Z][A-Za-z0-9\s&.'-]{1,40}?)(?:\s+is\s+|\s+seeks|\s*-)/,
+    /(?:company|organization|about)\s*:?\s*([A-Z][A-Za-z0-9\s&.'-]{1,40})/i,
+    /^([A-Z][A-Za-z0-9\s&.'-]{1,30})$/m,
+  ];
+  for (const p of companyPatterns) {
+    const m = text.match(p);
+    if (m) { jd.company = m[1].trim().replace(/\s+/g, ' '); break; }
+  }
+
+  // Try to find role title
+  const rolePatterns = [
+    /(?:job\s*title|position|role)\s*:?\s*(.+)/i,
+    /((?:Senior|Staff|Lead|Principal|Junior|Associate|Director|VP|Head)\s+(?:of\s+)?(?:Product|Software|Data|Design|Engineering|Marketing|Analytics|Growth|Program|Project|Technical|UX|UI|Research|Business|Operations|Content|Sales|Customer|HR|Finance|Machine\s+Learning|AI|Full[- ]?Stack|Front[- ]?End|Back[- ]?End)[A-Za-z\s,/&-]{0,40})/i,
+    /(Product Manager|Software Engineer|Data (?:Scientist|Analyst|Engineer)|UX (?:Designer|Researcher)|Program Manager|Project Manager|Business Analyst|Growth Manager|Marketing Manager)[A-Za-z\s,/&-]{0,30}/i,
+  ];
+  for (const p of rolePatterns) {
+    const m = text.match(p);
+    if (m) { jd.role = m[1].trim().replace(/\s{2,}/g, ' '); break; }
+  }
+
+  // Extract bullet-style requirements and responsibilities
+  const reqSection = /(?:qualifications?|requirements?|what (?:you|we)(?:'re| are) looking|must[- ]?have|minimum|who you are|your background|what you bring)/i;
+  const respSection = /(?:responsibilities?|what you(?:'ll| will) do|the role|about the (?:role|job)|in this role|day[- ]?to[- ]?day|you will)/i;
+  const skillPatterns = /\b(SQL|Python|R|Tableau|Looker|Figma|Jira|Amplitude|Mixpanel|Segment|dbt|Snowflake|BigQuery|Redshift|AWS|GCP|Azure|Spark|Airflow|Kafka|Docker|Kubernetes|A\/B test(?:ing)?|Experimentation|Machine Learning|TensorFlow|PyTorch|React|Node\.?js|TypeScript|JavaScript|Java|Go|Rust|C\+\+|Swift|Kotlin|HTML|CSS|Git|Agile|Scrum|Kanban|RICE|OKR|PRD|API|REST|GraphQL|CI\/CD|ETL|NLP|GenAI|LLM|SaaS|B2B|B2C|SQL Server|PostgreSQL|MySQL|MongoDB|Redis|Elasticsearch)\b/gi;
+
+  let mode = 'general';
+  for (const line of lines) {
+    if (reqSection.test(line)) { mode = 'req'; continue; }
+    if (respSection.test(line)) { mode = 'resp'; continue; }
+    const clean = line.replace(/^[•‣◦⁃∙*\-\d.)\]]+\s*/, '').trim();
+    if (!clean || clean.length < 10) continue;
+    if (mode === 'req') jd.requirements.push(clean);
+    else if (mode === 'resp') jd.responsibilities.push(clean);
+  }
+
+  // If we didn't find structured sections, grab any bullet lines
+  if (jd.requirements.length === 0 && jd.responsibilities.length === 0) {
+    for (const line of lines) {
+      const clean = line.replace(/^[•‣◦⁃∙*\-\d.)\]]+\s*/, '').trim();
+      if (clean.length > 15 && /^[•‣◦⁃∙*\-]/.test(line.trim())) {
+        if (/experience|proficien|knowledge|ability|skill|degree|year/i.test(clean)) jd.requirements.push(clean);
+        else jd.responsibilities.push(clean);
+      }
+    }
+  }
+
+  // Extract skills mentioned
+  const skillSet = new Set();
+  let sm;
+  const tempText = text;
+  const sre = new RegExp(skillPatterns.source, 'gi');
+  while ((sm = sre.exec(tempText)) !== null) skillSet.add(sm[0]);
+  jd.skills = [...skillSet];
+
+  return jd;
+}
+
+function ipParseResume(text) {
+  const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+  const res = { roles: [], bullets: [], skills: [], metrics: [], rawLines: lines };
+
+  // Extract role/company lines (patterns like "Company — Role" or "Role at Company" or "Role | Company")
+  const roleLinePattern = /^(.+?)(?:\s*[—–\-|@]\s*|\s+at\s+)(.+?)(?:\s*[—–\-|]\s*|\s*[,(]\s*)(.+)?$/;
+  const datePattern = /(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|January|February|March|April|May|June|July|August|September|October|November|December)[\s.]*\d{2,4}\s*(?:[–\-—to]+\s*(?:Present|Current|Now|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|January|February|March|April|May|June|July|August|September|October|November|December)[\s.]*\d{2,4}))?|\d{4}\s*[–\-—]\s*(?:Present|\d{4})/i;
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (datePattern.test(line) || roleLinePattern.test(line)) {
+      // Try to extract role info
+      const match = line.match(roleLinePattern);
+      if (match) {
+        res.roles.push({ title: match[1].trim(), company: match[2].trim(), raw: line });
+      } else if (line.length < 80) {
+        res.roles.push({ title: line.replace(datePattern, '').trim(), company: '', raw: line });
+      }
+    }
+    // Bullet points (experience items)
+    const clean = line.replace(/^[•‣◦⁃∙*\-\d.)\]]+\s*/, '');
+    if (clean !== line && clean.length > 15) {
+      res.bullets.push(clean);
+    }
+  }
+
+  // Extract metrics (numbers with context)
+  const metricPattern = /(\d[\d,.]*[%xX]?)\s*([\w\s]{2,30})/g;
+  let mm;
+  while ((mm = metricPattern.exec(text)) !== null) {
+    const val = mm[1]; const ctx = mm[2].trim();
+    if (val.length > 0 && !/^\d{4}$/.test(val)) { // skip years
+      res.metrics.push(val + ' ' + ctx);
+    }
+  }
+
+  // Extract skills
+  const skillPatterns = /\b(SQL|Python|R\b|Tableau|Looker|Figma|Jira|Amplitude|Mixpanel|Segment|dbt|Snowflake|BigQuery|Redshift|AWS|GCP|Azure|Spark|Airflow|Kafka|Docker|Kubernetes|A\/B test(?:ing)?|Machine Learning|TensorFlow|PyTorch|React|Node\.?js|TypeScript|JavaScript|Java|Go|Rust|HTML|CSS|Git|Agile|Scrum|RICE|PRD|API|REST|GraphQL|CI\/CD|ETL|NLP|SaaS|PostgreSQL|MySQL|MongoDB|Redis|Excel|Power BI|Google Analytics|Hotjar|Product Analytics|User Research|Wireframing|Prototyping|Stakeholder Management|Cross-functional|Roadmap|Sprint Planning|Experimentation)\b/gi;
+  const sSet = new Set();
+  let ms;
+  while ((ms = skillPatterns.exec(text)) !== null) sSet.add(ms[0]);
+  res.skills = [...sSet];
+
+  return res;
+}
+
+/* ─── HELPER: find best matching bullets for a set of keywords ─── */
+function ipFindBullets(bullets, keywords, count) {
+  const scored = bullets.map(b => {
+    const bLow = b.toLowerCase();
+    const score = keywords.filter(k => bLow.includes(k)).length;
+    return { text: b, score };
+  }).filter(x => x.score > 0).sort((a,b) => b.score - a.score);
+  return scored.slice(0, count || 3).map(x => x.text);
+}
+
+/* ─── HELPER: extract a metric from a bullet ─── */
+function ipExtractMetric(bullet) {
+  const m = bullet.match(/(\d[\d,.]*\s*[%xX]|\$\d[\d,.]*[KkMmBb]?|\d[\d,.]*\s*(?:users|customers|sessions|downloads|hours|days|points|basis|percent|pp|leads|revenue|ARR|MRR|NPS))/i);
+  return m ? m[0] : null;
+}
+
+/* ─── HELPER: find role context for a bullet ─── */
+function ipGuessRoleForBullet(bullet, roles) {
+  const bLow = bullet.toLowerCase();
+  for (const r of roles) {
+    if (r.company && bLow.includes(r.company.toLowerCase())) return r;
+    if (r.title && bLow.includes(r.title.toLowerCase())) return r;
+  }
+  return roles.length > 0 ? roles[0] : { title: 'my role', company: 'the company' };
+}
+
+/* ─── HELPER: esc HTML in textarea content ─── */
+function ipEsc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+/* ─── CONTENT GENERATORS ─── */
+function ipGenFitMatrix(resume, jd) {
+  const rows = [];
+  const resumeText = resume.rawLines.join(' ').toLowerCase();
+
+  const reqs = jd.requirements.length > 0 ? jd.requirements : jd.responsibilities.slice(0, 8);
+  for (const req of reqs.slice(0, 10)) {
+    const reqLower = req.toLowerCase();
+    const matchedSkills = resume.skills.filter(s => reqLower.includes(s.toLowerCase()));
+    // broader match: check resume text for req keywords
+    const reqWords = reqLower.split(/\s+/).filter(w => w.length > 4);
+    const matchedBullets = resume.bullets.filter(b => {
+      const bLow = b.toLowerCase();
+      return reqWords.filter(w => bLow.includes(w)).length >= 2 || matchedSkills.some(s => bLow.toLowerCase().includes(s.toLowerCase()));
+    });
+    const allMatchedSkills = matchedSkills.length > 0 ? matchedSkills :
+      resume.skills.filter(s => resumeText.includes(s.toLowerCase()) && reqWords.some(w => resumeText.indexOf(w) !== -1)).slice(0,2);
+    const hasEvidence = allMatchedSkills.length > 0 || matchedBullets.length > 0;
+
+    let evidenceText = '';
+    if (matchedBullets.length > 0) {
+      evidenceText = matchedBullets[0];
+      const metric = ipExtractMetric(matchedBullets[0]);
+      if (allMatchedSkills.length > 0) evidenceText += ' [Skills: ' + allMatchedSkills.slice(0,3).join(', ') + ']';
+    } else if (allMatchedSkills.length > 0) {
+      evidenceText = 'Relevant skills: ' + allMatchedSkills.join(', ') + '. Check your experience for a specific project to cite here.';
+    } else {
+      evidenceText = 'GAP: No direct match found. Prepare a bridging statement: "While I haven\'t done exactly this, my experience with [closest thing] gave me transferable skills in [relevant area]."';
+    }
+
+    rows.push({ requirement: req, status: hasEvidence ? 'match' : 'gap', evidence: evidenceText });
+  }
+
+  let html = '<div class="ip-kit-section"><div class="ip-kit-section-head"><h3>Skill-Role Fit Matrix</h3><button class="ip-kit-copy" onclick="ipCopySection(this)">Copy</button></div>';
+  html += '<table class="ip-kit-table"><thead><tr><th>JD Requirement</th><th>Your Evidence</th><th>Status</th></tr></thead><tbody>';
+  for (const r of rows) {
+    const tag = r.status === 'match'
+      ? '<span class="ip-kit-tag ip-kit-tag-match">Match</span>'
+      : '<span class="ip-kit-tag ip-kit-tag-gap">Gap</span>';
+    html += `<tr><td style="font-weight:600;color:var(--text);max-width:240px;">${r.requirement}</td><td><textarea class="ip-kit-editable" rows="2">${ipEsc(r.evidence)}</textarea></td><td>${tag}</td></tr>`;
+  }
+  html += '</tbody></table></div>';
+  return html;
+}
+
+function ipGenSTAR(resume, jd) {
+  const categories = [
+    { name: 'Ambiguity / Incomplete Info', keywords: ['ambig', 'unclear', 'undefined', 'scrappy', 'zero to', 'from scratch', 'no existing', 'new product', 'built', 'launched', 'created', 'first'], questions: ['Shipping with incomplete info', 'Handling uncertainty'] },
+    { name: 'Data-Driven Decision', keywords: ['data', 'analytic', 'metric', 'a/b test', 'experiment', 'sql', 'python', 'dashboard', 'insight', 'conversion', 'funnel', 'kpi', 'increase', 'decrease', 'improv'], questions: ['Using data to decide', 'Measuring success'] },
+    { name: 'Cross-Functional Collaboration', keywords: ['cross-functional', 'collaborate', 'stakeholder', 'engineering', 'design', 'partner', 'team', 'work with', 'aligned', 'coordinated'], questions: ['Cross-functional project', 'Working with engineers/designers'] },
+    { name: 'Leadership / Influence', keywords: ['led', 'lead', 'managed', 'drove', 'spearhead', 'initiative', 'mentor', 'strategy', 'owned', 'championed', 'proposed', 'convinced'], questions: ['Showing leadership', 'Influencing without authority'] },
+    { name: 'Problem Solving', keywords: ['problem', 'solve', 'improve', 'optimiz', 'reduc', 'automat', 'efficien', 'debug', 'fix', 'bottleneck', 'root cause', 'streamlin'], questions: ['Solving a hard problem', 'Prioritizing under pressure'] },
+    { name: 'Failure / Learning', keywords: ['fail', 'mistake', 'learn', 'pivot', 'challenge', 'difficult', 'setback', 'missed', 'wrong', 'struggled'], questions: ['A time you failed', 'What you would do differently'] },
+    { name: 'User Focus', keywords: ['user', 'customer', 'research', 'interview', 'survey', 'usability', 'feedback', 'persona', 'nps', 'satisfaction', 'churn', 'retention'], questions: ['Advocating for users', 'Research that changed a decision'] },
+  ];
+
+  // Track used bullets so we don't repeat
+  const usedBullets = new Set();
+
+  let html = '<div class="ip-kit-section"><div class="ip-kit-section-head"><h3>STAR Stories</h3><button class="ip-kit-copy" onclick="ipCopySection(this)">Copy</button></div>';
+  html += '<p style="font-size:13px;color:var(--text-mid);margin-bottom:16px;line-height:1.6;">Each story is pre-assembled from your resume. Edit to add detail, sharpen language, and make it natural to speak aloud. Target 60-90 seconds per story.</p>';
+
+  categories.forEach((cat, ci) => {
+    // Find best bullets for this category, avoiding reuse
+    const available = resume.bullets.filter(b => !usedBullets.has(b));
+    const scored = available.map(b => {
+      const bLow = b.toLowerCase();
+      return { text: b, score: cat.keywords.filter(k => bLow.includes(k)).length };
+    }).sort((a,b) => b.score - a.score);
+
+    const best = scored[0] && scored[0].score > 0 ? scored[0].text : '';
+    const support = scored[1] && scored[1].score > 0 ? scored[1].text : '';
+    if (best) usedBullets.add(best);
+    if (support) usedBullets.add(support);
+
+    const role = best ? ipGuessRoleForBullet(best, resume.roles) : (resume.roles[0] || { title: 'my role', company: 'my company' });
+    const metric = best ? ipExtractMetric(best) : null;
+    const roleName = jd.role || 'this role';
+    const companyName = jd.company || 'this company';
+
+    // Build pre-filled STAR content
+    let situation = '', task = '', action = '', result = '', connection = '';
+
+    if (best) {
+      situation = `At ${role.company || '[company]'}, as ${role.title || '[role]'}, ${best.length > 120 ? best.substring(0, best.indexOf(',') > 30 ? best.indexOf(',') : 80) + '...' : best}`;
+      task = `I was responsible for ${cat.name.toLowerCase().includes('data') ? 'analyzing data and driving a decision' : cat.name.toLowerCase().includes('cross') ? 'coordinating across multiple teams to deliver' : cat.name.toLowerCase().includes('leader') ? 'taking ownership and driving the initiative forward' : cat.name.toLowerCase().includes('problem') ? 'diagnosing the root cause and implementing a fix' : cat.name.toLowerCase().includes('user') ? 'understanding user needs and translating them into product decisions' : cat.name.toLowerCase().includes('fail') ? 'delivering on a project that ultimately hit significant obstacles' : 'figuring out the path forward with limited information and resources'}.${support ? ' Context: ' + support : ''}`;
+      action = `I ${best.toLowerCase().startsWith('i ') ? best.substring(2) : best}`;
+      result = metric ? `The result: ${metric}. ${support && ipExtractMetric(support) ? 'Additionally, ' + ipExtractMetric(support) + '.' : ''}` : `[Add your strongest metric here: %, $, time saved, users impacted]`;
+      connection = `This maps directly to ${roleName} at ${companyName} because ${jd.requirements.length > 0 ? 'the role requires ' + jd.requirements[Math.min(ci, jd.requirements.length-1)].substring(0, 60).toLowerCase() : 'it demonstrates ' + cat.name.toLowerCase()}.`;
+    } else {
+      situation = `[Pick a project from your experience that demonstrates ${cat.name.toLowerCase()}. Set the scene: company, team, context.]`;
+      task = `[What were you specifically responsible for? What was the goal or challenge?]`;
+      action = `[What did YOU do? Name specific tools, methods, people you worked with. Use "I" not "we".]`;
+      result = `[What was the outcome? End with your strongest number.]`;
+      connection = `This connects to ${roleName} at ${companyName} because it shows ${cat.name.toLowerCase()}.`;
+    }
+
+    html += `<div class="ip-kit-story">
+      <div class="ip-kit-story-title">Story ${ci+1}: ${cat.name}</div>
+      <div class="ip-kit-story-meta">Best for: ${cat.questions.join(' / ')}</div>
+      <label>Situation</label>
+      <textarea class="ip-kit-editable" rows="2">${ipEsc(situation)}</textarea>
+      <label>Task</label>
+      <textarea class="ip-kit-editable" rows="2">${ipEsc(task)}</textarea>
+      <label>Action</label>
+      <textarea class="ip-kit-editable" rows="3">${ipEsc(action)}</textarea>
+      <label>Result</label>
+      <textarea class="ip-kit-editable" rows="2">${ipEsc(result)}</textarea>
+      <label>Connection to ${roleName}</label>
+      <textarea class="ip-kit-editable" rows="1">${ipEsc(connection)}</textarea>
+    </div>`;
+  });
+
+  html += '</div>';
+  return html;
+}
+
+function ipGenScripts(resume, jd) {
+  const co = jd.company || '[Company]';
+  const ro = jd.role || '[Role Title]';
+  const sk = resume.skills;
+  const mt = resume.metrics;
+  const r0 = resume.roles[0] || {};
+  const r1 = resume.roles[1] || {};
+  const analyticSkills = sk.filter(s => /sql|python|data|analytic|tableau|looker|bigquery|snowflake|excel|power bi/i.test(s));
+  const techSkills = sk.filter(s => !/sql|python|data|analytic|tableau|looker|bigquery|snowflake|excel|power bi/i.test(s));
+  const topBullets = resume.bullets.slice(0, 5);
+
+  let html = '<div class="ip-kit-section"><div class="ip-kit-section-head"><h3>Interview Scripts</h3><button class="ip-kit-copy" onclick="ipCopySection(this)">Copy</button></div>';
+
+  // 60-Second Pitch
+  const pitchText = [
+    `I'm ${r0.title || '[your title]'}${r0.company ? ' at ' + r0.company : ''}, where I focus on ${sk.slice(0,2).join(' and ') || '[your key skills]'}.`,
+    ``,
+    r1.title ? `Before that, I was ${r1.title}${r1.company ? ' at ' + r1.company : ''}, which is where I built my foundation in ${sk.slice(2,4).join(' and ') || '[foundational skills]'}.` : `Before this, I [describe your background/origin and what makes your path unique].`,
+    ``,
+    `Two things I'm most proud of: ${mt[0] || '[achievement #1 with a number]'}, and ${mt[1] || '[achievement #2 with a number]'}.`,
+    ``,
+    `I'm excited about ${co} because [1 specific reason tied to their product, mission, or recent news], and the ${ro} role is the right next step because it lets me combine ${sk.slice(0,2).join(' and ') || '[your skills]'} with ${jd.responsibilities.length > 0 ? jd.responsibilities[0].substring(0, 60).toLowerCase() : '[a key responsibility from the JD]'}.`,
+  ].join('\n');
+
+  html += `<div class="ip-kit-script">
+    <div class="ip-kit-script-title">60-Second Pitch</div>
+    <div class="ip-kit-script-time">Target: 50-65 seconds spoken (~130-160 words)</div>
+    <textarea class="ip-kit-editable" rows="8">${ipEsc(pitchText)}</textarea>
+  </div>`;
+
+  // Why This Company
+  const whyCoText = [
+    `TIMING: ${co} is at an interesting moment right now because [research their recent product launch, funding round, market expansion, or strategic shift].`,
+    ``,
+    `AUTHENTICITY: What genuinely draws me in is [name something specific about their product you've used, their mission, or a problem they're solving that you care about personally].`,
+    ``,
+    `FIT: My background in ${sk.slice(0,3).join(', ') || '[your skills]'} maps directly to what this role needs. Specifically, ${jd.requirements.length > 0 ? 'you\'re looking for someone who can ' + jd.requirements[0].substring(0, 80).toLowerCase() + ', and I\'ve done exactly that' : 'the JD calls for [requirement], and I\'ve done exactly that'}: ${topBullets[0] || '[your strongest proof point]'}.`,
+  ].join('\n');
+
+  html += `<div class="ip-kit-script">
+    <div class="ip-kit-script-title">Why ${co}? Why This Role?</div>
+    <div class="ip-kit-script-time">Three pillars: Timing + Authenticity + Fit</div>
+    <textarea class="ip-kit-editable" rows="7">${ipEsc(whyCoText)}</textarea>
+  </div>`;
+
+  // Why Hire You
+  const whyHireText = [
+    `First, I bring analytical depth: ${analyticSkills.slice(0,3).join(', ') || '[your analytical skills]'}. For example, ${mt[0] || '[metric from a data-driven project]'}.`,
+    ``,
+    `Second, I ship. ${topBullets[0] ? topBullets[0] : '[your strongest execution proof point with a number]'}.`,
+    ``,
+    `What makes me different from other candidates: ${r1.title ? 'I\'ve worked across ' + r0.title + ' and ' + r1.title + ' roles, which means I' : 'my unique combination of [skill A] and [skill B] means I'} can ${jd.responsibilities.length > 1 ? jd.responsibilities[1].substring(0,60).toLowerCase() : '[key JD responsibility]'} in a way that most people in this role can't.`,
+  ].join('\n');
+
+  html += `<div class="ip-kit-script">
+    <div class="ip-kit-script-title">Why Should We Hire You?</div>
+    <div class="ip-kit-script-time">Three-point: Analytical + Execution + Differentiator</div>
+    <textarea class="ip-kit-editable" rows="7">${ipEsc(whyHireText)}</textarea>
+  </div>`;
+
+  // Weakness
+  const weakBullet = topBullets.find(b => /detail|thorough|deep|comprehensive|research|analyz/i.test(b.toLowerCase())) || topBullets[0] || '';
+  const weakText = [
+    `STRENGTH OPENER: One of my strengths is ${weakBullet ? 'thoroughness -- for example, ' + weakBullet.substring(0, 100) : '[name a real strength with a brief proof point]'}.`,
+    ``,
+    `WEAKNESS: The flip side is that I sometimes ${weakBullet ? 'spend too long perfecting an analysis or deliverable when a faster, rougher version would have been enough. There was a time at ' + (r0.company || '[company]') + ' when I spent [X days/hours] building out a comprehensive [deliverable] when my team just needed directional data to move forward.' : '[describe a real weakness that stems from your strength, with a specific scenario]'}.`,
+    ``,
+    `FIX: I've built a system for this: before starting any analysis, I now ask "what decision does this inform and by when?" and I timebox accordingly. Since adopting this, ${mt.length > 0 ? 'I\'ve maintained quality while shipping faster -- ' + (mt[mt.length-1] || '') : 'I\'ve cut my average turnaround time significantly while maintaining quality'}.`,
+  ].join('\n');
+
+  html += `<div class="ip-kit-script">
+    <div class="ip-kit-script-title">Weakness Answer</div>
+    <div class="ip-kit-script-time">Sandwich: Strength proof, honest weakness, systematic fix (40-50 sec)</div>
+    <textarea class="ip-kit-editable" rows="7">${ipEsc(weakText)}</textarea>
+  </div>`;
+
+  // Failure
+  const failText = [
+    `SCENARIO: At ${r0.company || '[company]'}, I was ${r0.title || '[role]'} working on [name the project]. The goal was [what you were trying to achieve].`,
+    ``,
+    `WHAT WENT WRONG: I [specific mistake -- e.g., underestimated the scope, didn't align stakeholders early enough, skipped user validation, made an assumption about the data]. This meant [concrete impact: delayed launch by X weeks, team had to redo Y, missed the target by Z%].`,
+    ``,
+    `ROOT CAUSE: The core issue was [scope creep / poor communication / untested assumption / moving too fast without validation]. I owned it with my team and ${r0.company ? 'my manager at ' + r0.company : 'my manager'}.`,
+    ``,
+    `WHAT I CHANGED: I built [specific process: e.g., a pre-launch checklist, weekly stakeholder syncs, a validation gate before engineering handoff]. The next time a similar situation came up, [evidence it worked, ideally with a metric].`,
+  ].join('\n');
+
+  html += `<div class="ip-kit-script">
+    <div class="ip-kit-script-title">Failure Story</div>
+    <div class="ip-kit-script-time">Target: 60-75 seconds. Own it, show growth.</div>
+    <textarea class="ip-kit-editable" rows="8">${ipEsc(failText)}</textarea>
+  </div>`;
+
+  html += '</div>';
+  return html;
+}
+
+function ipGenQuestionMap(resume, jd) {
+  // Build story titles from actual resume content
+  const catNames = ['Ambiguity', 'Data-Driven', 'Cross-Functional', 'Leadership', 'Problem Solving', 'Failure/Learning', 'User Focus'];
+  const storyLabels = catNames.map((c, i) => 'Story ' + (i+1) + ': ' + c);
+
+  // For the question map, also include a short hint from the actual story
+  const topBullet = resume.bullets[0] || '';
+  const map = [
+    { q: 'Tell me about yourself.', answer: '60-Second Pitch script', hint: '' },
+    { q: 'Why this company? Why this role?', answer: 'Why ' + (jd.company || 'Company') + ' script', hint: '' },
+    { q: 'Shipping with incomplete information?', answer: storyLabels[0], hint: '' },
+    { q: 'Using data to make a decision?', answer: storyLabels[1], hint: '' },
+    { q: 'A cross-functional collaboration?', answer: storyLabels[2], hint: '' },
+    { q: 'A time you showed leadership?', answer: storyLabels[3], hint: '' },
+    { q: 'Influencing without authority?', answer: storyLabels[3] + ' (alt angle)', hint: '' },
+    { q: 'Prioritizing when everything is urgent?', answer: storyLabels[4], hint: '' },
+    { q: 'A time you failed?', answer: storyLabels[5] + ' + Failure script', hint: '' },
+    { q: 'Your biggest weakness?', answer: 'Weakness script', hint: '' },
+    { q: 'Why should we hire you?', answer: 'Why Hire You script', hint: '' },
+    { q: 'Your biggest strength?', answer: storyLabels[1] + ' or ' + storyLabels[4], hint: 'Pick whichever has the stronger metric' },
+    { q: 'Handling disagreement with a teammate?', answer: storyLabels[2] + ' (reframe as conflict)', hint: '' },
+    { q: 'How do you advocate for users?', answer: storyLabels[6], hint: '' },
+    { q: 'Where do you see yourself in 5 years?', answer: 'Growing into a senior ' + (jd.role || 'IC/leadership') + ' track at ' + (jd.company || 'a company') + ', owning larger product areas and mentoring junior PMs.', hint: '' },
+  ];
+
+  let html = '<div class="ip-kit-section"><div class="ip-kit-section-head"><h3>Question-to-Story Map</h3><button class="ip-kit-copy" onclick="ipCopySection(this)">Copy</button></div>';
+  html += '<p style="font-size:13px;color:var(--text-mid);margin-bottom:12px;line-height:1.6;">Quick-reference cheat sheet: for each likely question, which story or script to pull.</p>';
+  html += '<table class="ip-kit-table"><thead><tr><th>Likely Question</th><th>Your Answer Source</th></tr></thead><tbody>';
+  for (const item of map) {
+    html += `<tr><td style="font-weight:600;color:var(--text);">${item.q}</td><td>${item.answer}${item.hint ? '<br><span style="font-size:11px;color:var(--text-light);">' + item.hint + '</span>' : ''}</td></tr>`;
+  }
+  html += '</tbody></table></div>';
+  return html;
+}
+
+function ipGenCompanyBrief(resume, jd) {
+  const co = jd.company || '[Company Name]';
+  const jdText = jd.rawLines.join(' ');
+
+  // Try to extract company info from JD itself
+  const aboutMatch = jdText.match(/(?:about\s+(?:us|the company|[\w\s]+)|who\s+we\s+are|company\s+description)[:\s]*([^.]+\.[^.]+\.)/i);
+  const aboutText = aboutMatch ? aboutMatch[1].trim() : '';
+
+  // Industry detection from JD
+  const industryKeywords = { 'fintech': /fintech|payment|banking|financial/i, 'healthtech': /health|medical|clinical|patient/i, 'edtech': /education|learning|student|school/i, 'ecommerce': /ecommerce|e-commerce|retail|shop/i, 'saas': /saas|software as a service|b2b|enterprise/i, 'adtech': /advertis|ad tech|programmatic/i, 'social': /social media|content|creator/i, 'ai/ml': /artificial intelligence|machine learning|ai|ml|nlp|llm/i, 'cybersecurity': /security|cyber|threat|compliance/i, 'media': /media|entertainment|stream|broadcast|news/i };
+  let detectedIndustry = '';
+  for (const [ind, re] of Object.entries(industryKeywords)) {
+    if (re.test(jdText)) { detectedIndustry = ind; break; }
+  }
+
+  // Products mentioned
+  const products = jd.responsibilities.slice(0,3).map(r => {
+    const m = r.match(/(?:our|the)\s+(\w[\w\s]{2,20}?)(?:\s+(?:product|platform|tool|app|service|feature|suite))/i);
+    return m ? m[1].trim() : null;
+  }).filter(Boolean);
+
+  let html = '<div class="ip-kit-section"><div class="ip-kit-section-head"><h3>Company Research Brief</h3><button class="ip-kit-copy" onclick="ipCopySection(this)">Copy</button></div>';
+  html += `<p style="font-size:13px;color:var(--text-mid);margin-bottom:16px;line-height:1.6;">Pre-filled with everything extractable from the JD. Research the rest before your interview -- the more specific your company references, the stronger every answer lands.</p>`;
+
+  const fields = [
+    { label: 'Company', val: co },
+    { label: 'Industry', val: detectedIndustry || '[Research: check their website, Crunchbase, LinkedIn]' },
+    { label: 'What They Do', val: aboutText || '[Research: 1-2 sentences on their core product/service, who their customers are, and their business model. Check: ' + co + '.com/about]' },
+    { label: 'Key Products / Services', val: products.length > 0 ? products.join(', ') + ' [verify and add more from their website]' : '[Research: list their main products. Which one is this role closest to? Check: ' + co + '.com, their product page, app store listings]' },
+    { label: 'Tech Stack', val: jd.skills.length > 0 ? 'From JD: ' + jd.skills.join(', ') + '. [Research their engineering blog, StackShare, GitHub for more]' : '[Research: check their engineering blog, job postings, StackShare, BuiltWith]' },
+    { label: 'Recent News (last 3-6 months)', val: '[Research: Google News "' + co + '", their blog, TechCrunch, LinkedIn. Look for: product launches, funding, partnerships, leadership changes, strategic pivots]' },
+    { label: 'Competitors & Positioning', val: '[Research: who are their top 3 competitors? What\'s ' + co + '\'s unique advantage? Where are they vulnerable? Check Crunchbase, G2, industry reports]' },
+    { label: 'Culture Signals', val: '[Research: Glassdoor reviews, Blind, LinkedIn posts from employees, their careers page values section. What do people love? What do they complain about?]' },
+    { label: 'Your "Why" (write the real reason)', val: '[After researching, write the HONEST reason ' + co + ' excites you. Not "great culture" -- something specific like "they\'re rebuilding their data pipeline and that\'s exactly what I did at ' + (resume.roles[0] ? resume.roles[0].company : 'my last company') + '"]' },
+  ];
+
+  for (const f of fields) {
+    html += `<div style="margin-bottom:12px;">
+      <label class="ip-label">${f.label}</label>
+      <textarea class="ip-kit-editable" rows="2">${ipEsc(f.val)}</textarea>
+    </div>`;
+  }
+
+  html += `<div style="padding:14px 18px;border-radius:12px;background:rgba(139,94,171,0.04);border:1px solid rgba(139,94,171,0.12);margin-top:8px;">
+    <p style="font-size:12px;color:var(--text);font-weight:700;margin-bottom:4px;">Where to Research</p>
+    <p style="font-size:12px;color:var(--text-mid);line-height:1.6;margin:0;">
+      ${co} website/blog &bull; Glassdoor reviews &bull; LinkedIn (company + employees) &bull;
+      Crunchbase &bull; Google News "${co}" &bull; Their GitHub (if public) &bull;
+      Their Careers page (read other JDs for team context) &bull; G2/Capterra reviews
+    </p>
+  </div>`;
+
+  html += '</div>';
+  return html;
+}
+
+function ipGenProductSense(resume, jd) {
+  const co = jd.company || '[Company]';
+  const ro = jd.role || 'this role';
+  const sk = resume.skills;
+  const topResp = jd.responsibilities.slice(0, 3);
+
+  let html = '<div class="ip-kit-section"><div class="ip-kit-section-head"><h3>Product Sense Prep</h3><button class="ip-kit-copy" onclick="ipCopySection(this)">Copy</button></div>';
+  html += `<p style="font-size:13px;color:var(--text-mid);margin-bottom:16px;line-height:1.6;">Structured answers using your actual experience. Each scenario includes a framework walkthrough with your skills and metrics woven in.</p>`;
+
+  const scenarios = [
+    {
+      q: `How would you improve ${co}'s core product?`,
+      answer: [
+        `First, I'd clarify scope: "Which product area or user segment should I focus on?" [In the interview, ask this to show structured thinking.]`,
+        ``,
+        `Then I'd walk through my framework:`,
+        `1. USER SEGMENT: I'd focus on [pick one: power users, new users, or an underserved segment] because [reason].`,
+        `2. PAIN POINTS: Based on my experience with ${sk.slice(0,2).join(' and ') || '[relevant tools]'}, I'd look at [retention data, support tickets, session recordings, NPS verbatims] to identify the top 3 friction points.`,
+        `3. PRIORITIZE: Using a RICE framework (Reach, Impact, Confidence, Effort), I'd rank the opportunities.`,
+        `4. PROPOSE: My top recommendation would be [describe a feature improvement that connects to the JD responsibilities${topResp[0] ? ' -- e.g., related to "' + topResp[0].substring(0,50) + '"' : ''}].`,
+        `5. METRICS: I'd measure success with [e.g., activation rate, 7-day retention, task completion rate, NPS delta].`,
+        `6. TRADEOFFS: The risk is [name one: engineering cost, user learning curve, cannibalization]. I'd mitigate by [A/B testing, phased rollout, etc.].`,
+        ``,
+        `CONNECTION TO MY EXPERIENCE: ${resume.bullets.find(b => /improv|optim|increas|built|launch/i.test(b)) || '[cite a specific project where you improved a product metric]'}.`,
+      ].join('\n'),
+    },
+    {
+      q: `${co} is seeing a 15% drop in user engagement. How do you diagnose it?`,
+      answer: [
+        `First, clarify: "15% drop over what time period? Is this across all users or a specific segment? Which engagement metric?"`,
+        ``,
+        `My diagnostic framework:`,
+        `1. EXTERNAL CHECK: Is this seasonal? Did a competitor launch something? Any outages or press events?`,
+        `2. SEGMENT THE DATA: Break engagement by cohort (new vs returning), platform (web/iOS/Android), geography, and acquisition channel. ${analyticSkillsList(sk)} to run this analysis.`,
+        `3. FUNNEL ANALYSIS: Where exactly is drop-off happening? Login → core action → return visit. Identify the biggest leak.`,
+        `4. QUALITATIVE: Pull recent support tickets, app store reviews, and NPS comments from the same period. Look for patterns.`,
+        `5. HYPOTHESIS: Based on what the data shows, my top hypothesis would be [e.g., "a recent UI change increased friction in the core flow" or "a pricing change reduced perceived value for mid-tier users"].`,
+        `6. VALIDATION: ${sk.includes('A/B testing') || sk.includes('Experimentation') ? 'I\'d design an A/B test' : 'I\'d propose a targeted experiment'} to test the hypothesis before committing to a full solution.`,
+        `7. FIX + METRICS: Propose the fix, define success criteria, and set a review cadence.`,
+        ``,
+        `I've done this before: ${resume.bullets.find(b => /data|analytic|metric|diagnos|investigat|root cause|funnel/i.test(b)) || '[cite your most relevant data analysis or diagnostic project]'}.`,
+      ].join('\n'),
+    },
+    {
+      q: 'You have to decide between two features for the next sprint. How do you choose?',
+      answer: [
+        `My prioritization framework:`,
+        `1. DEFINE CRITERIA: I score features on user impact (how many users, how painful the problem), business value (revenue, retention, strategic alignment), effort (eng days, design needs, dependencies), and confidence (do we have data or is this a guess?).`,
+        `2. SCORE EACH: I'd build a simple scoring matrix. ${sk.includes('Excel') || sk.includes('Google Sheets') ? 'I usually do this in a spreadsheet' : 'I use a lightweight spreadsheet'} and share it with the team so the reasoning is transparent.`,
+        `3. CHECK THE DATA: What do ${sk.filter(s => /amplitude|mixpanel|analytics|looker|tableau/i.test(s)).join(', ') || 'usage analytics, support tickets, and user feedback'} tell us about which problem is more urgent?`,
+        `4. STAKEHOLDER INPUT: I'd check with engineering on effort estimates and with design on any dependencies. If sales or CS have strong signals, I'd factor those in.`,
+        `5. MAKE THE CALL: Present my recommendation with reasoning to the team. If it's genuinely 50/50, I'd default to the one with higher learning value (what teaches us more about our users).`,
+        `6. DOCUMENT: Write a brief decision doc so we can revisit the reasoning later.`,
+        ``,
+        `In practice: ${resume.bullets.find(b => /priorit|roadmap|backlog|sprint|scope|trade-?off/i.test(b)) || '[cite a time you made a prioritization call and the outcome]'}.`,
+      ].join('\n'),
+    },
+    {
+      q: `Design a new feature for ${co} targeting an underserved user segment.`,
+      answer: [
+        `1. IDENTIFY THE SEGMENT: I'd look at ${co}'s current user base and find who's underserved. [In the interview, ask: "What user segments does ${co} currently serve well?"] Then I'd target [adjacent segment that makes strategic sense].`,
+        `2. VALIDATE THE PAIN: I'd use ${sk.includes('User Research') ? 'user interviews and surveys' : 'a mix of user interviews, support ticket analysis, and competitive research'} to validate that this segment has a real unmet need. Sample size: 8-12 interviews minimum.`,
+        `3. DEFINE USER STORIES: "As a [user type], I want [action] so that [outcome]." I'd write 3-5 core user stories.`,
+        `4. MVP SCOPE: Strip to the smallest version that delivers the core value. ${sk.includes('Figma') ? 'I\'d prototype in Figma' : 'I\'d sketch wireframes'} and test with 5 users before committing engineering resources.`,
+        `5. SUCCESS METRICS: Adoption (% of target segment using it within 30 days), retention (7-day and 30-day return rate), and satisfaction (NPS or CSAT for this feature).`,
+        `6. GO-TO-MARKET: How do we reach this segment? [In-product discovery, email campaign, partnership channel, etc.]`,
+        ``,
+        `Related experience: ${resume.bullets.find(b => /launch|built|new|feature|product|mvp|0 to|zero to/i.test(b)) || '[cite a time you launched something new or expanded to a new user segment]'}.`,
+      ].join('\n'),
+    },
+  ];
+
+  scenarios.forEach((s, i) => {
+    html += `<div class="ip-kit-script">
+      <div class="ip-kit-script-title">Scenario ${i+1}: ${s.q}</div>
+      <textarea class="ip-kit-editable" rows="10">${ipEsc(s.answer)}</textarea>
+    </div>`;
+  });
+
+  html += '</div>';
+  return html;
+}
+
+/* helper for product sense */
+function analyticSkillsList(sk) {
+  const analytic = sk.filter(s => /sql|python|tableau|looker|bigquery|snowflake|amplitude|mixpanel|excel/i.test(s));
+  return analytic.length > 0 ? "I'd use " + analytic.slice(0,3).join(', ') : "I'd use SQL and the company's analytics tools";
+}
+
+/* ─── MAIN GENERATOR ─── */
+function ipGenerateKit() {
+  const resumeText = document.getElementById('ip-resume').value.trim();
+  const jdText = document.getElementById('ip-jd').value.trim();
+
+  if (!resumeText) { alert('Paste your resume or experience first.'); return; }
+  if (!jdText) { alert('Paste the job posting.'); return; }
+
+  const checks = document.querySelectorAll('#ip-gen-options input[type="checkbox"]:checked');
+  const sections = [...checks].map(c => c.dataset.section);
+  if (sections.length === 0) { alert('Select at least one section to generate.'); return; }
+
+  const container = document.getElementById('ip-kit-results');
+  container.innerHTML = '<div class="ip-kit-loading"><div class="ip-kit-loading-spinner"></div><div class="ip-kit-loading-text">Analyzing your resume and job posting...</div></div>';
+  container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // Small delay for visual feedback, then generate
+  setTimeout(() => {
+    const resume = ipParseResume(resumeText);
+    const jd = ipParseJD(jdText);
+
+    let html = '';
+
+    // Summary header
+    html += `<div class="ip-kit-section" style="background:linear-gradient(135deg, rgba(139,94,171,0.06), rgba(72,187,120,0.04));">
+      <h3 style="font-family:var(--display);font-size:22px;letter-spacing:-0.03em;color:var(--text);margin-bottom:12px;">Your Prep Kit${jd.role ? ': ' + jd.role : ''}${jd.company ? ' at ' + jd.company : ''}</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;">
+        ${resume.skills.slice(0,8).map(s => '<span class="ip-kit-tag ip-kit-tag-match">' + s + '</span>').join('')}
+        ${jd.skills.filter(s => !resume.skills.map(r=>r.toLowerCase()).includes(s.toLowerCase())).slice(0,4).map(s => '<span class="ip-kit-tag ip-kit-tag-gap">' + s + ' (JD)</span>').join('')}
+      </div>
+      <p style="font-size:13px;color:var(--text-mid);line-height:1.6;margin:0;">
+        Found <strong>${resume.bullets.length}</strong> experience bullets, <strong>${resume.skills.length}</strong> skills from your resume, and <strong>${jd.requirements.length + jd.responsibilities.length}</strong> requirements from the JD.
+        ${jd.skills.filter(s => !resume.skills.map(r=>r.toLowerCase()).includes(s.toLowerCase())).length > 0 ? '<br>Orange tags = skills in the JD not found in your resume. Prep bridging language for these.' : ''}
+      </p>
+    </div>`;
+
+    // Generate selected sections
+    if (sections.includes('fit')) html += ipGenFitMatrix(resume, jd);
+    if (sections.includes('star')) html += ipGenSTAR(resume, jd);
+    if (sections.includes('scripts')) html += ipGenScripts(resume, jd);
+    if (sections.includes('qmap')) html += ipGenQuestionMap(resume, jd);
+    if (sections.includes('company')) html += ipGenCompanyBrief(resume, jd);
+    if (sections.includes('product')) html += ipGenProductSense(resume, jd);
+
+    // Actions bar
+    html += `<div class="ip-kit-actions">
+      <button class="ip-btn" onclick="ipPrintKit()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        Print / Save as PDF
+      </button>
+      <button class="ip-btn ip-btn-secondary" onclick="ipCopyAll()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy All
+      </button>
+    </div>`;
+
+    container.innerHTML = html;
+  }, 600);
+}
+
+/* ─── UTILITY FUNCTIONS ─── */
+function ipCopySection(btn) {
+  const section = btn.closest('.ip-kit-section');
+  const text = section.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = orig, 1500);
+  });
+}
+
+function ipCopyAll() {
+  const container = document.getElementById('ip-kit-results');
+  const text = container.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.target.closest('.ip-btn');
+    if (btn) {
+      const orig = btn.innerHTML;
+      btn.innerHTML = '<span>Copied!</span>';
+      setTimeout(() => btn.innerHTML = orig, 1500);
+    }
+  });
+}
+
+function ipPrintKit() {
+  window.print();
+}
+</script>
+
+</body>
+</html>

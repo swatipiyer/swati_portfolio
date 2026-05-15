@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Scanner | Swati Iyer</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" type="image/png" href="../assets/branding/swatiiyer-logo-tab.png">
+  <link rel="apple-touch-icon" href="../assets/branding/swatiiyer-logo-tab.png">
+  <style>
+    body {
+      background:
+        radial-gradient(circle at top right, rgba(74,136,181,0.10), transparent 40%),
+        radial-gradient(circle at bottom left, rgba(139,94,171,0.08), transparent 40%),
+        linear-gradient(180deg, #f5f0fc 0%, #f0eaf8 220px, #f8f5fc 100%);
+      min-height: 100vh;
+    }
+
+    /* ═══ SHELL ═══ */
+    .rs-shell {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 110px 24px 64px;
+    }
+
+    /* ═══ TOP BAR ═══ */
+    .rs-topbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 36px;
+    }
+    .rs-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      text-decoration: none;
+      transition: color 0.2s var(--ease);
+    }
+    .rs-back:hover { color: var(--accent); }
+
+    /* ═══ HERO ═══ */
+    .rs-hero { margin-bottom: 40px; max-width: 720px; }
+    .rs-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(139,94,171,0.10);
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .rs-eyebrow::before {
+      content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
+    }
+    .rs-hero h1 {
+      font-family: var(--display);
+      font-size: clamp(36px, 5vw, 52px);
+      line-height: 1.05;
+      margin-bottom: 14px;
+      letter-spacing: -0.02em;
+    }
+    .rs-hero p {
+      color: var(--text-mid);
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    /* ═══ TABS ═══ */
+    .rs-tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 28px;
+      background: var(--bg-warm);
+      border-radius: var(--radius);
+      padding: 4px;
+      border: 1px solid var(--border-light);
+    }
+    .rs-tab {
+      flex: 1;
+      padding: 12px 20px;
+      border-radius: calc(var(--radius) - 2px);
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-align: center;
+      cursor: pointer;
+      color: var(--text-mid);
+      transition: all 0.25s var(--ease);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      user-select: none;
+      border: none;
+      background: none;
+    }
+    .rs-tab:hover:not(.active):not(.disabled) { color: var(--text); background: rgba(255,255,255,0.5); }
+    .rs-tab.active {
+      background: var(--bg-card);
+      color: var(--accent);
+      font-weight: 600;
+      box-shadow: var(--shadow-sm);
+    }
+    .rs-tab.disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+    .rs-tab svg { flex-shrink: 0; }
+
+    /* ═══ PANELS ═══ */
+    .rs-panel { display: none; }
+    .rs-panel.active { display: block; }
+
+    /* ═══ INPUT AREA ═══ */
+    .rs-input-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    .rs-input-group { display: flex; flex-direction: column; gap: 8px; }
+    .rs-input-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .rs-textarea {
+      width: 100%;
+      min-height: 260px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: var(--text);
+      font-size: 13px;
+      line-height: 1.6;
+      resize: vertical;
+      background: var(--bg-card);
+      color: var(--text);
+      transition: border-color 0.2s var(--ease);
+    }
+    .rs-textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(139,94,171,0.12);
+    }
+    .rs-textarea::placeholder { color: var(--border); font-size: 12px; }
+
+    .rs-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .rs-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: all 0.25s var(--ease);
+    }
+    .rs-btn-primary {
+      background: linear-gradient(145deg, var(--accent), #9b6dbd);
+      color: white;
+      box-shadow: 0 4px 0 #6d4587, 0 8px 20px rgba(139,94,171,0.25);
+    }
+    .rs-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 5px 0 #6d4587, 0 10px 24px rgba(139,94,171,0.3); }
+    .rs-btn-primary:active { transform: translateY(2px); box-shadow: 0 2px 0 #6d4587; }
+    .rs-btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .rs-btn-secondary {
+      background: var(--bg-card);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      box-shadow: var(--shadow-sm);
+    }
+    .rs-btn-secondary:hover { background: rgba(139,94,171,0.06); }
+    .rs-btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .rs-scan-error {
+      display: none;
+      padding: 12px 16px;
+      background: rgba(196,84,108,0.08);
+      border: 1px solid rgba(196,84,108,0.2);
+      border-radius: var(--radius-sm);
+      color: #c4546c;
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+
+    /* ═══ EMPTY STATE ═══ */
+    .rs-empty {
+      text-align: center;
+      padding: 60px 24px;
+      color: var(--text-mid);
+    }
+    .rs-empty svg { opacity: 0.3; margin-bottom: 16px; }
+    .rs-empty p { font-size: 14px; max-width: 400px; margin: 0 auto; }
+
+    /* ═══ RESULTS ═══ */
+    #rs-results { display: none; }
+
+    .rs-results-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 28px;
+      margin-bottom: 32px;
+      padding: 28px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+    }
+    #rs-score-ring { flex-shrink: 0; }
+    #rs-sub-scores { flex: 1; display: flex; flex-direction: column; gap: 12px; justify-content: center; }
+
+    .rs-sub-score { display: flex; flex-direction: column; gap: 4px; }
+    .rs-sub-score-bar {
+      height: 6px;
+      background: var(--bg-warm);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .rs-sub-score-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.8s var(--ease);
+    }
+    .rs-sub-score-label {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-mid);
+      letter-spacing: 0.04em;
+    }
+    .rs-sub-score-label span { font-weight: 600; color: var(--text); }
+
+    /* ═══ SECTIONS ═══ */
+    .rs-section {
+      margin-bottom: 24px;
+      padding: 24px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+    }
+    .rs-section-title {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* keywords */
+    .rs-kw-group { margin-bottom: 14px; }
+    .rs-kw-group:last-child { margin-bottom: 0; }
+    .rs-kw-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      color: var(--text-mid);
+      margin-bottom: 8px;
+    }
+    .rs-kw-list { display: flex; flex-wrap: wrap; gap: 6px; }
+    .rs-kw {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-family: var(--mono);
+      letter-spacing: 0.02em;
+    }
+    .rs-kw.found {
+      background: rgba(58,122,69,0.10);
+      color: var(--green);
+      border: 1px solid rgba(58,122,69,0.2);
+    }
+    .rs-kw.missing {
+      background: rgba(196,84,108,0.08);
+      color: #c4546c;
+      border: 1px solid rgba(196,84,108,0.2);
+    }
+    .rs-kw-none { color: var(--text-mid); font-size: 12px; font-style: italic; }
+
+    /* ATS checks */
+    .rs-ats-check {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .rs-ats-check:last-child { border-bottom: none; }
+    .rs-ats-check svg { flex-shrink: 0; margin-top: 1px; }
+    .rs-ats-label { font-size: 13px; font-weight: 500; }
+    .rs-ats-tip {
+      font-size: 12px;
+      color: var(--text-mid);
+      margin-top: 2px;
+    }
+
+    /* suggestions */
+    .rs-suggestion {
+      padding: 10px 14px;
+      background: rgba(139,94,171,0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: 13px;
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+    .rs-rephrase-title {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      margin: 20px 0 10px;
+    }
+    .rs-rephrase {
+      padding: 10px 14px;
+      background: rgba(74,136,181,0.05);
+      border-radius: var(--radius-sm);
+      margin-bottom: 8px;
+      font-size: 12px;
+    }
+    .rs-rephrase-from { color: var(--text-mid); margin-bottom: 4px; }
+    .rs-rephrase-to { color: var(--blue); font-weight: 500; }
+
+    /* ═══ AI SECTION ═══ */
+    .rs-ai-section-wrap {
+      margin-top: 32px;
+      padding: 24px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+    }
+    .rs-ai-toggle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: none;
+      border: none;
+      padding: 0;
+      width: 100%;
+      text-align: left;
+    }
+    .rs-ai-toggle svg { transition: transform 0.2s var(--ease); }
+    .rs-ai-section-wrap.open .rs-ai-toggle svg { transform: rotate(90deg); }
+    .rs-ai-collapsible {
+      display: none;
+      margin-top: 20px;
+    }
+    .rs-ai-section-wrap.open .rs-ai-collapsible { display: block; }
+
+    .rs-api-key-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .rs-api-input {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: var(--mono);
+      font-size: 12px;
+      background: var(--bg-warm);
+      color: var(--text);
+    }
+    .rs-api-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(139,94,171,0.12);
+    }
+    .rs-api-note {
+      font-size: 11px;
+      color: var(--text-mid);
+      line-height: 1.5;
+    }
+
+    /* AI results */
+    #rs-ai-results { display: none; margin-top: 20px; }
+    .rs-loading {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 20px;
+      color: var(--text-mid);
+      font-size: 13px;
+    }
+    .rs-spinner {
+      width: 20px; height: 20px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: rs-spin 0.8s linear infinite;
+    }
+    @keyframes rs-spin { to { transform: rotate(360deg); } }
+
+    .rs-ai-error {
+      padding: 12px 16px;
+      background: rgba(196,84,108,0.08);
+      border: 1px solid rgba(196,84,108,0.2);
+      border-radius: var(--radius-sm);
+      color: #c4546c;
+      font-size: 13px;
+    }
+    .rs-ai-score {
+      font-family: var(--display);
+      font-size: 18px;
+      margin-bottom: 16px;
+    }
+    .rs-ai-score strong { color: var(--accent); }
+    .rs-ai-group { margin-bottom: 16px; }
+    .rs-ai-group-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      margin-bottom: 8px;
+    }
+    .rs-ai-item {
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      margin-bottom: 4px;
+      line-height: 1.5;
+    }
+    .rs-ai-item.green { background: rgba(58,122,69,0.06); }
+    .rs-ai-item.red { background: rgba(196,84,108,0.06); }
+
+    .rs-ai-rewrite {
+      padding: 14px;
+      background: rgba(139,94,171,0.05);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+    .rs-use-btn {
+      padding: 8px 16px;
+      border: 1px solid var(--accent);
+      border-radius: var(--radius-sm);
+      background: none;
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: all 0.2s var(--ease);
+    }
+    .rs-use-btn:hover { background: rgba(139,94,171,0.08); }
+
+    .rs-ai-bullet {
+      padding: 12px;
+      background: var(--bg-warm);
+      border-radius: var(--radius-sm);
+      margin-bottom: 8px;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .rs-ai-bullet-original { color: var(--text-mid); margin-bottom: 4px; }
+    .rs-ai-bullet-new { color: var(--green); font-weight: 500; margin-bottom: 4px; }
+    .rs-ai-bullet-reason { color: var(--text-mid); font-style: italic; font-size: 11px; }
+
+    /* ═══ GENERATE TAB ═══ */
+    .rs-gen-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    #rs-preview { display: none; }
+
+    .rs-preview-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+    .rs-preview-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      background: var(--bg-warm);
+      border-bottom: 1px solid var(--border-light);
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-mid);
+      letter-spacing: 0.04em;
+    }
+    .rs-preview-toolbar-hint {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    #rs-preview-content {
+      padding: 32px 40px;
+      max-height: 700px;
+      overflow-y: auto;
+    }
+
+    /* preview resume styling */
+    .rs-preview-header { margin-bottom: 20px; }
+    .rs-preview-header h2 {
+      font-family: var(--display);
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      outline: none;
+    }
+    .rs-preview-gradient {
+      height: 2px;
+      background: linear-gradient(to right, hsl(187,74%,32%), hsl(270,70%,45%));
+      margin: 8px 0;
+    }
+    .rs-preview-contact {
+      font-size: 12px;
+      color: var(--text-mid);
+      outline: none;
+    }
+    .rs-preview-section { margin-bottom: 16px; }
+    .rs-preview-section-title {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: hsl(187,74%,32%);
+      margin-bottom: 8px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .rs-preview-section p {
+      font-size: 13px;
+      line-height: 1.6;
+      outline: none;
+    }
+    .rs-preview-competencies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .rs-preview-tag {
+      display: inline-block;
+      padding: 4px 10px;
+      background: rgba(74,136,181,0.08);
+      border: 1px solid rgba(74,136,181,0.15);
+      border-radius: 999px;
+      font-size: 11px;
+      font-family: var(--mono);
+      color: var(--blue);
+      letter-spacing: 0.02em;
+    }
+    .rs-preview-role { margin-bottom: 12px; }
+    .rs-preview-role-title {
+      font-weight: 600;
+      font-size: 13px;
+      color: hsl(270,70%,45%);
+      margin-bottom: 4px;
+    }
+    .rs-preview-role ul {
+      padding-left: 18px;
+      margin: 0;
+    }
+    .rs-preview-role li {
+      font-size: 12px;
+      line-height: 1.6;
+      margin-bottom: 2px;
+      outline: none;
+    }
+
+    .rs-editable {
+      border: 1px solid transparent;
+      border-radius: 3px;
+      padding: 1px 3px;
+      margin: -1px -3px;
+      transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
+    }
+    .rs-editable:hover { border-color: var(--border-light); background: rgba(139,94,171,0.03); }
+    .rs-editable:focus { border-color: var(--accent); background: rgba(139,94,171,0.05); outline: none; }
+
+    /* ═══ RESPONSIVE ═══ */
+    @media (max-width: 700px) {
+      .rs-shell { padding: 90px 16px 48px; }
+      .rs-input-grid { grid-template-columns: 1fr; }
+      .rs-results-header { flex-direction: column; align-items: center; text-align: center; }
+      #rs-preview-content { padding: 20px; }
+      .rs-api-key-row { flex-direction: column; }
+      .rs-gen-actions { flex-direction: column; }
+      .rs-gen-actions .rs-btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav class="site-nav scrolled">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">&larr; Back to Portfolio</a>
+    <div class="nav-links">
+      <a href="../index.html#work">Work</a>
+      <a href="../index.html#explore">Explore</a>
+      <a href="career-prep.html">Career Prep</a>
+      <a href="mailto:iyerswatip@gmail.com">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<main class="rs-shell">
+
+  <div class="rs-topbar">
+    <a href="career-prep.html" class="rs-back">&larr; Back to Career Prep</a>
+  </div>
+
+  <header class="rs-hero">
+    <span class="rs-eyebrow">Resume Scanner</span>
+    <h1>Match your resume to any job posting.</h1>
+    <p>Paste your resume and a job description to get an instant match score, keyword analysis, ATS compatibility check, and a tailored resume you can edit and download.</p>
+  </header>
+
+  <!-- ═══ TABS ═══ -->
+  <div class="rs-tabs">
+    <button class="rs-tab active" data-tab="scan">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      Scan
+    </button>
+    <button class="rs-tab disabled" data-tab="generate" id="rs-tab-generate">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      Generate
+    </button>
+  </div>
+
+  <!-- ═══ SCAN PANEL ═══ -->
+  <div class="rs-panel active" id="rs-panel-scan">
+
+    <div class="rs-input-grid">
+      <div class="rs-input-group">
+        <label class="rs-input-label">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+          Your Resume
+        </label>
+        <textarea id="rs-resume-input" class="rs-textarea" placeholder="Paste your resume text here...&#10;&#10;Include your name, summary, experience, projects, education, and skills sections."></textarea>
+      </div>
+      <div class="rs-input-group">
+        <label class="rs-input-label">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          Job Description
+        </label>
+        <textarea id="rs-jd-input" class="rs-textarea" placeholder="Paste the full job description here...&#10;&#10;Include the role title, requirements, responsibilities, and qualifications."></textarea>
+      </div>
+    </div>
+
+    <div class="rs-actions">
+      <button class="rs-btn rs-btn-primary" id="rs-scan-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Scan Match
+      </button>
+    </div>
+
+    <div class="rs-scan-error" id="rs-scan-error"></div>
+
+    <!-- Empty state -->
+    <div class="rs-empty" id="rs-scan-empty">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <p>Paste your resume and a job description above, then click Scan Match to see how well they align.</p>
+    </div>
+
+    <!-- Results -->
+    <div id="rs-results">
+
+      <!-- Score ring + sub-scores -->
+      <div class="rs-results-header">
+        <div id="rs-score-ring"></div>
+        <div id="rs-sub-scores"></div>
+      </div>
+
+      <!-- Keywords -->
+      <div class="rs-section">
+        <div class="rs-section-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>
+          Keyword Analysis
+        </div>
+        <div id="rs-keywords"></div>
+      </div>
+
+      <!-- ATS checks -->
+      <div class="rs-section">
+        <div class="rs-section-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          ATS Compatibility
+        </div>
+        <div id="rs-ats-checks"></div>
+      </div>
+
+      <!-- Suggestions -->
+      <div class="rs-section">
+        <div class="rs-section-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          Suggestions
+        </div>
+        <div id="rs-suggestions"></div>
+      </div>
+
+      <!-- AI Enhancement -->
+      <div class="rs-ai-section-wrap" id="rs-ai-section">
+        <button class="rs-ai-toggle" id="rs-ai-toggle">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          AI-Powered Deep Analysis (Optional)
+        </button>
+        <div class="rs-ai-collapsible">
+          <p class="rs-api-note">Add your Anthropic API key for deeper analysis, AI-rewritten summary, and bullet rewrites. Your key stays in your browser and is never stored.</p>
+          <div class="rs-api-key-row">
+            <input type="password" id="rs-api-key" class="rs-api-input" placeholder="sk-ant-...">
+            <button class="rs-btn rs-btn-secondary" id="rs-ai-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z"/><line x1="9" y1="21" x2="15" y2="21"/></svg>
+              Enhance with AI
+            </button>
+          </div>
+          <div id="rs-ai-results"></div>
+        </div>
+      </div>
+
+    </div><!-- /rs-results -->
+
+  </div><!-- /scan panel -->
+
+  <!-- ═══ GENERATE PANEL ═══ -->
+  <div class="rs-panel" id="rs-panel-generate">
+
+    <div class="rs-gen-actions">
+      <button class="rs-btn rs-btn-primary" id="rs-generate-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 12 15 15"/></svg>
+        Generate Tailored Resume
+      </button>
+      <button class="rs-btn rs-btn-secondary" id="rs-download-btn" disabled>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download HTML
+      </button>
+    </div>
+
+    <!-- Empty state -->
+    <div class="rs-empty" id="rs-gen-empty">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      <p>Run a scan first, then come here to generate a tailored resume with keywords injected and bullets reordered for the target role.</p>
+    </div>
+
+    <!-- Preview -->
+    <div id="rs-preview">
+      <div class="rs-preview-card">
+        <div class="rs-preview-toolbar">
+          <span>ATS-Optimized Resume Preview</span>
+          <span class="rs-preview-toolbar-hint">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            Click any text to edit
+          </span>
+        </div>
+        <div id="rs-preview-content"></div>
+      </div>
+    </div>
+
+  </div><!-- /generate panel -->
+
+</main>
+
+<script src="../assets/js/resume-scanner.js"></script>
+
+<script>
+  // Enable download button when preview is rendered
+  const origRenderPreview = rsRenderPreview;
+  rsRenderPreview = function() {
+    origRenderPreview();
+    document.getElementById('rs-download-btn').disabled = false;
+  };
+</script>
+
+</body>
+</html>
