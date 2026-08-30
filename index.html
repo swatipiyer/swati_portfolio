@@ -16,90 +16,7 @@
   <link rel="icon" type="image/png" href="assets/branding/swatiiyer-logo-tab.png">
   <link rel="apple-touch-icon" href="assets/branding/swatiiyer-logo-tab.png">
   <style>
-    /* ═══ TERMINAL BOOT SCREEN ═══ */
-    #terminal-boot {
-      position: fixed;
-      inset: 0;
-      z-index: 10000;
-      background: #0e0b14;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      font-family: 'IBM Plex Mono', 'Courier New', monospace;
-      transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                  transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-    #terminal-boot.fade-out {
-      opacity: 0;
-      transform: scale(1.04);
-      pointer-events: none;
-    }
-    #terminal-boot.gone { display: none; }
-
-    #terminal-text {
-      box-sizing: border-box;
-      color: #c89cff;
-      font-size: clamp(14px, 1.7vw, 18px);
-      line-height: 2;
-      width: min(680px, calc(100vw - 48px));
-      max-width: 680px;
-      padding: 2rem;
-      white-space: pre-wrap;
-      text-shadow: 0 0 16px rgba(200, 156, 255, 0.35);
-    }
-    #terminal-text .t-cursor {
-      display: inline-block;
-      width: 8px;
-      height: 15px;
-      background: #c89cff;
-      animation: t-blink 0.6s step-end infinite;
-      vertical-align: text-bottom;
-      margin-left: 2px;
-      box-shadow: 0 0 10px rgba(200, 156, 255, 0.55);
-    }
     @keyframes t-blink { 50% { opacity: 0; } }
-
-    /* Scanline overlay */
-    #terminal-boot::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 3px,
-        rgba(139, 94, 171, 0.008) 3px,
-        rgba(139, 94, 171, 0.008) 6px
-      );
-      pointer-events: none !important;
-      z-index: 1;
-    }
-    #terminal-text { position: relative; z-index: 2; pointer-events: none; }
-
-    .terminal-skip {
-      position: absolute;
-      bottom: 2rem;
-      right: 2rem;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 12px;
-      letter-spacing: 0.04em;
-      color: rgba(226, 196, 247, 0.92);
-      background: rgba(139, 94, 171, 0.16);
-      border: 1px solid rgba(166, 106, 209, 0.55);
-      padding: 8px 18px;
-      border-radius: 999px;
-      cursor: pointer;
-      box-shadow: 0 0 0 1px rgba(139, 94, 171, 0.12), 0 0 18px rgba(139, 94, 171, 0.18);
-      transition: all 0.25s;
-      z-index: 2;
-    }
-    .terminal-skip:hover {
-      color: #f1defd;
-      border-color: rgba(201, 147, 240, 0.8);
-      background: rgba(139, 94, 171, 0.24);
-      box-shadow: 0 0 0 1px rgba(166, 106, 209, 0.18), 0 0 22px rgba(139, 94, 171, 0.28);
-    }
 
     .terminal-launch {
       position: relative;
@@ -199,18 +116,6 @@
       transform: translateY(0);
     }
 
-    /* Subtle glow in top-left */
-    #terminal-boot::after {
-      content: '';
-      position: absolute;
-      top: -20%;
-      left: -10%;
-      width: 50%;
-      height: 50%;
-      background: radial-gradient(ellipse, rgba(139, 94, 171, 0.06) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
     /* ═══ HERO ROW LAYOUT ═══ */
     .hero-row {
       display: block;
@@ -305,194 +210,160 @@
       .hero-terminal { display: none; }
     }
 
-    /* ═══ ROLE SELECTION IN TERMINAL ═══ */
-    .terminal-roles {
-      position: relative;
-      z-index: 5;
-      width: min(680px, calc(100vw - 48px));
-      padding: 0 2rem 2rem;
-      box-sizing: border-box;
-      opacity: 0;
-      transform: translateY(8px);
-      pointer-events: none;
-      transition: opacity 0.4s ease, transform 0.4s ease;
+    /* ═══ NAV MODE SWITCHER (persistent, non-blocking) ═══ */
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
     }
-    .terminal-roles.visible {
+    .mode-switcher {
+      position: relative;
+    }
+    .mode-switcher-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      color: var(--text-light);
+      background: transparent;
+      border: 1px solid var(--border-light);
+      border-radius: 999px;
+      padding: 5px 10px 5px 9px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .mode-switcher-btn:hover,
+    .mode-switcher-btn.open {
+      background: rgba(139, 94, 171, 0.1);
+      border-color: rgba(139, 94, 171, 0.35);
+      color: var(--text);
+    }
+    .mode-switcher-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--text-light);
+      flex: 0 0 auto;
+      transition: background 0.2s ease, box-shadow 0.2s ease;
+    }
+    .mode-switcher-btn:hover .mode-switcher-dot,
+    .mode-switcher-btn.open .mode-switcher-dot {
+      background: #8b5eab;
+      box-shadow: 0 0 6px rgba(139, 94, 171, 0.6);
+    }
+    .mode-switcher-caret {
+      flex: 0 0 auto;
+      transition: transform 0.2s ease;
+    }
+    .mode-switcher-btn.open .mode-switcher-caret {
+      transform: rotate(180deg);
+    }
+    .mode-switcher-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      min-width: 190px;
+      background: #17121f;
+      border: 1px solid rgba(139, 94, 171, 0.35);
+      border-radius: 12px;
+      padding: 6px;
+      box-shadow: 0 12px 32px rgba(20, 10, 35, 0.35), 0 0 0 1px rgba(139, 94, 171, 0.08);
+      opacity: 0;
+      transform: translateY(-6px);
+      pointer-events: none;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+      z-index: 200;
+    }
+    .mode-switcher-menu.open {
       opacity: 1;
       transform: translateY(0);
       pointer-events: auto;
     }
-    .terminal-roles-prompt {
-      font-family: 'IBM Plex Mono', 'Courier New', monospace;
-      font-size: clamp(14px, 1.7vw, 18px);
-      color: #c89cff;
-      text-shadow: 0 0 16px rgba(200, 156, 255, 0.35);
-      margin-bottom: 16px;
-      line-height: 2;
-    }
-    .terminal-role-btn {
-      display: block;
-      width: 100%;
-      text-align: left;
-      font-family: 'IBM Plex Mono', 'Courier New', monospace;
-      font-size: clamp(13px, 1.5vw, 16px);
-      color: rgba(200, 156, 255, 0.72);
-      background: transparent;
-      border: 1px solid transparent;
-      border-radius: 8px;
-      padding: 10px 16px;
-      margin-bottom: 4px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      letter-spacing: 0.02em;
-      position: relative;
-      z-index: 10;
-    }
-    .terminal-role-btn:hover, .terminal-role-btn:focus-visible {
-      color: #f1defd;
-      background: rgba(139, 94, 171, 0.14);
-      border-color: rgba(166, 106, 209, 0.4);
-      text-shadow: 0 0 14px rgba(200, 156, 255, 0.3);
-      transform: translateX(6px);
-    }
-    .terminal-role-num {
-      color: #8b5eab;
-      margin-right: 6px;
-    }
-
-    /* ═══ TERMINAL GREETING ═══ */
-    .terminal-greeting {
-      position: relative;
-      z-index: 2;
-      width: min(680px, calc(100vw - 48px));
-      padding: 0 2rem;
-      box-sizing: border-box;
-      font-family: 'IBM Plex Mono', 'Courier New', monospace;
-      font-size: clamp(14px, 1.7vw, 18px);
-      color: #a8e6a3;
-      text-shadow: 0 0 16px rgba(168, 230, 163, 0.3);
-      line-height: 2;
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-    .terminal-greeting.visible { opacity: 1; }
-
-    /* ═══ ROLE-BASED DIMMING — disabled ═══ */
-
-    /* ═══ FLOATING ROLE BADGE ═══ */
-    .role-badge {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      z-index: 9000;
+    .mode-switcher-option {
       display: flex;
       align-items: center;
       gap: 8px;
+      width: 100%;
+      text-align: left;
       font-family: 'IBM Plex Mono', 'Courier New', monospace;
-      font-size: 11px;
-      letter-spacing: 0.04em;
-      color: rgba(226, 196, 247, 0.85);
-      background: rgba(14, 11, 20, 0.88);
-      border: 1px solid rgba(139, 94, 171, 0.35);
-      border-radius: 999px;
-      padding: 8px 14px 8px 16px;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 16px rgba(139, 94, 171, 0.12);
-      opacity: 0;
-      transform: translateY(12px);
-      transition: opacity 0.4s ease, transform 0.4s ease;
-    }
-    .role-badge.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .role-badge-switch {
-      font-family: inherit;
-      font-size: 10px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: #c89cff;
-      background: rgba(139, 94, 171, 0.18);
-      border: 1px solid rgba(166, 106, 209, 0.4);
-      border-radius: 999px;
-      padding: 3px 10px;
+      font-size: 13px;
+      color: rgba(226, 196, 247, 0.8);
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 10px;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.15s ease;
     }
-    .role-badge-switch:hover {
-      background: rgba(139, 94, 171, 0.32);
-      border-color: rgba(201, 147, 240, 0.7);
+    .mode-switcher-option:hover,
+    .mode-switcher-option:focus-visible {
+      background: rgba(139, 94, 171, 0.22);
       color: #f1defd;
     }
-
-    /* ═══ ROLE SWITCHER OVERLAY ═══ */
-    .role-switcher-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background: rgba(14, 11, 20, 0.92);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      font-family: 'IBM Plex Mono', 'Courier New', monospace;
-      backdrop-filter: blur(8px);
+    .mode-switcher-option.active {
+      color: #c89cff;
+      font-weight: 500;
+    }
+    .mode-switcher-num {
+      color: #8b5eab;
+      font-size: 11px;
+    }
+    .mode-switcher-check {
+      margin-left: auto;
+      color: #8b5eab;
       opacity: 0;
-      transition: opacity 0.3s ease;
+      flex: 0 0 auto;
     }
-    .role-switcher-overlay.visible { opacity: 1; }
-    .role-switcher-overlay .terminal-roles {
+    .mode-switcher-option.active .mode-switcher-check {
       opacity: 1;
-      transform: none;
-      pointer-events: auto;
     }
-    .role-switcher-close {
-      margin-top: 16px;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 12px;
-      color: rgba(200, 156, 255, 0.5);
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 8px 16px;
+    @media (max-width: 600px) {
+      .mode-switcher-label { display: none; }
+      .mode-switcher-btn { padding: 7px 9px; }
     }
-    .role-switcher-close:hover { color: #c89cff; }
   </style>
 </head>
 <body>
-
-<!-- ═══ TERMINAL BOOT SCREEN ═══ -->
-<div id="terminal-boot">
-  <div id="terminal-text"></div>
-  <div class="terminal-roles" id="terminal-roles">
-    <div class="terminal-roles-prompt">&gt; who are you?</div>
-    <button class="terminal-role-btn" data-role="recruiter">
-      <span class="terminal-role-num">[1]</span> here to hire
-    </button>
-    <button class="terminal-role-btn" data-role="pm">
-      <span class="terminal-role-num">[2]</span> in the field
-    </button>
-    <button class="terminal-role-btn" data-role="browse">
-      <span class="terminal-role-num">[3]</span> just vibing
-    </button>
-  </div>
-  <div class="terminal-greeting" id="terminal-greeting"></div>
-  <button class="terminal-skip" id="terminal-skip">skip &rarr;</button>
-</div>
 
 <nav class="site-nav">
   <div class="nav-inner">
     <a href="/" class="nav-brand nav-brand-logo-link" aria-label="swati iyer home">
       <img src="assets/branding/swatiiyer-logo-header.png" alt="Swati Iyer logo" class="nav-brand-logo">
     </a>
-    <button class="nav-hamburger" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
-    </button>
-    <div class="nav-links">
-      <a href="#explore">Explore My Work</a>
-      <a href="#work">Work</a>
-      <a href="#experience">Experience</a>
-      <a href="mailto:iyerswatip@gmail.com">Say Hello</a>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="#work">Work</a>
+        <a href="#experience">Experience</a>
+        <a href="#explore">Explore My Work</a>
+        <a href="mailto:swatii@andrew.cmu.edu">Say Hello</a>
+      </div>
+      <div class="mode-switcher" id="mode-switcher">
+        <button class="mode-switcher-btn" id="mode-switcher-btn" aria-haspopup="true" aria-expanded="false">
+          <span class="mode-switcher-dot"></span>
+          <span class="mode-switcher-label" id="mode-switcher-label">Recruiter</span>
+          <svg class="mode-switcher-caret" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="mode-switcher-menu" id="mode-switcher-menu" role="menu">
+          <button class="mode-switcher-option" data-role="recruiter" role="menuitem">
+            <span class="mode-switcher-num">[1]</span> Recruiter
+            <svg class="mode-switcher-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          </button>
+          <button class="mode-switcher-option" data-role="pm" role="menuitem">
+            <span class="mode-switcher-num">[2]</span> Practitioner
+            <svg class="mode-switcher-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          </button>
+          <button class="mode-switcher-option" data-role="browse" role="menuitem">
+            <span class="mode-switcher-num">[3]</span> Casual
+            <svg class="mode-switcher-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          </button>
+        </div>
+      </div>
+      <button class="nav-hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
 </nav>
@@ -526,14 +397,14 @@
 
         <div class="hero-actions anim anim-d5">
           <a href="#work" class="hero-btn primary">View Case Studies</a>
-          <a href="assets/docs/SwatiIyer_Resume_General.pdf" class="hero-btn secondary" target="_blank">Resume</a>
+          <a href="assets/docs/SwatiIyer_Resume.pdf" class="hero-btn secondary" target="_blank">Resume</a>
         </div>
 
         <div class="hero-links anim anim-d5">
-          <a href="mailto:iyerswatip@gmail.com" title="Email"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></a>
+          <a href="mailto:swatii@andrew.cmu.edu" title="Email"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></a>
           <a href="https://www.linkedin.com/in/swatipiyer/" title="LinkedIn" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
           <a href="https://github.com/swatipiyer" title="GitHub" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg></a>
-          <a href="assets/docs/SwatiIyer_Resume_General.pdf" title="Resume" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></a>
+          <a href="assets/docs/SwatiIyer_Resume.pdf" title="Resume" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></a>
         </div>
       </div>
 
@@ -588,10 +459,10 @@
         I'm the person who asks "what does the data say" before anyone starts building.
       </p>
       <p>
-        I studied Cognitive Science and Computer Science at <strong>UC Davis</strong>, where I spent two-plus years doing research, building data pipelines in Python and SQL, and presenting findings to cross-functional teams.
+        I studied Cognitive Science, Design, and Computer Science at <strong>UC Davis</strong>, where I spent two-plus years doing research, building data pipelines in Python and SQL, and presenting findings to cross-functional teams.
       </p>
       <p>
-        Now I work across product and analytics: setting up KPI frameworks and tracking adoption at <strong style="color:var(--green);">Digo</strong>, running competitive analysis and building conversion dashboards at <strong style="color:var(--blue);">Giri Inc.</strong>, automating finance workflows at <strong style="color:var(--accent);">Opsfinity</strong>, and driving A/B tests at <strong style="color:var(--blue);">TechEquity AI</strong>.
+        Now I'm starting my M.S. in Business Analytics at <strong>Carnegie Mellon's Tepper School</strong>. Before that, I worked across product and analytics: I set up KPI frameworks at <strong style="color:var(--green);">Digo</strong>, built conversion dashboards at <strong style="color:var(--blue);">Giri Inc.</strong>, improved invoice-matching accuracy at <strong style="color:var(--accent);">Opsfinity</strong>, and ran A/B tests at <strong style="color:var(--blue);">TechEquity AI</strong>.
       </p>
       <p>
         I like working at the intersection of data and product decisions. I’m especially drawn to PM and analyst roles where strong decisions come from strong signals.
@@ -603,11 +474,410 @@
   </div>
 
   <!-- ═══════════════════════════
+       SELECTED WORK
+       ═══════════════════════════ -->
+  <div class="section-break" id="work" data-role-section="work">
+    <div class="section-header anim-left">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Selected Work</h2>
+    </div>
+  </div>
+
+  <!-- ═══ SHOWCASE 1: KeepSake ═══ -->
+  <section class="showcase-section showcase-keepsake showcase-color-1" data-role-section="work">
+    <div class="showcase-wave showcase-wave-top" aria-hidden="true">
+      <svg viewBox="0 0 1440 200" preserveAspectRatio="none">
+        <path d="M0,18 C246,-4 432,22 636,78 C836,132 1018,120 1194,98 C1310,84 1378,80 1440,86 L1440,0 L0,0 Z" fill="var(--bg)"/>
+      </svg>
+    </div>
+    <div class="showcase-inner anim visible">
+      <div class="showcase-text">
+        <span class="showcase-date">2025</span>
+        <h2 class="showcase-title">KeepSake</h2>
+        <p class="showcase-desc">Designed a family archive app that balances secure document storage with memory-keeping, after synthesizing 60 survey responses and 15 interviews into a six-week product sprint.</p>
+        <a href="pages/keepsake.html" class="showcase-cta">Read case study &rarr;</a>
+      </div>
+      <div class="showcase-visual">
+        <div class="showcase-img-wrap">
+          <img src="assets/work/keepsake/keepsake.webp" alt="KeepSake app screens and family archive interface" class="showcase-real-image showcase-keepsake-main-image">
+        </div>
+        <div class="showcase-img-wrap showcase-img-secondary">
+          <img src="assets/work/keepsake/keepsake2.webp" alt="KeepSake personas and user-needs slide" class="showcase-real-image showcase-keepsake-personas-image">
+        </div>
+      </div>
+    </div>
+    <div class="showcase-wave showcase-wave-bottom" aria-hidden="true">
+      <svg viewBox="0 0 1440 200" preserveAspectRatio="none">
+        <path d="M0,120 C180,180 400,40 720,100 C1000,150 1260,60 1440,90 L1440,200 L0,200 Z" fill="var(--showcase-next, #f0ebe6)"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ═══ SHOWCASE 2: Digo ═══ -->
+  <section class="showcase-section showcase-color-2" data-role-section="work">
+    <div class="showcase-inner showcase-reverse anim visible">
+      <div class="showcase-text">
+        <span class="showcase-date">2026</span>
+        <h2 class="showcase-title">Digo</h2>
+        <p class="showcase-desc">Event organizers were losing 10+ hours per event across five disconnected tools. I led an AI event platform from discovery to launch, shaping the roadmap and ML-informed product decisions around 10+ organizer interviews, and cut manual setup time by 50%.</p>
+        <a href="pages/digo.html" class="showcase-cta">Read case study &rarr;</a>
+      </div>
+      <div class="showcase-visual">
+        <div class="showcase-img-wrap">
+          <img src="assets/work/digo/digo2.png" alt="Digo event listing interface with upcoming AI events" class="showcase-real-image showcase-digo-main-image">
+        </div>
+        <div class="showcase-img-wrap showcase-img-secondary">
+          <img src="assets/work/digo/digo1.png" alt="Digo event detail and organizer dashboard view" class="showcase-real-image showcase-digo-secondary-image">
+        </div>
+      </div>
+    </div>
+    <div class="showcase-wave showcase-wave-bottom" aria-hidden="true">
+      <svg viewBox="0 0 1440 200" preserveAspectRatio="none">
+        <path d="M0,80 C240,160 480,20 760,110 C980,170 1200,50 1440,100 L1440,200 L0,200 Z" fill="var(--showcase-next, #e6e9f0)"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ═══ SHOWCASE 3: Pulse ═══ -->
+  <section class="showcase-section showcase-color-3" data-role-section="work">
+    <div class="showcase-inner showcase-reverse anim visible">
+      <div class="showcase-text">
+        <span class="showcase-date">2025</span>
+        <h2 class="showcase-title">Pulse</h2>
+        <p class="showcase-desc">Early-stage product teams have dashboards nobody trusts. I built an AI analytics copilot that answers questions in plain English in under 30 seconds, against a ~25 minute manual baseline, and lifted weekly active query volume 40% across 3 A/B tests.</p>
+        <a href="pages/pulse.html" class="showcase-cta">Read case study &rarr;</a>
+      </div>
+      <div class="showcase-visual">
+        <div class="showcase-img-wrap">
+          <img src="assets/screenshots/pulse1.png" alt="Pulse analytics dashboard" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">
+        </div>
+        <div class="showcase-img-wrap showcase-img-secondary">
+          <img src="assets/screenshots/pulse2.png" alt="Pulse query interface" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">
+        </div>
+      </div>
+    </div>
+    <div class="showcase-wave showcase-wave-bottom" aria-hidden="true">
+      <svg viewBox="0 0 1440 200" preserveAspectRatio="none">
+        <path d="M0,100 C300,170 600,30 900,120 C1100,170 1300,80 1440,110 L1440,200 L0,200 Z" fill="var(--bg)"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════
+       IMPACT SNAPSHOT
+       ═══════════════════════════ -->
+  <div class="section-break" id="impact-snapshot" data-role-section="snapshot">
+    <div class="section-header anim-left">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Impact Snapshot</h2>
+    </div>
+  </div>
+
+  <div class="credentials-section anim" data-role-section="snapshot">
+    <span class="credentials-eyebrow">Impact Snapshot</span>
+    <h3 class="credentials-heading">Numbers from recent work</h3>
+    <p class="credentials-copy">Key outcomes across product, research, and design roles.</p>
+    <div class="explore-snapshot-grid">
+      <div class="explore-snapshot-item">
+        <span class="explore-snapshot-label">Digo</span>
+        <p><strong>50% less</strong> manual event setup time for pilot users after MVP launch.</p>
+      </div>
+      <div class="explore-snapshot-item">
+        <span class="explore-snapshot-label">UC Davis Research</span>
+        <p><strong>50% faster</strong> research turnaround after building automated anonymization pipelines.</p>
+      </div>
+      <div class="explore-snapshot-item">
+        <span class="explore-snapshot-label">Giri</span>
+        <p>Checkout friction cut from <strong>7 steps to 3</strong>. Analytics framework tracking 8 KPIs.</p>
+      </div>
+      <div class="explore-snapshot-item">
+        <span class="explore-snapshot-label">UC Davis Research</span>
+        <p><strong>95% accuracy</strong> on intrusion detection benchmark. Findings adopted into departmental security guidelines.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════
+       EXPERIENCE
+       ═══════════════════════════ -->
+  <div class="section-break" id="experience" data-role-section="experience">
+    <div class="section-header anim-left">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Experience</h2>
+    </div>
+  </div>
+
+  <div class="timeline" data-role-section="experience">
+
+    <article class="tl-item anim anim-d1">
+      <div class="tl-date">
+        <span class="tl-date-range">Jan 2026 - May 2026</span>
+      </div>
+      <div class="tl-dot"></div>
+        <div class="tl-card tl-green">
+          <div class="tl-card-top">
+            <div class="tl-heading">
+              <span class="tl-role">Product Lead, Founding Team</span>
+              <h4 class="tl-company">Digo</h4>
+              <span class="tl-loc">Mountain View, CA</span>
+            </div>
+          </div>
+        <p>Owned early product discovery and KPI tracking for an AI event platform, turning organizer research into sharper MVP priorities.</p>
+        <div class="tl-highlights">
+          <span class="tl-metric">50% less setup time</span>
+          <span>Built KPI tracking and ran user research in Figma + Notion</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="tl-item anim anim-d2">
+      <div class="tl-date">
+        <span class="tl-date-range">Oct 2025 - Mar 2026</span>
+      </div>
+      <div class="tl-dot"></div>
+        <div class="tl-card tl-blue">
+          <div class="tl-card-top">
+            <div class="tl-heading">
+              <span class="tl-role">Product Consultant</span>
+              <h4 class="tl-company">Giri Inc.</h4>
+              <span class="tl-loc">Sunnyvale, CA</span>
+            </div>
+          </div>
+        <p>Used analytics, research, and experimentation to tighten Giri’s funnel and make checkout decisions more evidence-driven.</p>
+        <div class="tl-highlights">
+          <span class="tl-metric">7 steps reduced to 3</span>
+          <span>Built an 8-KPI framework with competitive analysis and user interviews</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="tl-item anim anim-d3">
+      <div class="tl-date">
+        <span class="tl-date-range">Sep 2025 - Feb 2026</span>
+      </div>
+      <div class="tl-dot"></div>
+        <div class="tl-card tl-accent">
+          <div class="tl-card-top">
+            <div class="tl-heading">
+              <span class="tl-role">Product Consultant</span>
+              <h4 class="tl-company">Opsfinity</h4>
+              <span class="tl-loc">Remote</span>
+            </div>
+          </div>
+        <p>Improved invoice-matching accuracy in Acumatica ERP data and cut manual review workload for the finance team.</p>
+        <div class="tl-highlights">
+          <span class="tl-metric">72% to 94% invoice-match accuracy</span>
+          <span>Manual review workload cut 40% in Acumatica ERP data</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="tl-item anim anim-d4">
+      <div class="tl-date">
+        <span class="tl-date-range">Feb 2026 - May 2026</span>
+      </div>
+      <div class="tl-dot"></div>
+        <div class="tl-card tl-copper">
+          <div class="tl-card-top">
+            <div class="tl-heading">
+              <span class="tl-role">Product &amp; UX Contractor</span>
+              <h4 class="tl-company">TechEquity AI</h4>
+              <span class="tl-loc">Remote</span>
+            </div>
+          </div>
+        <p>Designed product flows for an AI tutoring platform and used testing to improve onboarding, accessibility, and personalization.</p>
+        <div class="tl-highlights">
+          <span class="tl-metric">A/B testing on onboarding</span>
+          <span>Built Figma prototypes and accessibility improvements for NLP-driven flows</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="tl-item anim anim-d5">
+      <div class="tl-date">
+        <span class="tl-date-range">Jul 2023 - Jan 2026</span>
+        <span class="tl-date-status">Research</span>
+      </div>
+      <div class="tl-dot"></div>
+        <div class="tl-card tl-slate">
+          <div class="tl-card-top">
+            <div class="tl-heading">
+              <span class="tl-role">Research Assistant (Product/ML)</span>
+              <h4 class="tl-company">UC Davis Department of Computer Science</h4>
+              <span class="tl-loc">Davis, CA</span>
+            </div>
+          </div>
+        <p>Built data pipelines and benchmarking workflows for network-security research, turning technical experiments into clearer findings for the lab.</p>
+        <div class="tl-highlights">
+          <span class="tl-metric">50% faster research deliverables</span>
+          <span>Developed Python + SQL pipelines in Databricks for IDS evaluation</span>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+  <!-- ═══════════════════════════
+       EDUCATION
+       ═══════════════════════════ -->
+  <div class="section-break" id="education" data-role-section="education">
+    <div class="section-header anim-left">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Education</h2>
+    </div>
+  </div>
+
+  <div class="edu-section" data-role-section="education">
+    <div class="edu-entry anim">
+      <div class="edu-top">
+        <div class="edu-logo">
+          <img src="assets/cmu.png" alt="Carnegie Mellon University logo" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=font-size:28px;font-weight:800;color:var(--blue)>CMU</span>'">
+        </div>
+        <div class="edu-info">
+          <h4>Carnegie Mellon University, Tepper School of Business</h4>
+          <p class="edu-degrees">M.S. Business Analytics</p>
+        </div>
+        <div class="edu-date">Aug 2026 - May 2027</div>
+      </div>
+      <div class="edu-desc">
+        Key courses: Statistics, Modern Data Management, Data Visualization, Optimization for Prescriptive Analytics, and Machine Learning for Business Applications.
+      </div>
+      <div class="edu-desc">
+        Standout leadership &amp; community: <em>[placeholder &mdash; add leadership/activities once confirmed]</em>
+      </div>
+    </div>
+    <div class="edu-entry anim">
+      <div class="edu-top">
+        <div class="edu-logo">
+          <img src="assets/ucdlogo.jpeg" alt="UC Davis logo" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=font-size:28px;font-weight:800;color:var(--blue)>UCD</span>'">
+        </div>
+        <div class="edu-info">
+          <h4>University of California, Davis</h4>
+          <p class="edu-degrees">B.S. Cognitive Science &middot; B.A. Design &middot; Minor in Computer Science</p>
+        </div>
+        <div class="edu-date">Sep 2022 - Jun 2025</div>
+      </div>
+      <div class="edu-desc">
+        Key courses: Tech Management, Algorithms, Human-Computer Interaction, Cognitive Psychology, Logic &amp; Probability, and Software Design.
+      </div>
+      <div class="edu-desc">
+        Standout leadership &amp; community: Finance Director for Davis Design Interactive, managing a $40,000 annual budget across 12+ design events, and Project Associate for the AI Student Collective, helping grow campus AI programming and community initiatives.
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════
+       HOW I WORK
+       ═══════════════════════════ -->
+  <div class="section-break" id="how-i-work" data-role-section="how-i-work">
+    <div class="section-header anim-left">
+      <span class="section-num">05</span>
+      <h2 class="section-title">How I Work</h2>
+    </div>
+  </div>
+
+  <div class="credentials-section anim" data-role-section="how-i-work">
+    <span class="credentials-eyebrow">How I Work</span>
+    <h3 class="credentials-heading">From ambiguity to shipped product</h3>
+    <p class="credentials-copy">My process is research-first, then structure, then build and measure.</p>
+    <div class="explore-process-flow">
+      <div class="explore-process-step">
+        <span>1</span>
+        <p>Talk to users. Interviews, surveys, watching people actually try to do the thing.</p>
+      </div>
+      <div class="explore-process-step">
+        <span>2</span>
+        <p>Map the problem. Competitive analysis, workflow mapping, identifying where friction lives.</p>
+      </div>
+      <div class="explore-process-step">
+        <span>3</span>
+        <p>Scope and prioritize. RICE scoring, PRDs with data-backed specs, cutting scope until the MVP is sharp.</p>
+      </div>
+      <div class="explore-process-step">
+        <span>4</span>
+        <p>Build and test. Sprint planning, Figma prototypes, iterative testing with real users.</p>
+      </div>
+      <div class="explore-process-step">
+        <span>5</span>
+        <p>Measure and iterate. KPI dashboards, usage analytics, then back to step 1.</p>
+      </div>
+    </div>
+    <p class="explore-support-line">Tools that support this: Figma, Notion, Python, SQL, QuickSight, A/B testing frameworks</p>
+  </div>
+
+  <!-- ═══════════════════════════
+       TOOLKIT AND CREDENTIALS
+       ═══════════════════════════ -->
+  <div class="section-break" id="toolkit-credentials" data-role-section="toolkit-credentials">
+    <div class="section-header anim-left">
+      <span class="section-num">06</span>
+      <h2 class="section-title">Toolkit and Credentials</h2>
+    </div>
+  </div>
+
+  <div class="credentials-section anim" data-role-section="toolkit-credentials">
+    <span class="credentials-eyebrow">Toolkit</span>
+    <h3 class="credentials-heading">What I actually use day to day</h3>
+    <p class="credentials-copy">Grouped by what the tools help me do, not just what they are.</p>
+    <div class="explore-toolkit-grid">
+      <div class="explore-toolkit-card">
+        <h4>Data and Analytics</h4>
+        <p>Python, SQL, Pandas, NumPy, QuickSight, Alteryx, Excel. Pipeline automation, A/B testing, KPI dashboards.</p>
+      </div>
+      <div class="explore-toolkit-card">
+        <h4>AI and ML</h4>
+        <p>ML pipelines, NLP, intrusion detection, data anonymization, LLM API integration.</p>
+      </div>
+      <div class="explore-toolkit-card">
+        <h4>Product and Research</h4>
+        <p>User interviews, competitive analysis, RICE prioritization, PRD writing, Agile/Scrum, stakeholder management.</p>
+      </div>
+      <div class="explore-toolkit-card">
+        <h4>Engineering</h4>
+        <p>TypeScript, React, Angular, Git, Figma, Notion.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="credentials-section anim" data-role-section="toolkit-credentials">
+    <span class="credentials-eyebrow">Credentials</span>
+    <h3 class="credentials-heading">Formal training that supports the hands-on work</h3>
+    <p class="credentials-copy">Formal training that complements my hands-on work across product, research, analytics, and AI.</p>
+
+    <div class="finder-certs-grid">
+      <div class="finder-cert-item">
+        <div class="cert-info">
+          <span class="cert-name">Google Project Management</span>
+          <span class="cert-issuer">Google</span>
+        </div>
+      </div>
+      <div class="finder-cert-item">
+        <div class="cert-info">
+          <span class="cert-name">Google UX Design</span>
+          <span class="cert-issuer">Google</span>
+        </div>
+      </div>
+      <div class="finder-cert-item">
+        <div class="cert-info">
+          <span class="cert-name">Microsoft Product Management</span>
+          <span class="cert-issuer">Microsoft</span>
+        </div>
+      </div>
+      <div class="finder-cert-item">
+        <div class="cert-info">
+          <span class="cert-name">Google AI Essentials</span>
+          <span class="cert-issuer">Google</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════
        EXPLORE - Finder-style window
        ═══════════════════════════ -->
   <div class="section-break" id="explore" data-role-section="explore">
     <div class="section-header anim-left">
-      <span class="section-num">01</span>
+      <span class="section-num">07</span>
       <h2 class="section-title">Explore My Work</h2>
     </div>
   </div>
@@ -647,14 +917,6 @@
           <button class="finder-sb-item active" data-tab="projects">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
             Projects
-          </button>
-          <button class="finder-sb-item" data-tab="analytics-toolkit">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-            Toolkit
-          </button>
-          <button class="finder-sb-item" data-tab="credentials">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            Credentials
           </button>
           <button class="finder-sb-item" data-tab="writing">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
@@ -718,10 +980,11 @@
                data-title="Margati"
                data-role="Product Manager"
                data-year="2025"
-               data-tools="User Research, Competitive Analysis, Figma, Notion"
+               data-tools="User Research, RICE, PRDs, Python, Figma, Notion"
                data-motivation="Wanted to help shape an AI productivity tool from positioning through delivery, not just design it. Margati let me own the roadmap side, the research side, and the handoff to engineering."
-               data-desc="Product positioning and roadmap for an AI productivity tool. Ran user research and competitive analysis to define a feature prioritization framework, then coordinated cross-functional delivery with engineering on technical requirements."
-               data-metric="0 to 1 roadmap">
+               data-desc="Shipped an ML-powered task-scoring system in 8 weeks for an AI productivity tool. Ran 15+ user interviews, built a RICE roadmap and PRDs, and trained the scoring model, cutting planning overhead 35% for pilot users."
+               data-link="pages/margati.html"
+               data-metric="35% less planning overhead">
             <div class="folder-icon folder-mint">
               <svg class="folder-svg" viewBox="0 0 88 72" fill="none">
                 <path d="M0 12C0 8.68629 2.68629 6 6 6H28L34 0H82C85.3137 0 88 2.68629 88 6V12H0Z" fill="currentColor" opacity="0.7"/>
@@ -857,7 +1120,6 @@
             <span class="folder-name">Career Prep</span>
           </div>
         </div>
-
         <div class="finder-detail" style="display:none;">
           <div class="finder-detail-inner">
             <button class="finder-detail-close">&times;</button>
@@ -873,35 +1135,6 @@
               <span class="finder-detail-metric"></span>
             </div>
             <a class="finder-detail-link" href="#" target="_blank">View project &rarr;</a>
-          </div>
-        </div>
-
-        <div class="finder-panel" id="panel-analytics-toolkit" style="display:none;">
-          <div class="finder-toolkit-grid">
-            <div class="finder-tool-group">
-              <span class="tool-group-label">Product</span>
-              <div class="tool-chips">
-                <span>PRDs</span><span>RICE</span><span>Roadmapping</span><span>User Research</span><span>Agile</span><span>Jira</span><span>Notion</span>
-              </div>
-            </div>
-            <div class="finder-tool-group">
-              <span class="tool-group-label">Analytics</span>
-              <div class="tool-chips">
-                <span>SQL</span><span>KPI Design</span><span>A/B Testing</span><span>Dashboards</span><span>Tableau</span><span>QuickSight</span><span>Excel</span>
-              </div>
-            </div>
-            <div class="finder-tool-group">
-              <span class="tool-group-label">Technical</span>
-              <div class="tool-chips">
-                <span>Python</span><span>TypeScript</span><span>Node.js</span><span>APIs</span><span>React</span><span>Angular</span><span>Git</span>
-              </div>
-            </div>
-            <div class="finder-tool-group">
-              <span class="tool-group-label">Design</span>
-              <div class="tool-chips">
-                <span>Figma</span><span>Wireframes</span><span>Prototyping</span><span>Usability Testing</span><span>Information Architecture</span>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -958,403 +1191,9 @@
           </div>
         </div>
 
-        <div class="finder-panel" id="panel-credentials" style="display:none;">
-          <div class="credentials-preview-grid">
-            <article class="credentials-preview-card" data-tab="snapshot">
-              <span class="credentials-preview-meta">01 · Snapshot</span>
-              <h3>Impact Snapshot</h3>
-              <p>Onboarding, conversion, experimentation, and privacy-focused product decisions across recent PM and research work.</p>
-            </article>
-            <article class="credentials-preview-card" data-tab="process">
-              <span class="credentials-preview-meta">02 · Process</span>
-              <h3>How I Work</h3>
-              <p>Research, structure, and measurable iteration to turn ambiguity into product decisions.</p>
-            </article>
-            <article class="credentials-preview-card" data-tab="toolkit">
-              <span class="credentials-preview-meta">03 · Toolkit</span>
-              <h3>Toolkit</h3>
-              <p>Capability-based view of the SQL, KPI, dashboard, and mixed-method work behind product decisions.</p>
-            </article>
-            <article class="credentials-preview-card active" data-tab="credentials">
-              <span class="credentials-preview-meta">04 · Credentials</span>
-              <h3>Credentials</h3>
-              <p>Formal training that complements hands-on work across product, research, analytics, and AI.</p>
-            </article>
-          </div>
-
-          <!-- Snapshot Section -->
-          <div class="credentials-section" data-section="snapshot" style="display:none;">
-            <span class="credentials-eyebrow">Impact Snapshot</span>
-            <h3 class="credentials-heading">Numbers from recent work</h3>
-            <p class="credentials-copy">Key outcomes across product, research, and design roles.</p>
-            <div class="explore-snapshot-grid">
-              <div class="explore-snapshot-item">
-                <span class="explore-snapshot-label">Digo</span>
-                <p><strong>40% less</strong> manual event setup time for pilot users after MVP launch.</p>
-              </div>
-              <div class="explore-snapshot-item">
-                <span class="explore-snapshot-label">UC Davis Research</span>
-                <p><strong>50% faster</strong> research turnaround after building automated anonymization pipelines.</p>
-              </div>
-              <div class="explore-snapshot-item">
-                <span class="explore-snapshot-label">Giri</span>
-                <p>Checkout friction cut from <strong>7 steps to 3</strong>. Analytics framework tracking 8 KPIs.</p>
-              </div>
-              <div class="explore-snapshot-item">
-                <span class="explore-snapshot-label">UC Davis Research</span>
-                <p><strong>95% accuracy</strong> on intrusion detection benchmark. Findings adopted into departmental security guidelines.</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Process Section -->
-          <div class="credentials-section" data-section="process" style="display:none;">
-            <span class="credentials-eyebrow">How I Work</span>
-            <h3 class="credentials-heading">From ambiguity to shipped product</h3>
-            <p class="credentials-copy">My process is research-first, then structure, then build and measure.</p>
-            <div class="explore-process-flow">
-              <div class="explore-process-step">
-                <span>1</span>
-                <p>Talk to users. Interviews, surveys, watching people actually try to do the thing.</p>
-              </div>
-              <div class="explore-process-step">
-                <span>2</span>
-                <p>Map the problem. Competitive analysis, workflow mapping, identifying where friction lives.</p>
-              </div>
-              <div class="explore-process-step">
-                <span>3</span>
-                <p>Scope and prioritize. RICE scoring, PRDs with data-backed specs, cutting scope until the MVP is sharp.</p>
-              </div>
-              <div class="explore-process-step">
-                <span>4</span>
-                <p>Build and test. Sprint planning, Figma prototypes, iterative testing with real users.</p>
-              </div>
-              <div class="explore-process-step">
-                <span>5</span>
-                <p>Measure and iterate. KPI dashboards, usage analytics, then back to step 1.</p>
-              </div>
-            </div>
-            <p class="explore-support-line">Tools that support this: Figma, Notion, Python, SQL, QuickSight, A/B testing frameworks</p>
-          </div>
-
-          <!-- Toolkit Section -->
-          <div class="credentials-section" data-section="toolkit" style="display:none;">
-            <span class="credentials-eyebrow">Toolkit</span>
-            <h3 class="credentials-heading">What I actually use day to day</h3>
-            <p class="credentials-copy">Grouped by what the tools help me do, not just what they are.</p>
-            <div class="explore-toolkit-grid">
-              <div class="explore-toolkit-card">
-                <h4>Data and Analytics</h4>
-                <p>Python, SQL, Pandas, NumPy, QuickSight, Alteryx, Excel. Pipeline automation, A/B testing, KPI dashboards.</p>
-              </div>
-              <div class="explore-toolkit-card">
-                <h4>AI and ML</h4>
-                <p>ML pipelines, NLP, intrusion detection, data anonymization, LLM API integration.</p>
-              </div>
-              <div class="explore-toolkit-card">
-                <h4>Product and Research</h4>
-                <p>User interviews, competitive analysis, RICE prioritization, PRD writing, Agile/Scrum, stakeholder management.</p>
-              </div>
-              <div class="explore-toolkit-card">
-                <h4>Engineering</h4>
-                <p>TypeScript, Go, Java, C/C++, JavaScript, React, Angular, Git, Figma, Notion.</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Credentials Section -->
-          <div class="credentials-section" data-section="credentials">
-            <span class="credentials-eyebrow">Credentials</span>
-            <h3 class="credentials-heading">Formal training that supports the hands-on work</h3>
-            <p class="credentials-copy">Formal training that complements my hands-on work across product, research, analytics, and AI.</p>
-
-            <div class="finder-certs-grid">
-              <div class="finder-cert-item">
-                <div class="cert-info">
-                  <span class="cert-name">Google Project Management</span>
-                  <span class="cert-issuer">Google</span>
-                </div>
-              </div>
-              <div class="finder-cert-item">
-                <div class="cert-info">
-                  <span class="cert-name">Google UX Design</span>
-                  <span class="cert-issuer">Google</span>
-                </div>
-              </div>
-              <div class="finder-cert-item">
-                <div class="cert-info">
-                  <span class="cert-name">Microsoft Product Management</span>
-                  <span class="cert-issuer">Microsoft</span>
-                </div>
-              </div>
-              <div class="finder-cert-item">
-                <div class="cert-info">
-                  <span class="cert-name">Google AI Essentials</span>
-                  <span class="cert-issuer">Google</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
   </div>
-
-
-
-  <!-- ═══════════════════════════
-       SELECTED WORK
-       ═══════════════════════════ -->
-  <div class="section-break" id="work" data-role-section="work">
-    <div class="section-header anim-left">
-      <span class="section-num">02</span>
-      <h2 class="section-title">Selected Work</h2>
-    </div>
-  </div>
-
-  <!-- ═══ SHOWCASE 1: KeepSake ═══ -->
-  <section class="showcase-section showcase-keepsake showcase-color-1" data-role-section="work">
-    <div class="showcase-wave showcase-wave-top" aria-hidden="true">
-      <svg viewBox="0 0 1440 200" preserveAspectRatio="none">
-        <path d="M0,18 C246,-4 432,22 636,78 C836,132 1018,120 1194,98 C1310,84 1378,80 1440,86 L1440,0 L0,0 Z" fill="var(--bg)"/>
-      </svg>
-    </div>
-    <div class="showcase-inner anim visible">
-      <div class="showcase-text">
-        <span class="showcase-date">2025</span>
-        <h2 class="showcase-title">KeepSake</h2>
-        <p class="showcase-desc">Designed a family archive app that balances secure document storage with memory-keeping, after synthesizing 60 survey responses and 15 interviews into a six-week product sprint.</p>
-        <a href="pages/keepsake.html" class="showcase-cta">Read case study &rarr;</a>
-      </div>
-      <div class="showcase-visual">
-        <div class="showcase-img-wrap">
-          <img src="assets/work/keepsake/keepsake.webp" alt="KeepSake app screens and family archive interface" class="showcase-real-image showcase-keepsake-main-image">
-        </div>
-        <div class="showcase-img-wrap showcase-img-secondary">
-          <img src="assets/work/keepsake/keepsake2.webp" alt="KeepSake personas and user-needs slide" class="showcase-real-image showcase-keepsake-personas-image">
-        </div>
-      </div>
-    </div>
-    <div class="showcase-wave showcase-wave-bottom" aria-hidden="true">
-      <svg viewBox="0 0 1440 200" preserveAspectRatio="none">
-        <path d="M0,120 C180,180 400,40 720,100 C1000,150 1260,60 1440,90 L1440,200 L0,200 Z" fill="var(--showcase-next, #f0ebe6)"/>
-      </svg>
-    </div>
-  </section>
-
-  <!-- ═══ SHOWCASE 2: Digo ═══ -->
-  <section class="showcase-section showcase-color-2" data-role-section="work">
-    <div class="showcase-inner showcase-reverse anim visible">
-      <div class="showcase-text">
-        <span class="showcase-date">2026</span>
-        <h2 class="showcase-title">Digo</h2>
-        <p class="showcase-desc">Defined KPI tracking for MVP launch, monitored engagement and feature adoption in Notion, and translated user research into roadmap priorities and ML-informed product decisions.</p>
-        <a href="pages/digo.html" class="showcase-cta">Read case study &rarr;</a>
-      </div>
-      <div class="showcase-visual">
-        <div class="showcase-img-wrap">
-          <img src="assets/work/digo/digo2.png" alt="Digo event listing interface with upcoming AI events" class="showcase-real-image showcase-digo-main-image">
-        </div>
-        <div class="showcase-img-wrap showcase-img-secondary">
-          <img src="assets/work/digo/digo1.png" alt="Digo event detail and organizer dashboard view" class="showcase-real-image showcase-digo-secondary-image">
-        </div>
-      </div>
-    </div>
-    <div class="showcase-wave showcase-wave-bottom" aria-hidden="true">
-      <svg viewBox="0 0 1440 200" preserveAspectRatio="none">
-        <path d="M0,80 C240,160 480,20 760,110 C980,170 1200,50 1440,100 L1440,200 L0,200 Z" fill="var(--showcase-next, #e6e9f0)"/>
-      </svg>
-    </div>
-  </section>
-
-  <!-- ═══ SHOWCASE 3: Pulse ═══ -->
-  <section class="showcase-section showcase-color-3" data-role-section="work">
-    <div class="showcase-inner showcase-reverse anim visible">
-      <div class="showcase-text">
-        <span class="showcase-date">2026</span>
-        <h2 class="showcase-title">Pulse</h2>
-        <p class="showcase-desc">Designing and building an AI analytics copilot that helps product teams at startups ask questions of their data in plain English, catch anomalies automatically, and get weekly digests that read like PM standup notes.</p>
-        <a href="pages/pulse.html" class="showcase-cta">Read case study &rarr;</a>
-      </div>
-      <div class="showcase-visual">
-        <div class="showcase-img-wrap">
-          <img src="assets/screenshots/pulse1.png" alt="Pulse analytics dashboard" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">
-        </div>
-        <div class="showcase-img-wrap showcase-img-secondary">
-          <img src="assets/screenshots/pulse2.png" alt="Pulse query interface" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">
-        </div>
-      </div>
-    </div>
-    <div class="showcase-wave showcase-wave-bottom" aria-hidden="true">
-      <svg viewBox="0 0 1440 200" preserveAspectRatio="none">
-        <path d="M0,100 C300,170 600,30 900,120 C1100,170 1300,80 1440,110 L1440,200 L0,200 Z" fill="var(--bg)"/>
-      </svg>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════
-       EXPERIENCE
-       ═══════════════════════════ -->
-  <div class="section-break" id="experience" data-role-section="experience">
-    <div class="section-header anim-left">
-      <span class="section-num">03</span>
-      <h2 class="section-title">Experience</h2>
-    </div>
-  </div>
-
-  <div class="timeline" data-role-section="experience">
-
-    <article class="tl-item anim anim-d1">
-      <div class="tl-date">
-        <span class="tl-date-range">Jan 2026 - Present</span>
-        <span class="tl-date-status">Current</span>
-      </div>
-      <div class="tl-dot"></div>
-        <div class="tl-card tl-green">
-          <div class="tl-card-top">
-            <div class="tl-heading">
-              <span class="tl-role">Product Lead, Founding Team</span>
-              <h4 class="tl-company">Digo</h4>
-              <span class="tl-loc">Mountain View, CA</span>
-            </div>
-          </div>
-        <p>Owned early product discovery and KPI tracking for an AI event platform, turning organizer research into sharper MVP priorities.</p>
-        <div class="tl-highlights">
-          <span class="tl-metric">40% less setup time</span>
-          <span>Built KPI tracking and ran user research in Figma + Notion</span>
-        </div>
-      </div>
-    </article>
-
-    <article class="tl-item anim anim-d2">
-      <div class="tl-date">
-        <span class="tl-date-range">Oct 2025 - Present</span>
-        <span class="tl-date-status">Part-time</span>
-      </div>
-      <div class="tl-dot"></div>
-        <div class="tl-card tl-blue">
-          <div class="tl-card-top">
-            <div class="tl-heading">
-              <span class="tl-role">Part-time Product Consultant</span>
-              <h4 class="tl-company">Giri Inc.</h4>
-              <span class="tl-loc">Sunnyvale, CA</span>
-            </div>
-          </div>
-        <p>Used analytics, research, and experimentation to tighten Giri’s funnel and make checkout decisions more evidence-driven.</p>
-        <div class="tl-highlights">
-          <span class="tl-metric">7 steps reduced to 3</span>
-          <span>Built an 8-KPI framework with competitive analysis and user interviews</span>
-        </div>
-      </div>
-    </article>
-
-    <article class="tl-item anim anim-d3">
-      <div class="tl-date">
-        <span class="tl-date-range">Sep 2025 - Present</span>
-        <span class="tl-date-status">Part-time</span>
-      </div>
-      <div class="tl-dot"></div>
-        <div class="tl-card tl-accent">
-          <div class="tl-card-top">
-            <div class="tl-heading">
-              <span class="tl-role">Part-time Product Consultant</span>
-              <h4 class="tl-company">Opsfinity</h4>
-              <span class="tl-loc">Remote</span>
-            </div>
-          </div>
-        <p>Scoped workflow improvements for finance operations and used data plus market analysis to shape the next product bets.</p>
-        <div class="tl-highlights">
-          <span class="tl-metric">3 workflows automated</span>
-          <span>Improved approval and fraud-prevention flows with PowerAutomate</span>
-        </div>
-      </div>
-    </article>
-
-    <article class="tl-item anim anim-d4">
-      <div class="tl-date">
-        <span class="tl-date-range">Feb 2026 - Present</span>
-        <span class="tl-date-status">Part-time</span>
-      </div>
-      <div class="tl-dot"></div>
-        <div class="tl-card tl-copper">
-          <div class="tl-card-top">
-            <div class="tl-heading">
-              <span class="tl-role">Product &amp; UX Contractor</span>
-              <h4 class="tl-company">TechEquity AI</h4>
-              <span class="tl-loc">Remote</span>
-            </div>
-          </div>
-        <p>Designed product flows for an AI tutoring platform and used testing to improve onboarding, accessibility, and personalization.</p>
-        <div class="tl-highlights">
-          <span class="tl-metric">A/B testing on onboarding</span>
-          <span>Built Figma prototypes and accessibility improvements for NLP-driven flows</span>
-        </div>
-      </div>
-    </article>
-
-    <article class="tl-item anim anim-d5">
-      <div class="tl-date">
-        <span class="tl-date-range">Jul 2023 - Jan 2026</span>
-        <span class="tl-date-status">Research</span>
-      </div>
-      <div class="tl-dot"></div>
-        <div class="tl-card tl-slate">
-          <div class="tl-card-top">
-            <div class="tl-heading">
-              <span class="tl-role">Research Assistant (Product/ML)</span>
-              <h4 class="tl-company">UC Davis Department of Computer Science</h4>
-              <span class="tl-loc">Davis, CA</span>
-            </div>
-          </div>
-        <p>Built data pipelines and benchmarking workflows for network-security research, turning technical experiments into clearer findings for the lab.</p>
-        <div class="tl-highlights">
-          <span class="tl-metric">50% faster research deliverables</span>
-          <span>Developed Python + SQL pipelines in Databricks for IDS evaluation</span>
-        </div>
-      </div>
-    </article>
-
-  </div>
-
-
-</div>
-
-<!-- Skills detail moved into explore drawer above -->
-
-<div class="page-wrap">
-
-  <!-- ═══════════════════════════
-       EDUCATION
-       ═══════════════════════════ -->
-  <div class="section-break" id="education" data-role-section="education">
-    <div class="section-header anim-left">
-      <span class="section-num">04</span>
-      <h2 class="section-title">Education</h2>
-    </div>
-  </div>
-
-  <div class="edu-section" data-role-section="education">
-    <div class="edu-entry anim">
-      <div class="edu-top">
-        <div class="edu-logo">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/The_University_of_California_Davis.svg/1200px-The_University_of_California_Davis.svg.png" alt="UC Davis logo" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=font-size:28px;font-weight:800;color:var(--blue)>UCD</span>'">
-        </div>
-        <div class="edu-info">
-          <h4>University of California, Davis</h4>
-          <p class="edu-degrees">B.S. Cognitive Science &middot; B.A. Design &middot; Minor in Computer Science</p>
-        </div>
-        <div class="edu-date">Sep 2022 - Jun 2025</div>
-      </div>
-      <div class="edu-desc">
-        Key courses: Tech Management, Algorithms, Human-Computer Interaction, Cognitive Psychology, Logic &amp; Probability, and Software Design.
-      </div>
-      <div class="edu-desc">
-        Standout leadership &amp; community: Finance Director for Davis Design Interactive, managing a $40,000 annual budget across 12+ design events, and Project Associate for the AI Student Collective, helping grow campus AI programming and community initiatives.
-      </div>
-    </div>
-  </div>
-
 
   <!-- ═══════════════════════════
        CONNECT
@@ -1370,19 +1209,17 @@
 
       <div class="connect-status">
         <span class="connect-status-dot"></span>
-        <span class="connect-status-label">Open to work</span>
-        <span class="connect-status-sep">&middot;</span>
-        <span class="connect-status-detail">Sunnyvale, CA</span>
+        <span class="connect-status-label">Pittsburgh, PA</span>
         <span class="connect-status-sep">&middot;</span>
         <span class="connect-status-detail">Open to relocation</span>
       </div>
 
       <div class="connect-actions">
-        <a href="mailto:iyerswatip@gmail.com" class="connect-mail-btn">
+        <a href="mailto:swatii@andrew.cmu.edu" class="connect-mail-btn">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
           Get in touch
         </a>
-        <a href="assets/docs/SwatiIyer_Resume_General.pdf" class="connect-resume-btn" target="_blank">
+        <a href="assets/docs/SwatiIyer_Resume.pdf" class="connect-resume-btn" target="_blank">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
           Resume
         </a>
@@ -1410,15 +1247,9 @@
 
   </div>
 
-  <!-- ═══ ROLE BADGE (floating) ═══ -->
-  <div class="role-badge" id="role-badge" style="display:none;">
-    <span class="role-badge-label" id="role-badge-label"></span>
-    <button class="role-badge-switch" id="role-badge-switch">switch</button>
-  </div>
 
 </div>
 
-<footer class="site-footer">swati iyer · 2026</footer>
 
 <script>
   /* ═══════════════════════════════════════════
@@ -1509,7 +1340,7 @@
       btn.classList.add('active');
 
       const tab = btn.dataset.tab;
-      const labels = { projects: 'Projects', 'analytics-toolkit': 'Toolkit', credentials: 'Credentials', writing: 'Writing' };
+      const labels = { projects: 'Projects', writing: 'Writing' };
       const pathRoot = document.querySelector('.path-root');
       if (pathRoot) pathRoot.textContent = labels[tab] || 'Projects';
 
@@ -1538,9 +1369,7 @@
         if (panel) panel.style.display = 'block';
 
         const counts = {
-          'analytics-toolkit': document.querySelectorAll('#panel-analytics-toolkit .finder-tool-group').length,
-          credentials: document.querySelectorAll('#panel-credentials .credentials-preview-card').length,
-          writing: document.querySelectorAll('#panel-writing .finder-writing-card').length
+          writing: document.querySelectorAll('#panel-writing .finder-writing-item').length
         };
         const c = counts[tab] || 0;
         if (countEl) countEl.textContent = c + ' item' + (c !== 1 ? 's' : '');
@@ -1770,247 +1599,81 @@
     });
   })();
 
-  // ═══ TERMINAL BOOT SCREEN + ROLE SYSTEM ═══
-  (function terminalBoot() {
-    const bootEl = document.getElementById('terminal-boot');
-    const textEl = document.getElementById('terminal-text');
-    const rolesEl = document.getElementById('terminal-roles');
-    const greetingEl = document.getElementById('terminal-greeting');
-    const skipBtn = document.getElementById('terminal-skip');
-    const badge = document.getElementById('role-badge');
-    const badgeLabel = document.getElementById('role-badge-label');
-    const badgeSwitch = document.getElementById('role-badge-switch');
-    if (!bootEl || !textEl || !rolesEl) return;
-
-    const introSeenKey = 'swati-portfolio-intro-seen';
+  // ═══ MODE SWITCHER (persistent, non-blocking) ═══
+  (function modeSwitcher() {
     const roleKey = 'swati-portfolio-role';
-
-    const greetings = {
-      recruiter: '> alright, let me show you around.',
-      pm: '> cool, welcome to my world.',
-      browse: '> the floor is yours...'
-    };
+    const btn = document.getElementById('mode-switcher-btn');
+    const menu = document.getElementById('mode-switcher-menu');
+    const label = document.getElementById('mode-switcher-label');
+    if (!btn || !menu || !label) return;
 
     const roleLabels = {
-      recruiter: 'viewing as: here to hire',
-      pm: 'viewing as: in the field',
-      browse: 'viewing as: just vibing'
+      recruiter: 'Recruiter',
+      pm: 'Practitioner',
+      browse: 'Casual'
     };
 
-    // Section order per role (elements with data-role-section)
-    const sectionOrder = {
-      recruiter: ['hero', 'about', 'explore', 'experience', 'work', 'education', 'connect'],
-      pm:        ['hero', 'about', 'work', 'explore', 'experience', 'education', 'connect'],
-      browse:    ['hero', 'about', 'explore', 'work', 'experience', 'education', 'connect']
-    };
+    // Section order (elements with data-role-section)
+    const order = ['hero', 'about', 'work', 'snapshot', 'experience', 'education', 'how-i-work', 'toolkit-credentials', 'explore', 'connect'];
 
-    function applyRole(role) {
-      // Remove old role classes
+    function setActiveUI(role) {
+      label.textContent = roleLabels[role] || roleLabels.recruiter;
+      menu.querySelectorAll('.mode-switcher-option').forEach(opt => {
+        opt.classList.toggle('active', opt.dataset.role === role);
+      });
       document.body.classList.remove('role-recruiter', 'role-pm', 'role-browse');
       document.body.classList.add('role-' + role);
-      window.localStorage.setItem(roleKey, role);
+    }
 
-      // Reorder sections
+    function applyRole(role, persist) {
+      setActiveUI(role);
+      if (persist) window.localStorage.setItem(roleKey, role);
+
       const pageWrap = document.querySelector('.page-wrap');
       if (!pageWrap) return;
-      const order = sectionOrder[role] || sectionOrder.browse;
       const elements = Array.from(pageWrap.querySelectorAll('[data-role-section]'));
-
-      // Group elements by their section name
       const groups = {};
       elements.forEach(el => {
         const sec = el.dataset.roleSection;
         if (!groups[sec]) groups[sec] = [];
         groups[sec].push(el);
       });
-
-      // Build ordered list
-      const ordered = [];
       order.forEach(sec => {
-        if (groups[sec]) {
-          groups[sec].forEach(el => ordered.push(el));
-        }
+        if (groups[sec]) groups[sec].forEach(el => pageWrap.appendChild(el));
       });
-
-      // Re-append in order
-      ordered.forEach(el => {
-        pageWrap.appendChild(el);
-      });
-
-      // Show badge
-      if (badge && badgeLabel) {
-        badgeLabel.textContent = roleLabels[role] || '';
-        badge.style.display = '';
-        setTimeout(() => badge.classList.add('visible'), 50);
-      }
     }
 
-    // If already seen, skip boot but apply saved role
-    if (window.localStorage.getItem(introSeenKey) === 'true') {
-      bootEl.classList.add('gone');
-      const savedRole = window.localStorage.getItem(roleKey) || 'browse';
-      applyRole(savedRole);
-      return;
+    function openMenu() {
+      menu.classList.add('open');
+      btn.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+    function closeMenu() {
+      menu.classList.remove('open');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
     }
 
-    const lines = [
-      '> booting up ...',
-      '> python 3.11 ................. OK',
-      '> sql, figma, tableau ......... OK',
-      '> dashboards .................. OK',
-      '> matcha supply ............... OK',
-      '> too many chrome tabs ........ OK',
-      '',
-      '  ███ READY ███',
-      ''
-    ];
-
-    let lineIdx = 0;
-    let charIdx = 0;
-    let currentText = '';
-    let speed = 18;
-    let done = false;
-
-    function finishBoot(role) {
-      if (done) return;
-      done = true;
-      window.localStorage.setItem(introSeenKey, 'true');
-      applyRole(role);
-
-      // Show greeting
-      if (greetingEl) {
-        greetingEl.textContent = greetings[role] || '';
-        greetingEl.classList.add('visible');
-      }
-
-      setTimeout(() => {
-        bootEl.classList.add('fade-out');
-        setTimeout(() => bootEl.classList.add('gone'), 700);
-      }, 900);
-    }
-
-    // Skip button defaults to "browse"
-    skipBtn.addEventListener('click', () => finishBoot('browse'));
-
-    // Role button clicks (event delegation for reliability)
-    bootEl.addEventListener('click', (e) => {
-      const btn = e.target.closest('.terminal-role-btn');
-      if (btn && btn.dataset.role) finishBoot(btn.dataset.role);
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (menu.classList.contains('open')) closeMenu(); else openMenu();
+    });
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#mode-switcher')) closeMenu();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeMenu();
     });
 
-    // Keyboard shortcuts (1, 2, 3)
-    function onKeydown(e) {
-      if (done) return;
-      if (!rolesEl.classList.contains('visible')) return;
-      const map = { '1': 'recruiter', '2': 'pm', '3': 'browse' };
-      if (map[e.key]) {
-        e.preventDefault();
-        finishBoot(map[e.key]);
-        document.removeEventListener('keydown', onKeydown);
-      }
-    }
-    document.addEventListener('keydown', onKeydown);
-
-    function typeNext() {
-      if (done) return;
-      if (lineIdx >= lines.length) {
-        textEl.textContent = currentText.trimEnd();
-        rolesEl.classList.add('visible');
-        return;
-      }
-      const line = lines[lineIdx];
-      if (charIdx < line.length) {
-        currentText += line[charIdx];
-        textEl.innerHTML = currentText + '<span class="t-cursor"></span>';
-        charIdx++;
-        const s = line[charIdx - 1] === '.' ? 8 : speed;
-        setTimeout(typeNext, s);
-      } else {
-        currentText += '\n';
-        lineIdx++;
-        charIdx = 0;
-        setTimeout(typeNext, lineIdx >= lines.length ? 200 : 120);
-      }
-    }
-
-    setTimeout(typeNext, 500);
-  })();
-
-  // ═══ ROLE SWITCHER ═══
-  (function roleSwitcher() {
-    const badgeSwitch = document.getElementById('role-badge-switch');
-    if (!badgeSwitch) return;
-
-    badgeSwitch.addEventListener('click', () => {
-      // Create overlay
-      const overlay = document.createElement('div');
-      overlay.className = 'role-switcher-overlay';
-      overlay.innerHTML = `
-        <div class="terminal-roles visible" style="opacity:1;transform:none;pointer-events:auto;">
-          <div class="terminal-roles-prompt">&gt; switch view:</div>
-          <button class="terminal-role-btn" data-role="recruiter">
-            <span class="terminal-role-num">[1]</span> here to hire
-          </button>
-          <button class="terminal-role-btn" data-role="pm">
-            <span class="terminal-role-num">[2]</span> in the field
-          </button>
-          <button class="terminal-role-btn" data-role="browse">
-            <span class="terminal-role-num">[3]</span> just vibing
-          </button>
-        </div>
-        <button class="role-switcher-close">cancel (esc)</button>
-      `;
-      document.body.appendChild(overlay);
-      requestAnimationFrame(() => overlay.classList.add('visible'));
-
-      function close() {
-        overlay.classList.remove('visible');
-        setTimeout(() => overlay.remove(), 300);
-        document.removeEventListener('keydown', onKey);
-      }
-
-      function pickRole(role) {
-        // Remove old role classes, apply new
-        document.body.classList.remove('role-recruiter', 'role-pm', 'role-browse');
-        document.body.classList.add('role-' + role);
-        window.localStorage.setItem('swati-portfolio-role', role);
-
-        // Reorder
-        const pageWrap = document.querySelector('.page-wrap');
-        const badge = document.getElementById('role-badge');
-        const badgeLabel = document.getElementById('role-badge-label');
-        const roleLabels = { recruiter: 'viewing as: here to hire', pm: 'viewing as: in the field', browse: 'viewing as: just vibing' };
-        if (badgeLabel) badgeLabel.textContent = roleLabels[role] || '';
-
-        const order = {
-          recruiter: ['hero', 'about', 'explore', 'experience', 'work', 'education', 'connect'],
-          pm:        ['hero', 'about', 'work', 'explore', 'experience', 'education', 'connect'],
-          browse:    ['hero', 'about', 'explore', 'work', 'experience', 'education', 'connect']
-        };
-        const elements = Array.from(pageWrap.querySelectorAll('[data-role-section]'));
-        const groups = {};
-        elements.forEach(el => { const s = el.dataset.roleSection; if (!groups[s]) groups[s] = []; groups[s].push(el); });
-        const ordered = [];
-        (order[role] || order.browse).forEach(s => { if (groups[s]) groups[s].forEach(el => ordered.push(el)); });
-        ordered.forEach(el => pageWrap.appendChild(el));
-
-        close();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-
-      overlay.querySelectorAll('.terminal-role-btn').forEach(btn => {
-        btn.addEventListener('click', () => pickRole(btn.dataset.role));
+    menu.querySelectorAll('.mode-switcher-option').forEach(opt => {
+      opt.addEventListener('click', () => {
+        applyRole(opt.dataset.role, true);
+        closeMenu();
       });
-
-      overlay.querySelector('.role-switcher-close').addEventListener('click', close);
-
-      function onKey(e) {
-        if (e.key === 'Escape') close();
-        const map = { '1': 'recruiter', '2': 'pm', '3': 'browse' };
-        if (map[e.key]) { e.preventDefault(); pickRole(map[e.key]); }
-      }
-      document.addEventListener('keydown', onKey);
     });
+
+    const savedRole = window.localStorage.getItem(roleKey) || 'recruiter';
+    applyRole(savedRole, false);
   })();
 
   // ═══ CUSTOM CURSOR DOT ═══
@@ -2049,22 +1712,6 @@
     });
   })();
 
-  /* ── Credentials tab switching ── */
-  (() => {
-    const cards = document.querySelectorAll('#panel-credentials .credentials-preview-card[data-tab]');
-    const sections = document.querySelectorAll('#panel-credentials .credentials-section[data-section]');
-    cards.forEach(card => {
-      card.style.cursor = 'pointer';
-      card.addEventListener('click', () => {
-        const tab = card.dataset.tab;
-        cards.forEach(c => c.classList.remove('active'));
-        card.classList.add('active');
-        sections.forEach(s => {
-          s.style.display = s.dataset.section === tab ? '' : 'none';
-        });
-      });
-    });
-  })();
 </script>
 </body>
 </html>

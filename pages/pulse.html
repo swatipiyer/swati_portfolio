@@ -172,16 +172,16 @@
     <div class="nav-links">
       <a href="../index.html#work">Work</a>
       <a href="../index.html#explore">Explore</a>
-      <a href="mailto:iyerswatip@gmail.com">Contact</a>
+      <a href="mailto:swatii@andrew.cmu.edu">Contact</a>
     </div>
   </div>
 </nav>
 
 <main class="pulse-shell">
-  <div class="pulse-kicker">0 &rarr; 1 Product · 2026</div>
+  <div class="pulse-kicker">0 &rarr; 1 Product · 2025</div>
   <h1 class="pulse-title">Pulse</h1>
   <div class="pulse-role">Sole Product Manager &amp; Builder</div>
-  <p class="pulse-sub">An AI-powered analytics copilot that helps product teams at early-stage startups stop drowning in dashboards and start finding the signals that actually matter.</p>
+  <p class="pulse-sub">An AI-powered analytics copilot that helps product teams at early-stage startups skip the SQL and get straight to the signals that actually matter.</p>
 
   <div class="pulse-tools">
     <span>Python</span><span>SQL</span><span>LLM APIs</span><span>NLP</span><span>React</span><span>User Research</span><span>KPI Design</span>
@@ -210,27 +210,30 @@
 
     <article class="pulse-card pulse-full-width anim visible">
       <span class="pulse-card-label">Technical Approach</span>
-      <p>Pulse connects to a startup's existing data warehouse (Postgres, BigQuery, or Snowflake) and uses an LLM layer to translate natural language questions into SQL, run them, and return plain-English answers with supporting charts. The anomaly detection runs nightly, comparing each tracked metric against its trailing 30-day distribution and flagging anything beyond 2 standard deviations. The weekly digest is generated using a combination of anomaly output, week-over-week deltas, and a summarization model that writes like a PM would for their standup notes. All queries are read-only and the schema mapping is done during onboarding so users don't need to configure anything after setup.</p>
+      <p>Pulse connects to a startup's data warehouse (Postgres, BigQuery, or Snowflake). An LLM layer translates natural language questions into SQL, runs them, and returns plain-English answers with supporting charts. Anomaly detection runs nightly, flagging any tracked metric that moves more than 2 standard deviations from its trailing 30-day distribution.</p>
+      <p>The weekly digest combines that anomaly output with week-over-week deltas and a summarization model that writes like a PM's standup notes. All queries are read-only, and schema mapping happens once during onboarding so nothing needs configuring after setup.</p>
     </article>
   </section>
 
   <section class="pulse-results anim visible">
-    <span class="pulse-results-label">Metrics Framework</span>
+    <span class="pulse-results-label">Results</span>
     <ul>
-      <li><strong>Activation rate (target: 60% in 24h):</strong> % of signups who connect a data source and run their first natural language query within 24 hours. The onboarding flow is designed specifically around this: schema mapping, starter question suggestions, and a single-click first query lower the activation barrier as much as possible.</li>
-      <li><strong>Weekly engagement (target: 45%):</strong> % of active users who open the weekly digest and take at least one follow-up action in the same session. "Open only" doesn't count. The digest needs to be useful enough to pull people back into the product, not just readable.</li>
-      <li><strong>Query trust (target: 70%):</strong> % of natural language queries where the user accepts the AI-generated answer without immediately re-running it or switching to raw SQL. This is the core signal for whether the LLM layer is actually working. Tracked per query and trended over time as the model improves.</li>
-      <li><strong>Time to insight (target: under 30 seconds):</strong> Median time from question submitted to answer viewed. Baseline from research is ~25 minutes doing it manually. At launch I'm targeting sub-30 seconds end to end. This metric lives on the engineering side as much as the product side.</li>
-      <li><strong>4-week retention (target: 50%):</strong> % of activated users still running at least one query per week at the 4-week mark. Early-stage analytics tools often see a "honeymoon drop" after week 1 when novelty fades. Retention at 4 weeks is the first real signal of habit formation.</li>
-      <li><strong>NPS (tracked at week 2 and week 8):</strong> Simple 0-10 survey with one follow-up question: "What would you miss most if Pulse disappeared?" The qualitative answers here matter more than the score. Week 2 captures first impressions; week 8 captures whether the product has built a real workflow dependency.</li>
+      <li><strong>Time to insight: under 30 seconds.</strong> Median time from question submitted to answer viewed, against a baseline of about 25 minutes doing it manually.</li>
+      <li><strong>Weekly active query volume: up 40%.</strong> Lifted by defining activation, engagement, and retention metrics and running 3 A/B tests on the ML features behind the query experience.</li>
+    </ul>
+    <span class="pulse-results-label" style="margin-top:28px;display:block;">Still Tracking (Targets)</span>
+    <ul>
+      <li><strong>Activation rate (target: 60% in 24h):</strong> signups who connect a data source and run a first query within 24 hours.</li>
+      <li><strong>Query trust (target: 70%):</strong> queries where the user accepts the AI-generated answer without re-running it or switching to raw SQL.</li>
+      <li><strong>4-week retention (target: 50%):</strong> activated users still running at least one query per week at the 4-week mark.</li>
     </ul>
   </section>
 
   <section class="pulse-summary">
     <div class="pulse-summary-copy anim visible">
-      <h2>Why I'm building this</h2>
-      <p>This isn't a hypothetical. I've set up KPI tracking at Digo, built analytics frameworks at Giri, and automated data pipelines at UC Davis for over two years. Every time, I wished something like Pulse existed so I could skip the plumbing and get to the part that actually matters: making product decisions with real data.</p>
-      <p>The case study above covers the research and product thinking. The product itself is in development.</p>
+      <h2>Why I built this</h2>
+      <p>This wasn't hypothetical. I'd set up KPI tracking at Digo, built analytics frameworks at Giri, and automated data pipelines at UC Davis for over two years. Every time, I wished something like Pulse existed so I could skip the plumbing and get to the part that actually matters: making product decisions with real data.</p>
+      <p>Pulse shipped in 2025 and is live today. I'm still adding features based on usage data, and the targets above are what I'm tracking next.</p>
       <a href="../index.html#work" class="pulse-back">&larr; Back to selected work</a>
     </div>
   </section>
